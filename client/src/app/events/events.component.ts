@@ -22,4 +22,8 @@ export class EventsComponent implements OnInit {
     this.eventApi.find<Event>().subscribe(events => this.events = events);
   }
 
+  onCheckinClick(event: Event): void {
+    console.log(event);
+  }
+
 }
