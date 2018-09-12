@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { Event } from '../../models/Event';
 import { Account } from '../../models/Account';
+import { Member } from '../../models/Member';
 
 export interface Models { [name: string]: any }
 
@@ -13,6 +14,7 @@ export class SDKModels {
     User: User,
     Event: Event,
     Account: Account,
+    Member: Member,
     
   };
 

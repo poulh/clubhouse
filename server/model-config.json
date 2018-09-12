@@ -42,5 +42,9 @@
   "account": {
     "dataSource": "db",
     "public": true
+  },
+  "member": {
+    "dataSource": "db",
+    "public": true
   }
 }
