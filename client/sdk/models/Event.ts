@@ -4,6 +4,7 @@ declare var Object: any;
 export interface EventInterface {
   "name": string;
   "date": Date;
+  "locked": boolean;
   "id"?: number;
   "accountId"?: number;
 }
@@ -11,6 +12,7 @@ export interface EventInterface {
 export class Event implements EventInterface {
   "name": string;
   "date": Date;
+  "locked": boolean;
   "id": number;
   "accountId": number;
   constructor(data?: EventInterface) {
@@ -53,6 +55,11 @@ export class Event implements EventInterface {
         "date": {
           name: 'date',
           type: 'Date'
+        },
+        "locked": {
+          name: 'locked',
+          type: 'boolean',
+          default: false
         },
         "id": {
           name: 'id',

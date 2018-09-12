@@ -1,10 +1,54 @@
 <div *ngIf="event">
-  <div>
-    <span>id: </span>{{event.id}}</div>
-  <div>
-    <label>Name:
-      <input [(ngModel)]="event.id" placeholder="Name of Event">
-    </label>
+  <div class="row">
+    <div class="card col-md-10 mt-2 mx-auto">
+      <div class="card-body">
+        <h4 class="card-title text-center">
+          <i class="far fa-3x fa-calendar-alt text-muted"></i>
+        </h4>
+
+        <div class="alert alert-danger" [hidden]="!error || isLoading" translate>
+          Username or password incorrect.
+        </div>
+
+        <label class="d-block">
+          <input type="text" class="form-control" [(ngModel)]="event.name" [placeholder]="'Event Name' | translate" [disabled]="isLoading || event.locked"
+          />
+          <span hidden translate>Event Name</span>
+          <small [hidden]="event.name.length" class="text-danger" translate>
+            Event Name is required
+          </small>
+        </label>
+
+        <label class="d-block">
+          <input type="text" ngbDatepicker [(ngModel)]="calendarDate" ngbDatepicker #d="ngbDatepicker" [disabled]="isLoading || event.locked"
+          />
+          <button (click)="d.toggle()" [disabled]="isLoading || event.locked"><i class="far fa-calendar-alt text-muted"></i></button>
+        </label>
+
+        <label class="d-block">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="event.locked">
+            <label class="form-check-label" for="defaultCheck1">
+              Event Locked
+            </label>
+          </div>
+        </label>
+
+        <label class="d-block">
+          <button class="btn btn-primary w-100" (click)="updateEvent()" [disabled]="isLoading || noEventChanges()">
+            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+            <span translate>Update Event</span>
+          </button>
+        </label>
+
+        <label class="d-block">
+          <button class="btn btn-primary w-100" (click)="goBack()" [disabled]="isLoading">
+            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+            <span translate>Go Back</span>
+          </button>
+        </label>
+
+      </div>
+    </div>
   </div>
 </div>
-<button class="btn btn-primary" (click)="goBack()">go back</button>
