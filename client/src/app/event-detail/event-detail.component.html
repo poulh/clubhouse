@@ -1,3 +1,10 @@
-<p>
-  event-details works!
-</p>
+<div *ngIf="event">
+  <div>
+    <span>id: </span>{{event.id}}</div>
+  <div>
+    <label>Name:
+      <input [(ngModel)]="event.id" placeholder="Name of Event">
+    </label>
+  </div>
+</div>
+<button class="btn btn-primary" (click)="goBack()">go back</button>
