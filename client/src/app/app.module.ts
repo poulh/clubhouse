@@ -11,6 +11,7 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { EventDetailModule } from './event-detail/event-detail.module';
 import { EventsModule } from './events/events.module';
+import { MemberDetailModule } from './member-detail/member-detail.module';
 import { MembersModule } from './members/members.module';
 import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
@@ -33,6 +34,7 @@ import { SDKBrowserModule } from '../../sdk';
     ShellModule,
     EventDetailModule,
     EventsModule,
+    MemberDetailModule,
     MembersModule,
     HomeModule,
     AboutModule,
