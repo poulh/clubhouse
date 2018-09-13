@@ -79,7 +79,9 @@ export class EventDetailComponent implements OnInit {
     eventDate.setMonth(this.calendarDate.month - 1);
     eventDate.setDate(this.calendarDate.day);
     this.event.date = eventDate;
-    this.eventApi.replaceOrCreate<Event>(this.event).subscribe(event => this.setEventModel(event));
+    this.eventApi.replaceOrCreate<Event>(this.event).subscribe(event => {
+      return this.setEventModel(event);
+    });
   }
 
   deleteEvent(): void {
