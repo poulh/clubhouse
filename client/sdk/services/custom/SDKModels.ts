@@ -4,6 +4,7 @@ import { User } from '../../models/User';
 import { Event } from '../../models/Event';
 import { Account } from '../../models/Account';
 import { Member } from '../../models/Member';
+import { Checkin } from '../../models/Checkin';
 
 export interface Models { [name: string]: any }
 
@@ -15,6 +16,7 @@ export class SDKModels {
     Event: Event,
     Account: Account,
     Member: Member,
+    Checkin: Checkin,
     
   };
 

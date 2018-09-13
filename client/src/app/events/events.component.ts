@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Event } from '../../../sdk/models';
 import { EventApi } from '../../../sdk/services';
@@ -12,7 +13,8 @@ export class EventsComponent implements OnInit {
 
   events: Event[];
 
-  constructor(private eventApi: EventApi) { }
+  constructor(private router: Router,
+    private eventApi: EventApi) { }
 
   ngOnInit() {
     this.getEvents();
@@ -23,6 +25,7 @@ export class EventsComponent implements OnInit {
   }
 
   onCheckinClick(event: Event): void {
+    this.router.navigateByUrl(`/checkin/${event.id}`);
     console.log(event);
   }
 

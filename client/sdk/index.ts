@@ -52,6 +52,7 @@ import { UserApi } from './services/custom/User';
 import { EventApi } from './services/custom/Event';
 import { AccountApi } from './services/custom/Account';
 import { MemberApi } from './services/custom/Member';
+import { CheckinApi } from './services/custom/Checkin';
 /**
 * @module SDKBrowserModule
 * @description
@@ -86,6 +87,7 @@ export class SDKBrowserModule {
         EventApi,
         AccountApi,
         MemberApi,
+        CheckinApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

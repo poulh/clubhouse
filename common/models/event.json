@@ -22,7 +22,17 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "members": {
+      "type": "hasMany",
+      "model": "member",
+      "foreignKey": "eventId",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "checkin"
+    }
+  },
   "acls": [],
   "methods": {}
 }

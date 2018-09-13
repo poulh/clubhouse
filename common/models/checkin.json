@@ -1,37 +1,34 @@
 {
-  "name": "member",
-  "plural": "members",
+  "name": "checkin",
+  "plural": "checkins",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "firstName": {
-      "type": "string",
+    "date": {
+      "type": "date",
       "required": true
-    },
-    "lastName": {
-      "type": "string",
-      "required": true
-    },
-    "email": {
-      "type": "string"
-    },
-    "cellPhone": {
-      "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "events": {
-      "type": "hasMany",
+    "event": {
+      "type": "belongsTo",
       "model": "event",
+      "foreignKey": "eventId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "member",
       "foreignKey": "memberId",
       "options": {
         "nestRemoting": true
-      },
-      "through": "checkin"
+      }
     }
   },
   "acls": [],

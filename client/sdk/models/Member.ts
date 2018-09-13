@@ -1,4 +1,7 @@
 /* tslint:disable */
+import {
+  Event
+} from '../index';
 
 declare var Object: any;
 export interface MemberInterface {
@@ -7,6 +10,7 @@ export interface MemberInterface {
   "email"?: string;
   "cellPhone"?: string;
   "id"?: number;
+  events?: Event[];
 }
 
 export class Member implements MemberInterface {
@@ -15,6 +19,7 @@ export class Member implements MemberInterface {
   "email": string;
   "cellPhone": string;
   "id": number;
+  events: Event[];
   constructor(data?: MemberInterface) {
     Object.assign(this, data);
   }
@@ -70,6 +75,16 @@ export class Member implements MemberInterface {
         },
       },
       relations: {
+        events: {
+          name: 'events',
+          type: 'Event[]',
+          model: 'Event',
+          relationType: 'hasMany',
+          modelThrough: 'Checkin',
+          keyThrough: 'eventId',
+          keyFrom: 'id',
+          keyTo: 'memberId'
+        },
       }
     }
   }
