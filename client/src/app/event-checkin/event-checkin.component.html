@@ -19,25 +19,27 @@
     </div>
 
   </div>
+  <div *ngIf="checkins">
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+      <h6 class="border-bottom border-gray pb-2 mb-0">Checked-In Members</h6>
+      <div *ngFor="let checkin of checkins;" class="media text-muted pt-3">
 
-  <div class="my-3 p-3 bg-white rounded box-shadow">
-    <h6 class="border-bottom border-gray pb-2 mb-0">Checked-In Members</h6>
-    <div *ngFor="let member of checkedInMembers" class="media text-muted pt-3">
+        <div *ngIf="checkedInMembers[checkin.memberId]" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
 
-      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+          <div class="d-flex justify-content-between align-items-center w-100">
 
-        <div class="d-flex justify-content-between align-items-center w-100">
-
-          <strong class="text-gray-dark">
-            {{member.firstName}} {{member.lastName}}
-          </strong>
-          <div>
-            <button class="btn btn-primary" (click)="onUncheckinClick(member)">Un-Checkin</button>
+            <strong class="text-gray-dark">
+              {{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}
+            </strong>
+            <div>
+              <button class="btn btn-primary" (click)="onUncheckinClick(checkedInMembers[checkin.memberId])">Un-Checkin</button>
+            </div>
           </div>
+          <span class="d-block">{{checkin.date | date:'medium'}}</span>
         </div>
-        <span class="d-block">{{member.email}} {{member.cellPhone}}</span>
-      </div>
-    </div>
 
+      </div>
+
+    </div>
   </div>
 </div>

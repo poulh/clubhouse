@@ -13,7 +13,8 @@ export class EventCheckinComponent implements OnInit {
 
   currentEvent: Event;
   eventId: number;
-  checkedInMembers: Member[];
+  checkedInMembers: { [id: number]: Member; } = {};
+  checkins: Checkin[];
   members: Member[];
 
   constructor(private route: ActivatedRoute,
@@ -25,9 +26,9 @@ export class EventCheckinComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
       this.eventId = id;
-      this.getMembers();
+      this.getCheckins();
     }
-    this.getEventDetails();
+    this.getEventDetails(); //event title and things like that
   }
 
   getEventDetails(): void {
@@ -36,16 +37,25 @@ export class EventCheckinComponent implements OnInit {
     });
   }
 
-  getMembers(): void {
-    this.eventApi.getMembers(this.eventId).subscribe((members: Member[]) => {
+  getCheckins(): void {
+    this.checkinApi.find<Checkin>({ where: { eventId: this.eventId } }).subscribe((checkins: Checkin[]) => {
+      this.checkins = checkins;
 
-      console.log(members);
-      this.checkedInMembers = members;
-      const checkedInMemberIds = this.checkedInMembers.map(member => {
-        return member.id;
-      });
-
+      const checkedInMemberIds: number[] = checkins.map(checkin => {
+        return checkin.memberId;
+      })
+      this.getCheckedInMembers();
       this.getUncheckedInMembers(checkedInMemberIds);
+
+    });
+  }
+
+  getCheckedInMembers(): void {
+    this.eventApi.getMembers(this.eventId).subscribe((members: Member[]) => {
+      this.checkedInMembers = {};
+      members.forEach(member => {
+        this.checkedInMembers[member.id] = member;
+      })
     });
   }
 
@@ -67,9 +77,7 @@ export class EventCheckinComponent implements OnInit {
 
     this.checkinApi.findOne<Checkin>({ where: query }).subscribe((checkin: Checkin) => {
       this.checkinApi.deleteById(checkin.id).subscribe(checkin => {
-        console.log("deleted");
-        console.log(checkin);
-        this.getMembers();
+        this.getCheckins();
       });
     });
 
@@ -83,8 +91,7 @@ export class EventCheckinComponent implements OnInit {
     };
 
     this.checkinApi.create(data).subscribe((checkin: Checkin) => {
-      console.log(checkin);
-      this.getMembers();
+      this.getCheckins();
     });
   }
 
