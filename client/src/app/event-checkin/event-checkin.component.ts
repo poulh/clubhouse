@@ -70,13 +70,17 @@ export class EventCheckinComponent implements OnInit {
   }
 
   getUncheckedInMembers(checkedInMemberIds: number[]): void {
-    const query = {
-      id: {
-        nin: checkedInMemberIds
+
+    const filter = {
+      order: "lastName ASC, firstName ASC",
+      where: {
+        id: {
+          nin: checkedInMemberIds
+        }
       }
     };
 
-    this.memberApi.find<Member>({ where: query }).subscribe((members: Member[]) => this.members = members);
+    this.memberApi.find<Member>(filter).subscribe((members: Member[]) => this.members = members);
   }
 
   onUncheckinClick(memberId: any): void {
