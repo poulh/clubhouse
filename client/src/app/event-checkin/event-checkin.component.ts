@@ -40,7 +40,12 @@ export class EventCheckinComponent implements OnInit {
   }
 
   getCheckins(): void {
-    this.checkinApi.find<Checkin>({ where: { eventId: this.eventId } }).subscribe((checkins: Checkin[]) => {
+    const filter = {
+      where: { eventId: this.eventId },
+      order: 'date DESC'
+    };
+
+    this.checkinApi.find<Checkin>(filter).subscribe((checkins: Checkin[]) => {
       this.checkins = checkins;
 
       const checkedInMemberIds: number[] = checkins.map(checkin => {
@@ -53,6 +58,8 @@ export class EventCheckinComponent implements OnInit {
   }
 
   getCheckedInMembers(): void {
+
+
     this.eventApi.getMembers(this.eventId).subscribe((members: Member[]) => {
       this.checkedInMembers = {};
       members.forEach(member => {

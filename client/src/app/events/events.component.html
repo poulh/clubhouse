@@ -26,8 +26,8 @@
           <i class="far fa-{{event.locked ? 'lock' : 'calendar-alt'}} text-muted"></i>
         </strong>
         <div>
-          <button class="btn btn-primary" (click)="onCheckinClick(event)" [disabled]="event.locked">Checkin</button>
           <a class="btn btn-info" routerLink="/event/{{event.id}}">Edit Details</a>
+          <button class="btn btn-primary" (click)="onCheckinClick(event)" [disabled]="event.locked">Checkin</button>
         </div>
       </div>
       <span class="d-block">{{event.date | date:'medium'}}</span>
