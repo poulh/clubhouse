@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+
+import { finalize } from 'rxjs/operators';
 
 import { Member } from '../../../sdk/models';
 import { MemberApi } from '../../../sdk/services';
@@ -16,8 +18,10 @@ export class MemberDetailComponent implements OnInit {
   oldMember: Member;
   error: string;
   isLoading = false;
+  eventId: any;
 
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private memberApi: MemberApi,
     private location: Location) { }
 
@@ -26,6 +30,7 @@ export class MemberDetailComponent implements OnInit {
   }
 
   getMember(): void {
+    this.eventId = this.route.snapshot.paramMap.get('eventId');
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isLoading = true;
@@ -50,7 +55,17 @@ export class MemberDetailComponent implements OnInit {
   updateMember(): void {
     this.isLoading = true;
 
-    this.memberApi.updateAttributes(this.member.id, this.member).subscribe(member => this.setMemberModel(member));
+    this.memberApi.updateAttributes(this.member.id, this.member).pipe(finalize(() => {
+
+      if (this.eventId) {
+        const url = `/checkin/${this.eventId}/member/${this.member.id}`
+        console.log(url);
+        this.router.navigateByUrl(url);
+      }
+    })).subscribe(member => {
+      this.setMemberModel(member);
+
+    });
   }
 
   setMemberModel(member: Member) {

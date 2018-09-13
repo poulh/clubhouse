@@ -8,7 +8,8 @@ import { EventCheckinComponent } from '@app/event-checkin/event-checkin.componen
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: 'checkin/:id', component: EventCheckinComponent, data: { title: extract('Event Details') } }
+    { path: 'checkin/:id', component: EventCheckinComponent, data: { title: extract('Event Details') } },
+    { path: 'checkin/:id/member/:memberId', component: EventCheckinComponent, data: { title: extract('Event Details') } }
   ])];
 
 @NgModule({

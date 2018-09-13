@@ -12,7 +12,7 @@ import { CheckinApi, EventApi, MemberApi } from '../../../sdk/services';
 export class EventCheckinComponent implements OnInit {
 
   currentEvent: Event;
-  eventId: number;
+  eventId: any;
   checkedInMembers: { [id: number]: Member; } = {};
   checkins: Checkin[];
   members: Member[];
@@ -23,9 +23,11 @@ export class EventCheckinComponent implements OnInit {
     private checkinApi: CheckinApi) { }
 
   ngOnInit() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.eventId = id;
+    const memberId = +this.route.snapshot.paramMap.get('memberId');
+    this.eventId = +this.route.snapshot.paramMap.get('id');
+    if (memberId && this.eventId) {
+      this.onCheckinClick(memberId);
+    } else if (this.eventId) {
       this.getCheckins();
     }
     this.getEventDetails(); //event title and things like that
@@ -69,9 +71,9 @@ export class EventCheckinComponent implements OnInit {
     this.memberApi.find<Member>({ where: query }).subscribe((members: Member[]) => this.members = members);
   }
 
-  onUncheckinClick(member: Member): void {
+  onUncheckinClick(memberId: any): void {
     const query = {
-      memberId: member.id,
+      memberId: memberId,
       eventId: this.eventId
     };
 
@@ -83,10 +85,10 @@ export class EventCheckinComponent implements OnInit {
 
   }
 
-  onCheckinClick(member: Member): void {
+  onCheckinClick(memberId: any): void {
     const data = {
       date: new Date(),
-      memberId: member.id,
+      memberId: memberId,
       eventId: this.eventId
     };
 

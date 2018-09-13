@@ -50,14 +50,14 @@
         </label>
 
         <label class="d-block">
-          <button class="btn btn-primary w-100" (click)="updateMember()" [disabled]="isLoading || noMemberChanges()">
+          <button class="btn w-100" [ngClass]="noMemberChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateMember()" [disabled]="isLoading || noMemberChanges()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-            <span translate>Update Member</span>
+            <span translate>Update Member{{eventId ? " and Checkin" : ""}}</span>
           </button>
         </label>
 
         <label class="d-block">
-          <button class="btn btn-primary w-100" (click)="goBack()" [disabled]="isLoading">
+          <button class="btn btn-success w-100" (click)="goBack()" [disabled]="isLoading">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>Go Back</span>
           </button>

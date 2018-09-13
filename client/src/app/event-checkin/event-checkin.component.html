@@ -11,7 +11,8 @@
             {{member.firstName}} {{member.lastName}}
           </strong>
           <div>
-            <button class="btn btn-primary" (click)="onCheckinClick(member)">Checkin</button>
+            <button class="btn btn-primary" (click)="onCheckinClick(member.id)">Checkin</button>
+            <a class="btn btn-secondary" routerLink="/member/{{member.id}}/event/{{eventId}}">Edit Details</a>
           </div>
         </div>
         <span class="d-block">{{member.email}} {{member.cellPhone}}</span>
@@ -32,7 +33,7 @@
               {{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}
             </strong>
             <div>
-              <button class="btn btn-primary" (click)="onUncheckinClick(checkedInMembers[checkin.memberId])">Un-Checkin</button>
+              <button class="btn btn-primary" (click)="onUncheckinClick(checkedInMembers[checkin.memberId].id)">Un-Checkin</button>
             </div>
           </div>
           <span class="d-block">{{checkin.date | date:'medium'}}</span>
