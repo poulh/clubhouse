@@ -28,6 +28,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   setEventModel(event: Event) {
+    console.log(event);
     this.event = event;
     const eventDate = new Date(this.event.date.toString());
     this.calendarDate = { year: eventDate.getFullYear(), month: eventDate.getMonth() + 1, day: eventDate.getDate() };
@@ -63,7 +64,10 @@ export class EventDetailComponent implements OnInit {
       });
     } else {
 
-      // this.event = new Event();
+      let event = new Event();
+      event.name = "";
+      event.date = new Date();
+      this.setEventModel(event);
     }
   }
 
@@ -75,10 +79,13 @@ export class EventDetailComponent implements OnInit {
     eventDate.setMonth(this.calendarDate.month - 1);
     eventDate.setDate(this.calendarDate.day);
     this.event.date = eventDate;
+    this.eventApi.replaceOrCreate<Event>(this.event).subscribe(event => this.setEventModel(event));
+  }
 
-    this.eventApi.updateAttributes(this.event.id, this.event).subscribe(event => this.setEventModel(event));
-
-
+  deleteEvent(): void {
+    this.eventApi.deleteById<Event>(this.event.id).subscribe(event => {
+      this.goBack();
+    });
   }
 
   goBack(): void {

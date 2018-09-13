@@ -8,7 +8,8 @@ import { EventDetailComponent } from '@app/event-detail/event-detail.component';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: 'event/:id', component: EventDetailComponent, data: { title: extract('Event Details') } }
+    { path: 'event/:id', component: EventDetailComponent, data: { title: extract('Event Details') } },
+    { path: 'event', component: EventDetailComponent, data: { title: extract('Event Details') } }
   ])
 ];
 

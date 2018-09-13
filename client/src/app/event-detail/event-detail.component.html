@@ -11,21 +11,26 @@
         </div>
 
         <label class="d-block">
+          <span translate>Event Name</span>
           <input type="text" class="form-control" [(ngModel)]="event.name" [placeholder]="'Event Name' | translate" [disabled]="isLoading || event.locked"
           />
-          <span hidden translate>Event Name</span>
+
           <small [hidden]="event.name.length" class="text-danger" translate>
             Event Name is required
           </small>
         </label>
 
         <label class="d-block">
-          <input type="text" ngbDatepicker [(ngModel)]="calendarDate" ngbDatepicker #d="ngbDatepicker" [disabled]="isLoading || event.locked"
-          />
-          <button (click)="d.toggle()" [disabled]="isLoading || event.locked"><i class="far fa-calendar-alt text-muted"></i></button>
+          <span translate>Event Date</span>
+          <div class="w-100">
+            <input type="text" ngbDatepicker [(ngModel)]="calendarDate" ngbDatepicker #d="ngbDatepicker" [disabled]="isLoading || event.locked"
+            />
+            <button (click)="d.toggle()" [disabled]="isLoading || event.locked"><i class="far fa-calendar-alt text-muted"></i></button>
+          </div>
         </label>
 
         <label class="d-block">
+
           <div class="form-check">
             <input class="form-check-input" type="checkbox" [(ngModel)]="event.locked">
             <label class="form-check-label" for="defaultCheck1">
@@ -35,16 +40,23 @@
         </label>
 
         <label class="d-block">
-          <button class="btn btn-primary w-100" (click)="updateEvent()" [disabled]="isLoading || noEventChanges()">
+          <button class="btn w-100" [ngClass]="noEventChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateEvent()" [disabled]="isLoading || noEventChanges()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-            <span translate>Update Event</span>
+            <span translate>{{event.id ? "Update" : "Create"}} Event</span>
           </button>
         </label>
 
         <label class="d-block">
-          <button class="btn btn-primary w-100" (click)="goBack()" [disabled]="isLoading">
+          <button class="btn btn-success w-100" (click)="goBack()" [disabled]="isLoading">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>Go Back</span>
+          </button>
+        </label>
+
+        <label *ngIf="event.id" class="d-block pt-4">
+          <button class="btn btn-danger w-100" (click)="deleteEvent()" [disabled]="isLoading">
+            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+            <span translate>Delete Event</span>
           </button>
         </label>
 

@@ -21,12 +21,20 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(): void {
-    this.eventApi.find<Event>().subscribe(events => this.events = events);
+    const filter = {
+      order: 'date DESC'
+    };
+
+    this.eventApi.find<Event>(filter).subscribe(events => this.events = events);
   }
 
   onCheckinClick(event: Event): void {
     this.router.navigateByUrl(`/checkin/${event.id}`);
     console.log(event);
+  }
+
+  onNewEventClick(): void {
+    this.router.navigateByUrl("/event");
   }
 
 }
