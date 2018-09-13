@@ -52,7 +52,7 @@
         <label class="d-block">
           <button class="btn w-100" [ngClass]="noMemberChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateMember()" [disabled]="isLoading || noMemberChanges()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-            <span translate>Update Member{{eventId ? " and Checkin" : ""}}</span>
+            <span translate>{{member.id ? "Update" : "Create"}} Member{{eventId ? " and Checkin" : ""}}</span>
           </button>
         </label>
 
@@ -60,6 +60,13 @@
           <button class="btn btn-success w-100" (click)="goBack()" [disabled]="isLoading">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>Go Back</span>
+          </button>
+        </label>
+
+        <label *ngIf="member.id && !eventId" class="d-block pt-4">
+          <button class="btn btn-danger w-100" (click)="memberEvent()" [disabled]="isLoading">
+            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+            <span translate>Delete Member</span>
           </button>
         </label>
 

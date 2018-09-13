@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Member } from '../../../sdk/models';
 import { MemberApi } from '../../../sdk/services';
@@ -12,14 +13,24 @@ export class MembersComponent implements OnInit {
 
   members: Member[];
 
-  constructor(private memberApi: MemberApi) { }
+  constructor(private router: Router,
+    private memberApi: MemberApi) { }
 
   ngOnInit() {
     this.getMembers();
   }
 
   getMembers(): void {
-    this.memberApi.find<Member>().subscribe(members => this.members = members);
+    const filter = {
+      order: "lastName ASC, firstName ASC"
+    };
+    this.memberApi.find<Member>(filter).subscribe(members => this.members = members);
   }
+
+
+  onNewMemberClick(): void {
+    this.router.navigateByUrl("/member");
+  }
+
 
 }

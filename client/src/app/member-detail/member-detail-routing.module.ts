@@ -8,6 +8,8 @@ import { MemberDetailComponent } from '@app/member-detail/member-detail.componen
 
 const routes: Routes = [
   Shell.childRoutes([
+    { path: 'member', component: MemberDetailComponent, data: { title: extract('Member Details') } },
+    { path: 'member/event/:eventId', component: MemberDetailComponent, data: { title: extract('Member Details') } },
     { path: 'member/:id', component: MemberDetailComponent, data: { title: extract('Member Details') } },
     { path: 'member/:id/event/:eventId', component: MemberDetailComponent, data: { title: extract('Member Details') } }
   ])];

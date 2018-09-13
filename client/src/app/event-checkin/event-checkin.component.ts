@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Checkin, Event, Member } from '../../../sdk/models';
 import { CheckinApi, EventApi, MemberApi } from '../../../sdk/services';
@@ -17,7 +17,8 @@ export class EventCheckinComponent implements OnInit {
   checkins: Checkin[];
   members: Member[];
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
+    private route: ActivatedRoute,
     private eventApi: EventApi,
     private memberApi: MemberApi,
     private checkinApi: CheckinApi) { }
@@ -102,6 +103,11 @@ export class EventCheckinComponent implements OnInit {
     this.checkinApi.create(data).subscribe((checkin: Checkin) => {
       this.getCheckins();
     });
+  }
+
+  onNewMemberClick(): void {
+    const url = `/member/event/${this.eventId}`;
+    this.router.navigateByUrl(url);
   }
 
 }

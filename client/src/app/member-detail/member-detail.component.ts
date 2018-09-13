@@ -47,24 +47,32 @@ export class MemberDetailComponent implements OnInit {
           this.error = error;
         });
     } else {
-
-      // this.member = new Member();
+      let member = new Member();
+      member.firstName = "";
+      member.lastName = "";
+      member.cellPhone = "";
+      member.email = "";
+      this.setMemberModel(member);
     }
   }
 
   updateMember(): void {
     this.isLoading = true;
 
-    this.memberApi.updateAttributes(this.member.id, this.member).pipe(finalize(() => {
+    this.memberApi.replaceOrCreate<Member>(this.member)
+      .subscribe(member => {
+        this.setMemberModel(member);
+        if (this.eventId) {
+          const url = `/checkin/${this.eventId}/member/${this.member.id}`
+          console.log(url);
+          this.router.navigateByUrl(url);
+        }
+      });
+  }
 
-      if (this.eventId) {
-        const url = `/checkin/${this.eventId}/member/${this.member.id}`
-        console.log(url);
-        this.router.navigateByUrl(url);
-      }
-    })).subscribe(member => {
-      this.setMemberModel(member);
-
+  deleteMember(): void {
+    this.memberApi.deleteById<Member>(this.member.id).subscribe(member => {
+      this.goBack();
     });
   }
 

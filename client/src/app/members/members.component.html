@@ -1,5 +1,17 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
-  <h6 class="border-bottom border-gray pb-2 mb-0">Members</h6>
+  <div class="row border-bottom border-gray pb-2 mb-0">
+
+    <div class="col-md-10 col-sm-9 mt-2">
+      <h4 class="pb-2 mb-0">Members</h4>
+      <!-- input type="text" class="form-control" [placeholder]="'Search Members' " [disabled]="isLoading" /-->
+    </div>
+
+    <div class="col-md-2 col-sm-3 mt-2 ">
+      <button class="btn btn-primary w-100" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
+    </div>
+
+  </div>
+
   <div *ngFor="let member of members" class="media text-muted pt-3">
 
     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
