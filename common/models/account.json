@@ -1,6 +1,6 @@
 {
-  "name": "account",
-  "plural": "accounts",
+  "name": "Account",
+  "plural": "Accounts",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -10,10 +10,22 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "creationDate": {
+      "type": "date",
+      "required": true
     }
   },
   "validations": [],
   "relations": {
+    "clients": {
+      "type": "hasMany",
+      "model": "Client",
+      "foreignKey": "accountId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
     "events": {
       "type": "hasMany",
       "model": "event",

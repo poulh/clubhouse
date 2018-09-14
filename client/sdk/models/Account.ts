@@ -1,18 +1,23 @@
 /* tslint:disable */
 import {
+  Client,
   Event
 } from '../index';
 
 declare var Object: any;
 export interface AccountInterface {
   "name": string;
+  "creationDate": Date;
   "id"?: number;
+  clients?: Client[];
   events?: Event[];
 }
 
 export class Account implements AccountInterface {
   "name": string;
+  "creationDate": Date;
   "id": number;
+  clients: Client[];
   events: Event[];
   constructor(data?: AccountInterface) {
     Object.assign(this, data);
@@ -43,13 +48,17 @@ export class Account implements AccountInterface {
   public static getModelDefinition() {
     return {
       name: 'Account',
-      plural: 'accounts',
-      path: 'accounts',
+      plural: 'Accounts',
+      path: 'Accounts',
       idName: 'id',
       properties: {
         "name": {
           name: 'name',
           type: 'string'
+        },
+        "creationDate": {
+          name: 'creationDate',
+          type: 'Date'
         },
         "id": {
           name: 'id',
@@ -57,6 +66,14 @@ export class Account implements AccountInterface {
         },
       },
       relations: {
+        clients: {
+          name: 'clients',
+          type: 'Client[]',
+          model: 'Client',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'accountId'
+        },
         events: {
           name: 'events',
           type: 'Event[]',
