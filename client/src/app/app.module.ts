@@ -13,6 +13,7 @@ import { EventCheckinModule } from './event-checkin/event-checkin.module';
 import { EventDetailModule } from './event-detail/event-detail.module';
 import { EventsModule } from './events/events.module';
 import { MemberDetailModule } from './member-detail/member-detail.module';
+import { MemberImportModule } from './member-import/member-import.module';
 import { MembersModule } from './members/members.module';
 import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
@@ -37,6 +38,7 @@ import { SDKBrowserModule } from '../../sdk';
     EventDetailModule,
     EventsModule,
     MemberDetailModule,
+    MemberImportModule,
     MembersModule,
     HomeModule,
     AboutModule,

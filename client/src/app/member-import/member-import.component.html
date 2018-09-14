@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-10 mt-2 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-center">
+          <h4 class="card-title">
+            Member Import
+          </h4>
+          <label class="btn btn-primary btn-file">
+            Upload CSV <input type="file" style="display: none;" (change)="fileChange($event)" placeholder="Upload Member CSV File"
+              accept=".csv">
+          </label>
+          <!-- input type="file" (change)="fileChange($event)" placeholder="Upload Member CSV File" accept=".csv"-->
+
+          <h4 class="card-title">
+            <i class="far fa-3x fa-arrow-alt-circle-up  text-muted"></i>
+          </h4>
+          <h3>Required Fields</h3>
+          <h4>
+            <span class="m-2" *ngFor="let property of requiredProperties">{{property}}</span>
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <label class="d-block mt-3">
+      <button class="btn btn-success w-100" (click)="goBack()" [disabled]="isLoading">
+        <span translate>Go Back</span>
+      </button>
+    </label>
+  </div>
+</div>
