@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, } from 'rxjs';
 
-import { UserApi } from '../../../../sdk';
+import { ClientApi, AccountApi } from '../../../../sdk';
 
 
-export interface Credentials {
-  // Customize received credentials here
+export interface SignupCredentials {
   accountName: string;
   firstName: string;
   lastName: string;
@@ -24,6 +23,11 @@ export interface SignupContext {
   remember?: boolean;
 };
 
+export interface LoginCredentials {
+  username: string;
+  token: string;
+}
+
 export interface LoginContext {
   username: string;
   password: string;
@@ -39,7 +43,8 @@ const credentialsKey = 'credentials';
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private userApi: UserApi) {
+  constructor(private clientApi: ClientApi,
+    private accountApi: AccountApi) {
   }
 
   /**
@@ -50,7 +55,7 @@ export class AuthenticationService {
   login(context: LoginContext): Observable<any> {
 
     //    https://github.com/mean-expert-official/loopback-sdk-builder/wiki/5.-Usage-Examples
-    return this.userApi.login(context, 'user', context.remember);
+    return this.clientApi.login(context, 'user', context.remember);
   }
 
   /**
@@ -71,7 +76,7 @@ export class AuthenticationService {
    * @return {Observable<boolean>} True if the user was logged out successfully.
    */
   logout(): Observable<boolean> {
-    return this.userApi.logout();
+    return this.clientApi.logout();
   }
 
   /**
@@ -79,7 +84,7 @@ export class AuthenticationService {
    * @return {boolean} True if the user is authenticated.
    */
   isAuthenticated(): boolean {
-    const authenticated = this.userApi.isAuthenticated();
+    const authenticated = this.clientApi.isAuthenticated();
     return authenticated;
   }
 
@@ -87,7 +92,7 @@ export class AuthenticationService {
    * Gets the user credentials.
    * @return {Credentials} The user credentials or null if the user is not authenticated.
    */
-  get credentials(): Credentials | null {
-    return this.userApi.getCachedCurrent();
+  get credentials(): SignupCredentials | null {
+    return this.clientApi.getCachedCurrent();
   }
 }
