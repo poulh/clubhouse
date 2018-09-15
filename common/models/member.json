@@ -1,5 +1,5 @@
 {
-  "name": "member",
+  "name": "Member",
   "plural": "members",
   "base": "PersistedModel",
   "idInjection": true,
@@ -26,12 +26,12 @@
   "relations": {
     "events": {
       "type": "hasMany",
-      "model": "event",
+      "model": "Event",
       "foreignKey": "memberId",
       "options": {
         "nestRemoting": true
       },
-      "through": "checkin"
+      "through": "Checkin"
     }
   },
   "acls": [],

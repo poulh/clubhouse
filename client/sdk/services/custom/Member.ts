@@ -11,6 +11,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Member } from '../../models/Member';
 import { SocketConnection } from '../../sockets/socket.connections';
+import { Checkin } from '../../models/Checkin';
 import { Event } from '../../models/Event';
 
 
@@ -33,7 +34,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Find a related item by id for events.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -63,7 +64,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Delete a related item by id for events.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -90,7 +91,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Update a related item by id for events.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -126,7 +127,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Add a related item by id for events.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -162,7 +163,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Remove the events relation to an item by id.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -189,7 +190,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Check the existence of events relation to an item by id.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} fk Foreign key for events
    *
@@ -217,9 +218,9 @@ export class MemberApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries events of member.
+   * Queries events of Member.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {object} filter 
    *
@@ -249,7 +250,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in events of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {object} data Request data.
    *
@@ -282,7 +283,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Deletes all events of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -304,9 +305,9 @@ export class MemberApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts events of member.
+   * Counts events of Member.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {object} where Criteria to match model instances
    *
@@ -364,7 +365,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Patch attributes for a model instance and persist it into the data source.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {object} data Request data.
    *
@@ -397,7 +398,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Find a related item by id for members.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -430,7 +431,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Delete a related item by id for members.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -460,7 +461,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Update a related item by id for members.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -499,7 +500,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Add a related item by id for members.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -538,7 +539,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Remove the members relation to an item by id.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -568,7 +569,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Check the existence of members relation to an item by id.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -599,9 +600,9 @@ export class MemberApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries members of event.
+   * Queries members of Event.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -634,7 +635,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in members of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -670,7 +671,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Deletes all members of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -695,9 +696,9 @@ export class MemberApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts members of event.
+   * Counts members of Event.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *
@@ -729,7 +730,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in events of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {object} data Request data.
    *
@@ -762,7 +763,7 @@ export class MemberApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in members of this model.
    *
-   * @param {any} id member id
+   * @param {any} id Member id
    *
    * @param {any} nk Foreign key for events.
    *

@@ -28,7 +28,7 @@
     },
     "events": {
       "type": "hasMany",
-      "model": "event",
+      "model": "Event",
       "foreignKey": "accountId",
       "options": {
         "nestRemoting": true

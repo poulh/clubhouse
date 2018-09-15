@@ -35,7 +35,7 @@
     "dataSource": "db",
     "public": false
   },
-  "event": {
+  "Event": {
     "dataSource": "db",
     "public": true
   },
@@ -47,11 +47,11 @@
     "dataSource": "db",
     "public": true
   },
-  "member": {
+  "Member": {
     "dataSource": "db",
     "public": true
   },
-  "checkin": {
+  "Checkin": {
     "dataSource": "db",
     "public": true
   }

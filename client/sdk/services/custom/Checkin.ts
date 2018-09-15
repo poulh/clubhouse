@@ -34,7 +34,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Fetches belongsTo relation event.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {boolean} refresh 
    *
@@ -64,7 +64,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Fetches belongsTo relation member.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {boolean} refresh 
    *
@@ -123,7 +123,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Patch attributes for a model instance and persist it into the data source.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} data Request data.
    *
@@ -156,7 +156,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Find a related item by id for members.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -186,7 +186,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Delete a related item by id for members.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -213,7 +213,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Update a related item by id for members.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -249,7 +249,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Add a related item by id for members.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -285,7 +285,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Remove the members relation to an item by id.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -312,7 +312,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Check the existence of members relation to an item by id.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for members
    *
@@ -340,9 +340,9 @@ export class CheckinApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries members of event.
+   * Queries members of Event.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} filter 
    *
@@ -372,7 +372,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in members of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} data Request data.
    *
@@ -405,7 +405,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Deletes all members of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -427,9 +427,9 @@ export class CheckinApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts members of event.
+   * Counts members of Event.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} where Criteria to match model instances
    *
@@ -458,7 +458,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Find a related item by id for events.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -488,7 +488,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Delete a related item by id for events.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -515,7 +515,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Update a related item by id for events.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -551,7 +551,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Add a related item by id for events.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -587,7 +587,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Remove the events relation to an item by id.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -614,7 +614,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Check the existence of events relation to an item by id.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {any} fk Foreign key for events
    *
@@ -642,9 +642,9 @@ export class CheckinApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries events of member.
+   * Queries events of Member.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} filter 
    *
@@ -674,7 +674,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in events of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} data Request data.
    *
@@ -707,7 +707,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Deletes all events of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -729,9 +729,9 @@ export class CheckinApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts events of member.
+   * Counts events of Member.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} where Criteria to match model instances
    *
@@ -760,7 +760,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in members of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} data Request data.
    *
@@ -793,7 +793,7 @@ export class CheckinApi extends BaseLoopBackApi {
   /**
    * Creates a new instance in events of this model.
    *
-   * @param {any} id checkin id
+   * @param {any} id Checkin id
    *
    * @param {object} data Request data.
    *

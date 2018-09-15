@@ -1,5 +1,5 @@
 {
-  "name": "checkin",
+  "name": "Checkin",
   "plural": "checkins",
   "base": "PersistedModel",
   "idInjection": true,
@@ -16,7 +16,7 @@
   "relations": {
     "event": {
       "type": "belongsTo",
-      "model": "event",
+      "model": "Event",
       "foreignKey": "eventId",
       "options": {
         "nestRemoting": true
@@ -24,7 +24,7 @@
     },
     "member": {
       "type": "belongsTo",
-      "model": "member",
+      "model": "Member",
       "foreignKey": "memberId",
       "options": {
         "nestRemoting": true
