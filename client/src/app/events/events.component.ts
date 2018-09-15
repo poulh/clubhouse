@@ -11,6 +11,7 @@ import { EventApi } from '../../../sdk/services';
 })
 export class EventsComponent implements OnInit {
 
+  isLoading = false;
   events: Event[];
 
   constructor(private router: Router,
@@ -21,11 +22,16 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(): void {
+
+    this.isLoading = true;
     const filter = {
       order: 'date DESC'
     };
 
-    this.eventApi.find<Event>(filter).subscribe(events => this.events = events);
+    this.eventApi.find<Event>(filter).subscribe(events => {
+      this.events = events;
+      this.isLoading = false;
+    });
   }
 
   onCheckinClick(event: Event): void {

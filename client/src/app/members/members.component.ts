@@ -11,6 +11,7 @@ import { MemberApi } from '../../../sdk/services';
 })
 export class MembersComponent implements OnInit {
 
+  isLoading = false;
   members: Member[];
 
   constructor(private router: Router,
@@ -21,10 +22,14 @@ export class MembersComponent implements OnInit {
   }
 
   getMembers(): void {
+    this.isLoading = true;
     const filter = {
       order: "lastName ASC, firstName ASC"
     };
-    this.memberApi.find<Member>(filter).subscribe(members => this.members = members);
+    this.memberApi.find<Member>(filter).subscribe(members => {
+      this.members = members;
+      this.isLoading = false;
+    });
   }
 
 
