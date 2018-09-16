@@ -39,11 +39,11 @@
     "dataSource": "db",
     "public": true
   },
-  "Client": {
+  "Account": {
     "dataSource": "db",
     "public": true
   },
-  "Account": {
+  "RegisteredUser": {
     "dataSource": "db",
     "public": true
   },

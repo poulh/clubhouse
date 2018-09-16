@@ -1,7 +1,8 @@
 /* tslint:disable */
 import {
-  Client,
-  Event
+  Event,
+  RegisteredUser,
+  Member
 } from '../index';
 
 declare var Object: any;
@@ -9,16 +10,18 @@ export interface AccountInterface {
   "name": string;
   "creationDate": Date;
   "id"?: number;
-  clients?: Client[];
   events?: Event[];
+  registeredUsers?: RegisteredUser[];
+  members?: Member[];
 }
 
 export class Account implements AccountInterface {
   "name": string;
   "creationDate": Date;
   "id": number;
-  clients: Client[];
   events: Event[];
+  registeredUsers: RegisteredUser[];
+  members: Member[];
   constructor(data?: AccountInterface) {
     Object.assign(this, data);
   }
@@ -66,18 +69,26 @@ export class Account implements AccountInterface {
         },
       },
       relations: {
-        clients: {
-          name: 'clients',
-          type: 'Client[]',
-          model: 'Client',
-          relationType: 'hasMany',
-                  keyFrom: 'id',
-          keyTo: 'accountId'
-        },
         events: {
           name: 'events',
           type: 'Event[]',
           model: 'Event',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'accountId'
+        },
+        registeredUsers: {
+          name: 'registeredUsers',
+          type: 'RegisteredUser[]',
+          model: 'RegisteredUser',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'accountId'
+        },
+        members: {
+          name: 'members',
+          type: 'Member[]',
+          model: 'Member',
           relationType: 'hasMany',
                   keyFrom: 'id',
           keyTo: 'accountId'

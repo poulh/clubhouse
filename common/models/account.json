@@ -18,9 +18,9 @@
   },
   "validations": [],
   "relations": {
-    "clients": {
+    "registeredUsers": {
       "type": "hasMany",
-      "model": "Client",
+      "model": "RegisteredUser",
       "foreignKey": "accountId",
       "options": {
         "nestRemoting": true
@@ -33,8 +33,30 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "members": {
+      "type": "hasMany",
+      "model": "Member",
+      "foreignKey": "accountId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "name"
+    }
+  ],
   "methods": {}
 }

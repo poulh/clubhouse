@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { Event } from '../../models/Event';
-import { Client } from '../../models/Client';
 import { Account } from '../../models/Account';
+import { RegisteredUser } from '../../models/RegisteredUser';
 import { Member } from '../../models/Member';
 import { Checkin } from '../../models/Checkin';
 
@@ -15,8 +15,8 @@ export class SDKModels {
   private models: Models = {
     User: User,
     Event: Event,
-    Client: Client,
     Account: Account,
+    RegisteredUser: RegisteredUser,
     Member: Member,
     Checkin: Checkin,
     

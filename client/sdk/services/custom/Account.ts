@@ -11,8 +11,9 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Account } from '../../models/Account';
 import { SocketConnection } from '../../sockets/socket.connections';
-import { Client } from '../../models/Client';
 import { Event } from '../../models/Event';
+import { RegisteredUser } from '../../models/RegisteredUser';
+import { Member } from '../../models/Member';
 
 
 /**
@@ -29,99 +30,6 @@ export class AccountApi extends BaseLoopBackApi {
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
     super(http,  connection,  models, auth, errorHandler);
-  }
-
-  /**
-   * Find a related item by id for clients.
-   *
-   * @param {any} id Account id
-   *
-   * @param {any} fk Foreign key for clients
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Account` object.)
-   * </em>
-   */
-  public findByIdClients(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Delete a related item by id for clients.
-   *
-   * @param {any} id Account id
-   *
-   * @param {any} fk Foreign key for clients
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public destroyByIdClients(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "DELETE";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Update a related item by id for clients.
-   *
-   * @param {any} id Account id
-   *
-   * @param {any} fk Foreign key for clients
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Account` object.)
-   * </em>
-   */
-  public updateByIdClients(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "PUT";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {
-      data: data
-    };
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
   }
 
   /**
@@ -218,13 +126,13 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries clients of Account.
+   * Find a related item by id for registeredUsers.
    *
    * @param {any} id Account id
    *
-   * @param {object} filter 
+   * @param {any} fk Foreign key for registeredUsers
    *
-   * @returns {object[]} An empty reference that will be
+   * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -233,24 +141,53 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public getClients(id: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+  public findByIdRegisteredUsers(id: any, fk: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients";
+    "/Accounts/:id/registeredUsers/:fk";
     let _routeParams: any = {
-      id: id
+      id: id,
+      fk: fk
     };
     let _postBody: any = {};
     let _urlParams: any = {};
-    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
 
   /**
-   * Creates a new instance in clients of this model.
+   * Delete a related item by id for registeredUsers.
    *
    * @param {any} id Account id
+   *
+   * @param {any} fk Foreign key for registeredUsers
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public destroyByIdRegisteredUsers(id: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers/:fk";
+    let _routeParams: any = {
+      id: id,
+      fk: fk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Update a related item by id for registeredUsers.
+   *
+   * @param {any} id Account id
+   *
+   * @param {any} fk Foreign key for registeredUsers
    *
    * @param {object} data Request data.
    *
@@ -265,12 +202,13 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public createClients(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "POST";
+  public updateByIdRegisteredUsers(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "PUT";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients";
+    "/Accounts/:id/registeredUsers/:fk";
     let _routeParams: any = {
-      id: id
+      id: id,
+      fk: fk
     };
     let _postBody: any = {
       data: data
@@ -281,22 +219,28 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Deletes all clients of this model.
+   * Find a related item by id for members.
    *
    * @param {any} id Account id
+   *
+   * @param {any} fk Foreign key for members
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
-   * This method returns no data.
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
    */
-  public deleteClients(id: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "DELETE";
+  public findByIdMembers(id: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients";
+    "/Accounts/:id/members/:fk";
     let _routeParams: any = {
-      id: id
+      id: id,
+      fk: fk
     };
     let _postBody: any = {};
     let _urlParams: any = {};
@@ -305,30 +249,64 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts clients of Account.
+   * Delete a related item by id for members.
    *
    * @param {any} id Account id
    *
-   * @param {object} where Criteria to match model instances
+   * @param {any} fk Foreign key for members
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
-   * Data properties:
-   *
-   *  - `count` – `{number}` - 
+   * This method returns no data.
    */
-  public countClients(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
+  public destroyByIdMembers(id: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/count";
+    "/Accounts/:id/members/:fk";
     let _routeParams: any = {
-      id: id
+      id: id,
+      fk: fk
     };
     let _postBody: any = {};
     let _urlParams: any = {};
-    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Update a related item by id for members.
+   *
+   * @param {any} id Account id
+   *
+   * @param {any} fk Foreign key for members
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public updateByIdMembers(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "PUT";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members/:fk";
+    let _routeParams: any = {
+      id: id,
+      fk: fk
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -439,6 +417,238 @@ export class AccountApi extends BaseLoopBackApi {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/Accounts/:id/events/count";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Queries registeredUsers of Account.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} filter 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public getRegisteredUsers(id: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in registeredUsers of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public createRegisteredUsers(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Deletes all registeredUsers of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public deleteRegisteredUsers(id: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Counts registeredUsers of Account.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} where Criteria to match model instances
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `count` – `{number}` - 
+   */
+  public countRegisteredUsers(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers/count";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Queries members of Account.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} filter 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public getMembers(id: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in members of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public createMembers(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Deletes all members of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public deleteMembers(id: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Counts members of Account.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} where Criteria to match model instances
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `count` – `{number}` - 
+   */
+  public countMembers(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members/count";
     let _routeParams: any = {
       id: id
     };
@@ -573,7 +783,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {any} fk Foreign key for accessTokens
    *
@@ -586,10 +796,10 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public findByIdClientsAccessTokens(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
+  public findByIdRegisteredUsersAccessTokens(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens/:fk";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens/:fk";
     let _routeParams: any = {
       id: id,
       nk: nk,
@@ -606,7 +816,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {any} fk Foreign key for accessTokens
    *
@@ -616,10 +826,10 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * This method returns no data.
    */
-  public destroyByIdClientsAccessTokens(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
+  public destroyByIdRegisteredUsersAccessTokens(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
     let _method: string = "DELETE";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens/:fk";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens/:fk";
     let _routeParams: any = {
       id: id,
       nk: nk,
@@ -636,7 +846,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {any} fk Foreign key for accessTokens
    *
@@ -653,10 +863,10 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public updateByIdClientsAccessTokens(id: any, nk: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+  public updateByIdRegisteredUsersAccessTokens(id: any, nk: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PUT";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens/:fk";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens/:fk";
     let _routeParams: any = {
       id: id,
       nk: nk,
@@ -675,7 +885,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {boolean} refresh 
    *
@@ -688,10 +898,10 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public getClientsAccount(id: any, nk: any, refresh: any = {}, customHeaders?: Function): Observable<any> {
+  public getRegisteredUsersAccount(id: any, nk: any, refresh: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/account";
+    "/Accounts/:id/registeredUsers/:nk/account";
     let _routeParams: any = {
       id: id,
       nk: nk
@@ -704,11 +914,11 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries accessTokens of Client.
+   * Queries accessTokens of RegisteredUser.
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {object} filter 
    *
@@ -721,10 +931,10 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public getClientsAccessTokens(id: any, nk: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+  public getRegisteredUsersAccessTokens(id: any, nk: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens";
     let _routeParams: any = {
       id: id,
       nk: nk
@@ -741,7 +951,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {object} data Request data.
    *
@@ -756,10 +966,10 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public createClientsAccessTokens(id: any, nk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+  public createRegisteredUsersAccessTokens(id: any, nk: any, data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens";
     let _routeParams: any = {
       id: id,
       nk: nk
@@ -777,7 +987,7 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -785,10 +995,10 @@ export class AccountApi extends BaseLoopBackApi {
    *
    * This method returns no data.
    */
-  public deleteClientsAccessTokens(id: any, nk: any, customHeaders?: Function): Observable<any> {
+  public deleteRegisteredUsersAccessTokens(id: any, nk: any, customHeaders?: Function): Observable<any> {
     let _method: string = "DELETE";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens";
     let _routeParams: any = {
       id: id,
       nk: nk
@@ -800,11 +1010,11 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts accessTokens of Client.
+   * Counts accessTokens of RegisteredUser.
    *
    * @param {any} id Account id
    *
-   * @param {any} nk Foreign key for clients.
+   * @param {any} nk Foreign key for registeredUsers.
    *
    * @param {object} where Criteria to match model instances
    *
@@ -816,10 +1026,10 @@ export class AccountApi extends BaseLoopBackApi {
    *
    *  - `count` – `{number}` - 
    */
-  public countClientsAccessTokens(id: any, nk: any, where: any = {}, customHeaders?: Function): Observable<any> {
+  public countRegisteredUsersAccessTokens(id: any, nk: any, where: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens/count";
+    "/Accounts/:id/registeredUsers/:nk/accessTokens/count";
     let _routeParams: any = {
       id: id,
       nk: nk
@@ -827,39 +1037,6 @@ export class AccountApi extends BaseLoopBackApi {
     let _postBody: any = {};
     let _urlParams: any = {};
     if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Creates a new instance in clients of this model.
-   *
-   * @param {any} id Account id
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object[]} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Account` object.)
-   * </em>
-   */
-  public createManyClients(id: any, data: any[] = [], customHeaders?: Function): Observable<any> {
-    let _method: string = "POST";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {
-      data: data
-    };
-    let _urlParams: any = {};
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -898,11 +1075,9 @@ export class AccountApi extends BaseLoopBackApi {
   }
 
   /**
-   * Creates a new instance in accessTokens of this model.
+   * Creates a new instance in registeredUsers of this model.
    *
    * @param {any} id Account id
-   *
-   * @param {any} nk Foreign key for clients.
    *
    * @param {object} data Request data.
    *
@@ -917,10 +1092,78 @@ export class AccountApi extends BaseLoopBackApi {
    * This usually means the response is a `Account` object.)
    * </em>
    */
-  public createManyClientsAccessTokens(id: any, nk: any, data: any[] = [], customHeaders?: Function): Observable<any> {
+  public createManyRegisteredUsers(id: any, data: any[] = [], customHeaders?: Function): Observable<any> {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Accounts/:id/clients/:nk/accessTokens";
+    "/Accounts/:id/registeredUsers";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in members of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public createManyMembers(id: any, data: any[] = [], customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/members";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in accessTokens of this model.
+   *
+   * @param {any} id Account id
+   *
+   * @param {any} nk Foreign key for registeredUsers.
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Account` object.)
+   * </em>
+   */
+  public createManyRegisteredUsersAccessTokens(id: any, nk: any, data: any[] = [], customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Accounts/:id/registeredUsers/:nk/accessTokens";
     let _routeParams: any = {
       id: id,
       nk: nk

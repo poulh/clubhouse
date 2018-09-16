@@ -7,8 +7,8 @@ module.exports = function (app) {
             throw (err);
         }
 
-        Client = app.models.Client;
-        Client.findById(token.userId, function (err, client) {
+        RegisteredUser = app.models.RegisteredUser;
+        RegisteredUser.findById(token.userId, function (err, client) {
 
             var Event = app.models.Event;
             var today = new Date();
