@@ -8,31 +8,33 @@ module.exports = function (app) {
         }
 
         RegisteredUser = app.models.RegisteredUser;
-        RegisteredUser.findById(token.userId, function (err, client) {
+        RegisteredUser.findById(token.userId, function (err, registeredUser) {
 
             var Event = app.models.Event;
             var today = new Date();
 
-            Event.create({ name: "Club Event #1", date: today, accountId: client.accountId }, function (err, eventInstance) {
+            console.log(registeredUser);
+
+            Event.create({ name: "Club Event #1", date: today, accountId: registeredUser.accountId }, function (err, eventInstance) {
                 console.log(eventInstance);
             });
 
             today.setMonth(today.getMonth() - 1);
-            Event.create({ name: "Club Event #2", date: today, accountId: client.accountId, locked: true }, function (err, eventInstance) {
+            Event.create({ name: "Club Event #2", date: today, accountId: registeredUser.accountId, locked: true }, function (err, eventInstance) {
                 console.log(eventInstance);
             });
 
             var Member = app.models.Member;
 
-            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", cellPhone: "212-555-1234" }, function (err, memberInstance) {
+            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", cellPhone: "212-555-1234", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Jim", lastName: "Guest", email: "jim@jim.com", cellPhone: "212-555-5678" }, function (err, memberInstance) {
+            Member.create({ firstName: "Jim", lastName: "Guest", email: "jim@jim.com", cellPhone: "212-555-5678", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Larry", lastName: "Lifetime", email: "larry@larry.com", cellPhone: "212-555-9999" }, function (err, memberInstance) {
+            Member.create({ firstName: "Larry", lastName: "Lifetime", email: "larry@larry.com", cellPhone: "212-555-9999", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
         });
