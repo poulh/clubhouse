@@ -56,6 +56,12 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "name"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
     }
   ],
   "methods": {}
