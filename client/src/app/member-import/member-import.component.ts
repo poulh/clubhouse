@@ -11,6 +11,7 @@ import { MemberApi } from '../../../sdk/services';
 })
 export class MemberImportComponent implements OnInit {
 
+  isLoading: false;
   requiredProperties: string[];
 
   constructor(private location: Location,
@@ -19,7 +20,6 @@ export class MemberImportComponent implements OnInit {
   ngOnInit() {
     this.requiredProperties = Object.keys(Member.getModelDefinition().properties); // pop last item ( id );
     this.requiredProperties.pop();
-
   }
 
   fileChange(event: any): void {
