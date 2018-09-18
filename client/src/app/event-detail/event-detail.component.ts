@@ -51,12 +51,7 @@ export class EventDetailComponent implements OnInit {
     if (id) {
       this.isLoading = true;
 
-
-      let query = {
-        id: id
-      };
-
-      this.eventApi.findOne<Event>({ where: query }).subscribe(event => {
+      this.eventApi.findById(id).subscribe((event: Event) => {
         this.setEventModel(event);
       }, error => {
         console.error(`findOne<Event> error: ${error}`);

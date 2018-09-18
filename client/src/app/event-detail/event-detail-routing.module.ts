@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { extract } from '@app/core';
 import { Shell } from '@app/shell/shell.service';
 
-import { EventDetailComponent } from '@app/event-detail/event-detail.component';
+import { EventDetailComponent } from './event-detail.component';
 
 const routes: Routes = [
   Shell.childRoutes([
