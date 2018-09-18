@@ -15,6 +15,7 @@ import { EventsModule } from './events/events.module';
 import { MemberDetailModule } from './member-detail/member-detail.module';
 import { MemberImportModule } from './member-import/member-import.module';
 import { MembersModule } from './members/members.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
 import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AboutModule } from './about/about.module';
@@ -40,6 +41,7 @@ import { SDKBrowserModule } from '../../sdk';
     MemberDetailModule,
     MemberImportModule,
     MembersModule,
+    UserProfileModule,
     HomeModule,
     AboutModule,
     LoginModule,
