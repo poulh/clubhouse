@@ -53,15 +53,9 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$unauthenticated",
       "permission": "ALLOW",
-      "property": "name"
-    },
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "DENY"
+      "property": "signup"
     }
   ],
   "methods": {}
