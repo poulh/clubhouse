@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '@env/environment';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
+import { AdminModule } from './admin/admin.module';
 import { EventCheckinModule } from './event-checkin/event-checkin.module';
 import { EventDetailModule } from './event-detail/event-detail.module';
 import { EventsModule } from './events/events.module';
@@ -35,6 +36,7 @@ import { SDKBrowserModule } from '../../sdk';
     CoreModule,
     SharedModule,
     ShellModule,
+    AdminModule,
     EventCheckinModule,
     EventDetailModule,
     EventsModule,
