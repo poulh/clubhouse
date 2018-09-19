@@ -11,6 +11,7 @@ import { RegisteredUserApi } from '../../../../sdk';
 })
 export class HeaderComponent implements OnInit {
 
+  isAdmin: boolean;
   accountName: string;
 
   menuHidden = true;
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.getAccount();
+    this.getIsAdmin();
   }
 
   toggleMenu() {
@@ -43,6 +45,12 @@ export class HeaderComponent implements OnInit {
 
   get languages(): string[] {
     return this.i18nService.supportedLanguages;
+  }
+
+  getIsAdmin(): void {
+    this.registeredUserApi.hasRole("admin").subscribe((isAdmin: boolean) => {
+      this.isAdmin = isAdmin;
+    });
   }
 
   get fullName(): string | null {
