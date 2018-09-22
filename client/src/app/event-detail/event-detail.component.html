@@ -11,13 +11,8 @@
         </div>
 
         <label class="d-block">
-          <span translate>Event Name</span>
-          <input type="text" class="form-control" [(ngModel)]="event.name" [placeholder]="'Event Name' | translate" [disabled]="isLoading || event.locked"
-          />
-
-          <small [hidden]="event.name.length" class="text-danger" translate>
-            Event Name is required
-          </small>
+          <span [ngClass]="event.name?.length ? '' : 'text-danger'" translate>Event Name</span>
+          <input type="text" class="form-control" [(ngModel)]="event.name" [disabled]="isLoading || event.locked" />
         </label>
 
         <label class="d-block">

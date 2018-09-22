@@ -11,42 +11,23 @@
         </div>
 
         <label class="d-block">
-          <div class="row">
-            <div class="col-md-6">
-              <span translate>First Name</span>
-              <input type="text" class="form-control" [(ngModel)]="member.firstName" [placeholder]="'First Name' | translate" />
+          <span [ngClass]="member.firstName?.length ? '' : 'text-danger'" translate>First Name</span>
+          <input type="text" class="form-control" [(ngModel)]="member.firstName" />
+        </label>
 
-              <small [hidden]="member.firstName.length" class="text-danger" translate>
-                First Name is required
-              </small>
-            </div>
-            <div class="col-md-6">
-              <span translate>Last Name</span>
-              <input type="text" class="form-control" [(ngModel)]="member.lastName" [placeholder]="'Last Name' | translate" />
-
-              <small [hidden]="member.lastName.length" class="text-danger" translate>
-                Last Name is required
-              </small>
-            </div>
-          </div>
+        <label>
+          <span [ngClass]="member.lastName?.length ? '' : 'text-danger'" translate>Last Name</span>
+          <input type="text" class="form-control" [(ngModel)]="member.lastName" />
         </label>
 
         <label class="d-block">
-          <span translate>Email</span>
-          <input type="text" class="form-control" [(ngModel)]="member.email" [placeholder]="'Email' | translate" />
-
-          <small [hidden]="member.email.length" class="text-danger" translate>
-            Email is required
-          </small>
+          <span [ngClass]="member.email?.length ? '' : 'text-danger'" translate>Email</span>
+          <input type="text" class="form-control" [(ngModel)]="member.email" />
         </label>
 
         <label class="d-block">
-          <span translate>Cell Phone</span>
-          <input type="text" class="form-control" [(ngModel)]="member.cellPhone" [placeholder]="'Cell Phone' | translate" />
-
-          <small [hidden]="member.cellPhone.length" class="text-danger" translate>
-            Cell Phone is required
-          </small>
+          <span [ngClass]="member.cellPhone?.length ? '' : 'text-danger'" translate>Cell Phone</span>
+          <input type="text" class="form-control" [(ngModel)]="member.cellPhone" />
         </label>
 
         <label class="d-block">
