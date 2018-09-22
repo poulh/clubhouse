@@ -46,13 +46,6 @@
           </button>
         </label>
 
-        <label class="d-block">
-          <button class="btn btn-success w-100" (click)="goBack()" [disabled]="isLoading">
-            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-            <span translate>Go Back</span>
-          </button>
-        </label>
-
         <label *ngIf="event.id" class="d-block pt-4">
           <button class="btn btn-danger w-100" (click)="deleteEvent()" [disabled]="isLoading">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
@@ -63,4 +56,5 @@
       </div>
     </div>
   </div>
+  <go-back-button [loading]="isLoading">Go Back</go-back-button>
 </div>

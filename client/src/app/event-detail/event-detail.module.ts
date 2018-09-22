@@ -6,6 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { SharedModule } from '@app/shared';
+
 import { EventDetailRoutingModule } from '@app/event-detail/event-detail-routing.module';
 import { EventDetailComponent } from '@app/event-detail/event-detail.component';
 
@@ -15,6 +17,7 @@ import { EventDetailComponent } from '@app/event-detail/event-detail.component';
     CommonModule,
     FormsModule,
     TranslateModule,
+    SharedModule,
     EventDetailRoutingModule
   ],
   declarations: [EventDetailComponent],

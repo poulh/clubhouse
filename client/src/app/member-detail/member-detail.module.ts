@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { TranslateModule } from '@ngx-translate/core';
 
+import { SharedModule } from '@app/shared';
+
 import { MemberDetailRoutingModule } from './member-detail-routing.module';
 import { MemberDetailComponent } from './member-detail.component';
 
@@ -12,6 +14,7 @@ import { MemberDetailComponent } from './member-detail.component';
     CommonModule,
     FormsModule,
     TranslateModule,
+    SharedModule,
     MemberDetailRoutingModule
   ],
   declarations: [MemberDetailComponent]
