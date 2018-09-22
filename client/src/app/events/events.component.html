@@ -7,7 +7,7 @@
       <!-- input type="text" class="form-control" [placeholder]="'Search Events' " [disabled]="isLoading" /-->
     </div>
 
-    <div class="col-md-2 col-sm-3 mt-2 ">
+    <div *ngIf="roleChecker.is('admin')" class="col-md-2 col-sm-3 mt-2 ">
       <button class="btn btn-primary w-100" (click)="onNewEventClick()" [disabled]="isLoading">New Event</button>
     </div>
 
@@ -24,7 +24,7 @@
           <i class="far fa-{{event.locked ? 'lock' : 'calendar-alt'}} text-muted"></i>
         </strong>
         <div>
-          <a class="btn btn-info" routerLink="/event/{{event.id}}">Edit Details</a>
+          <a *ngIf="roleChecker.is('admin')" class="btn btn-info" routerLink="/event/{{event.id}}">Edit Details</a>
           <button class="btn btn-primary" (click)="onCheckinClick(event)" [disabled]="event.locked">Checkin</button>
         </div>
       </div>

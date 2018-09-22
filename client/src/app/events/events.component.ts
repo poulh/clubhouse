@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { RoleChecker } from '@app/shared';
+
 import { Event } from '../../../sdk/models';
-import { EventApi } from '../../../sdk/services';
+import { EventApi, RegisteredUserApi } from '../../../sdk/services';
 
 @Component({
   selector: 'app-events',
@@ -11,11 +13,16 @@ import { EventApi } from '../../../sdk/services';
 })
 export class EventsComponent implements OnInit {
 
+  roleChecker: RoleChecker;
+
   isLoading = false;
   events: Event[];
 
   constructor(private router: Router,
-    private eventApi: EventApi) { }
+    private userApi: RegisteredUserApi,
+    private eventApi: EventApi) {
+    this.roleChecker = new RoleChecker(userApi);
+  }
 
   ngOnInit() {
     this.getEvents();
