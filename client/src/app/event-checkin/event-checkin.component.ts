@@ -68,10 +68,10 @@ export class EventCheckinComponent implements OnInit {
       return true;
     }
 
-    return member.firstName.toLowerCase().includes(this.search) ||
-      member.lastName.toLowerCase().includes(this.search) ||
-      member.email.toLowerCase().includes(this.search) ||
-      member.cellPhone.toLowerCase().includes(this.search);
+    return (member.firstName && member.firstName.toLowerCase().includes(this.search)) ||
+      (member.lastName && member.lastName.toLowerCase().includes(this.search)) ||
+      (member.email && member.email.toLowerCase().includes(this.search)) ||
+      (member.cellPhone && member.cellPhone.toLowerCase().includes(this.search));
   }
 
   getEventDetails(): void {
