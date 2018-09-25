@@ -1,32 +1,59 @@
 <div *ngIf="currentEvent">
   <div class="my-3 p-3 bg-white rounded box-shadow">
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="pb-2 mb-0">{{currentEvent.name}}</h4>
+      </div>
+    </div>
+
     <div class="row border-bottom border-gray pb-2 mb-0">
 
-      <div class="col-md-10 col-sm-9 mt-2">
-        <h4 class="pb-2 mb-0">{{currentEvent.name}}</h4>
-        <!-- input type="text" class="form-control" [placeholder]="'Search Members' " [disabled]="isLoading" /-->
+      <div class="col-sm-12 col-md-5 col-lg-4 mt-2">
+        <div class="btn-group w-100" role="group" aria-label="Sorting">
+          <button type="button" class="btn btn-dark disabled w-100">Sort By: </button>
+          <button type="button" class="btn btn-outline-dark w-100" (click)="sort('firstName')">First Name</button>
+          <button type="button" class="btn btn-outline-dark w-100" (click)="sort('lastName')">Last Name</button>
+        </div>
       </div>
 
-      <div class="col-md-2 col-sm-3 mt-2 ">
-        <button class="btn btn-primary w-100" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
+      <div class="col-sm-12 col-md-4 col-lg-6 mt-2">
+
+        <div class="input-group">
+          <input type="text" class="form-control" [placeholder]="'Search Members'" [(ngModel)]="search" [disabled]="isLoading" />
+          <div class="input-group-append">
+            <button class="btn btn-dark" type="button" (click)="clearSearch()" [disabled]="search.length == 0"><i class="far fa-times-circle"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-3 col-lg-2 mt-2">
+        <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
       </div>
 
     </div>
+
     <div *ngFor="let member of members" class="media text-muted pt-3">
 
-      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+      <div *ngIf="displayMember(member)" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <strong class="text-gray-dark">
+              {{member.firstName}} {{member.lastName}}
+              <span class="d-block">{{member.email}} {{member.cellPhone}}</span>
+            </strong>
+          </div>
 
-        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="col-sm-0 col-md-4 col-lg-5">
+          </div>
 
-          <strong class="text-gray-dark">
-            {{member.firstName}} {{member.lastName}}
-          </strong>
-          <div>
-            <a class="btn btn-info" routerLink="/member/{{member.id}}/event/{{eventId}}">Edit Details</a>
-            <button class="btn btn-primary" (click)="onCheckinClick(member.id)">Checkin</button>
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
+              <a class="btn btn-secondary w-100" routerLink="/member/{{member.id}}/event/{{eventId}}">Edit Details</a>
+              <button class="btn btn-primary w-100" (click)="onCheckinClick(member.id)">Checkin</button>
+            </div>
           </div>
         </div>
-        <span class="d-block">{{member.email}} {{member.cellPhone}}</span>
       </div>
     </div>
   </div>
@@ -37,21 +64,27 @@
       <div *ngFor="let checkin of checkins;" class="media text-muted pt-3">
 
         <div *ngIf="checkedInMembers[checkin.memberId]" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-
-          <div class="d-flex justify-content-between align-items-center w-100">
-
-            <strong class="text-gray-dark">
-              {{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}
-            </strong>
-            <div>
-              <button class="btn btn-primary" (click)="onUncheckinClick(checkedInMembers[checkin.memberId].id)">Undo Checkin</button>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <strong class="text-gray-dark">
+                {{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}
+                <span class="d-block">{{checkin.date | date:'medium'}}</span>
+              </strong>
             </div>
+
+            <div class="col-sm-0 col-md-5 col-lg-6">
+            </div>
+
+            <div class="col-sm-12 col-md-3 col-lg-2">
+              <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
+                <button class="btn btn-primary w-100" (click)="onUncheckinClick(checkedInMembers[checkin.memberId].id)">Undo
+                  Checkin</button>
+              </div>
+            </div>
+
           </div>
-          <span class="d-block">{{checkin.date | date:'medium'}}</span>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
