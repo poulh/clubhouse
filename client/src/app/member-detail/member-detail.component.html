@@ -15,7 +15,7 @@
           <input type="text" class="form-control" [(ngModel)]="member.firstName" />
         </label>
 
-        <label>
+        <label class="d-block">
           <span [ngClass]="member.lastName?.length ? '' : 'text-danger'" translate>Last Name</span>
           <input type="text" class="form-control" [(ngModel)]="member.lastName" />
         </label>
@@ -31,7 +31,8 @@
         </label>
 
         <label class="d-block">
-          <button class="btn w-100" [ngClass]="noMemberChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateMember()" [disabled]="isLoading || noMemberChanges()">
+          <button class="btn w-100" [ngClass]="noMemberChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateMember()"
+            [disabled]="isLoading || noMemberChanges()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>{{member.id ? "Update" : "Create"}} Member{{eventId ? " and Checkin" : ""}}</span>
           </button>
