@@ -1,14 +1,18 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
 
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="pb-2 mb-0">Events</h4>
+    </div>
+  </div>
+
   <div class="row border-bottom border-gray pb-2 mb-0">
 
-    <div class="col-md-10 col-sm-9 mt-2">
-      <h4 class="pb-2 mb-0">Events</h4>
-      <!-- input type="text" class="form-control" [placeholder]="'Search Events' " [disabled]="isLoading" /-->
+    <div class="col-sm-0 col-md-9 col-lg-10 mt-2">
     </div>
 
-    <div *ngIf="roleChecker.is('admin')" class="col-md-2 col-sm-3 mt-2 ">
-      <button class="btn btn-primary w-100" (click)="onNewEventClick()" [disabled]="isLoading">New Event</button>
+    <div *ngIf="roleChecker.is('admin')" class="col-sm-12 col-md-3 col-lg-2 mt-2">
+      <button class="btn btn-success btn-block" (click)="onNewEventClick()" [disabled]="isLoading">New Event</button>
     </div>
 
   </div>
@@ -16,19 +20,25 @@
   <div *ngFor="let event of events" class="media text-muted pt-3">
 
     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <strong class="text-gray-dark">
+            {{event.name}}
+          </strong>
+        </div>
 
-      <div class="d-flex justify-content-between align-items-center w-100">
+        <div class="col-sm-0 col-md-4 col-lg-5">
+        </div>
 
-        <strong class="text-gray-dark">
-          {{event.name}}
-          <i class="far fa-{{event.locked ? 'lock' : 'calendar-alt'}} text-muted"></i>
-        </strong>
-        <div>
-          <button class="btn btn-primary" (click)="onCheckinClick(event)" [disabled]="event.locked">Checkin</button>
-          <a *ngIf="roleChecker.is('admin')" class="btn btn-info" routerLink="/event/{{event.id}}">Edit Details</a>
+        <div class="col-sm-12 col-md-4 col-lg-3">
+          <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
+            <a *ngIf="roleChecker.is('admin')" class="btn btn-secondary w-100" routerLink="/event/{{event.id}}">Edit
+              Details</a>
+            <button class="btn btn-primary w-100" (click)="onCheckinClick(event)" [disabled]="event.locked">Checkin</button>
+          </div>
         </div>
       </div>
-      <span class="d-block">{{event.date | date:'medium'}}</span>
+
     </div>
   </div>
 
