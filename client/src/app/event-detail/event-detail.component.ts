@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Event } from '../../../sdk/models';
 import { EventApi } from '../../../sdk/services';
 
+import { CheckedInMembersComponent } from '@app/checked-in-members/checked-in-members.component';
+
 @Component({
   selector: 'app-event-detail',
   templateUrl: './event-detail.component.html',
@@ -12,7 +14,7 @@ import { EventApi } from '../../../sdk/services';
 })
 export class EventDetailComponent implements OnInit {
 
-  @Input() event: Event | null;
+  event: Event | null;
   oldEvent: Event;
   error: string;
   isLoading = false;
@@ -28,7 +30,6 @@ export class EventDetailComponent implements OnInit {
   }
 
   setEventModel(event: Event) {
-    console.log(event);
     this.event = event;
     const eventDate = new Date(this.event.date.toString());
     this.calendarDate = { year: eventDate.getFullYear(), month: eventDate.getMonth() + 1, day: eventDate.getDate() };

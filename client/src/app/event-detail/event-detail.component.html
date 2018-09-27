@@ -18,8 +18,7 @@
         <label class="d-block">
           <span translate>Event Date</span>
           <div class="w-100">
-            <input type="text" ngbDatepicker [(ngModel)]="calendarDate" ngbDatepicker #d="ngbDatepicker" [disabled]="isLoading || event.locked"
-            />
+            <input type="text" ngbDatepicker [(ngModel)]="calendarDate" ngbDatepicker #d="ngbDatepicker" [disabled]="isLoading || event.locked" />
             <button (click)="d.toggle()" [disabled]="isLoading || event.locked"><i class="far fa-calendar-alt text-muted"></i></button>
           </div>
         </label>
@@ -35,7 +34,8 @@
         </label>
 
         <label class="d-block">
-          <button class="btn w-100" [ngClass]="noEventChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateEvent()" [disabled]="isLoading || noEventChanges()">
+          <button class="btn w-100" [ngClass]="noEventChanges() ? 'btn-secondary' : 'btn-primary'" (click)="updateEvent()"
+            [disabled]="isLoading || noEventChanges()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>{{event.id ? "Update" : "Create"}} Event</span>
           </button>
@@ -51,5 +51,16 @@
       </div>
     </div>
   </div>
+  <div class="row">
+
+    <div class="card col-md-10 mt-3 mx-auto">
+      <div class="card-body">
+        <checked-in-members-component *ngIf="event" [event]="event">
+
+        </checked-in-members-component>
+      </div>
+    </div>
+  </div>
+
   <go-back-button [loading]="isLoading">Go Back</go-back-button>
 </div>

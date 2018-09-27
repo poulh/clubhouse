@@ -8,6 +8,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '@app/shared';
 
+import { CheckedInMembersModule } from '@app/checked-in-members/checked-in-members.module';
+
 import { EventDetailRoutingModule } from '@app/event-detail/event-detail-routing.module';
 import { EventDetailComponent } from '@app/event-detail/event-detail.component';
 
@@ -18,6 +20,7 @@ import { EventDetailComponent } from '@app/event-detail/event-detail.component';
     FormsModule,
     TranslateModule,
     SharedModule,
+    CheckedInMembersModule,
     EventDetailRoutingModule
   ],
   declarations: [EventDetailComponent],
