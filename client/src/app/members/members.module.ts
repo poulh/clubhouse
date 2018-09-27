@@ -11,6 +11,9 @@ import { MembersComponent } from './members.component';
     FormsModule,
     MembersRoutingModule
   ],
+  exports: [
+    MembersComponent
+  ],
   declarations: [MembersComponent]
 })
 export class MembersModule { }

@@ -1,29 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Member } from '../../../sdk/models';
-import { MemberApi } from '../../../sdk/services';
+import { Checkin, Member } from '../../../sdk/models';
+import { CheckinApi, MemberApi } from '../../../sdk/services';
 
 @Component({
-  selector: 'app-members',
+  selector: 'members-component',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss']
 })
 export class MembersComponent implements OnInit {
 
   isLoading = false;
+  @Input() title: string = "Members";
+
   members: Member[];
-  sortOrder: [string, boolean][] = [];
-  search: string;
+  sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
+  search: string = "";
+
+  @Output() checkinEvent = new EventEmitter();
+
+  @Input() eventId: any;
+  checkedInMemberIds: number[] = [];
 
   constructor(private router: Router,
-    private memberApi: MemberApi) {
-    this.search = "";
-    this.sortOrder = [["lastName", true], ["firstName", true]];
+    private memberApi: MemberApi,
+    private checkinApi: CheckinApi) {
   }
 
   ngOnInit() {
-    this.getMembers();
+    this.refresh();
   }
 
   sort(field: string): void {
@@ -41,7 +47,7 @@ export class MembersComponent implements OnInit {
       this.sortOrder.unshift(item);
       this.sortOrder.forEach(i => i[1] = true);
     }
-    this.getMembers();
+    this.refresh();
   }
 
   clearSearch(): void {
@@ -64,7 +70,12 @@ export class MembersComponent implements OnInit {
 
     const orderQueryString = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
     const filter = {
-      order: orderQueryString
+      order: orderQueryString,
+      where: {
+        id: {
+          nin: this.checkedInMemberIds
+        }
+      }
     };
     this.memberApi.find<Member>(filter).subscribe(members => {
       this.members = members;
@@ -72,10 +83,48 @@ export class MembersComponent implements OnInit {
     });
   }
 
-
   onNewMemberClick(): void {
-    this.router.navigateByUrl("/member");
+    if (this.eventId) {
+      this.router.navigateByUrl(`/member/event/${this.eventId}`);
+    } else {
+      this.router.navigateByUrl("/member");
+    }
   }
 
+  onEditDetails(memberId: any): void {
+    const url = this.eventId ? `/member/${memberId}/event/${this.eventId}` : `/member/${memberId}`;
+    this.router.navigateByUrl(url);
+  }
 
+  onCheckin(memberId: any): void {
+    console.log('click');
+    const data = {
+      date: new Date(), //todo: this should be set on the server
+      memberId: memberId,
+      eventId: this.eventId
+    };
+
+    this.checkinApi.create(data).subscribe((checkin: Checkin) => {
+      console.log('checked in');
+      this.refresh();
+      this.checkinEvent.emit(checkin);
+    });
+  }
+
+  refresh(): void {
+    if (this.eventId) {
+      const filter = {
+        where: { eventId: this.eventId },
+      };
+
+      this.checkinApi.find<Checkin>(filter).subscribe((checkins: Checkin[]) => {
+        this.checkedInMemberIds = checkins.map(checkin => {
+          return checkin.memberId;
+        });
+        this.getMembers();
+      });
+    } else {
+      this.getMembers();
+    }
+  }
 }

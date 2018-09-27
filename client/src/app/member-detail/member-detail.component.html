@@ -39,7 +39,7 @@
         </label>
 
         <label *ngIf="member.id && !eventId" class="d-block pt-4">
-          <button class="btn btn-danger w-100" (click)="memberEvent()" [disabled]="isLoading">
+          <button class="btn btn-danger w-100" (click)="deleteMember()" [disabled]="isLoading">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>Delete Member</span>
           </button>

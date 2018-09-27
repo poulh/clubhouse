@@ -2,10 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { finalize } from 'rxjs/operators';
-
-import { Member } from '../../../sdk/models';
-import { MemberApi } from '../../../sdk/services';
+import { Checkin, Member } from '../../../sdk/models';
+import { CheckinApi, MemberApi } from '../../../sdk/services';
 
 @Component({
   selector: 'app-member-detail',
@@ -23,7 +21,9 @@ export class MemberDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private memberApi: MemberApi,
-    private location: Location) { }
+    private checkinApi: CheckinApi,
+    private location: Location) {
+  }
 
   ngOnInit() {
     this.getMember();
@@ -63,9 +63,15 @@ export class MemberDetailComponent implements OnInit {
       .subscribe(member => {
         this.setMemberModel(member);
         if (this.eventId) {
-          const url = `/checkin/${this.eventId}/member/${this.member.id}`
-          console.log(url);
-          this.router.navigateByUrl(url);
+          const data = {
+            date: new Date(), //todo: this should be set on the server
+            memberId: this.member.id,
+            eventId: this.eventId
+          };
+
+          this.checkinApi.create(data).subscribe((checkin: Checkin) => {
+            this.goBack();
+          })
         }
       });
   }
