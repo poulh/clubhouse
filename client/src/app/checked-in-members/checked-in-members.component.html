@@ -16,7 +16,7 @@
 
         <div class="col-sm-12 col-md-3 col-lg-2">
           <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
-            <button *ngIf="!event.locked" class="btn btn-primary w-100" (click)="onUndoCheckin(checkedInMembers[checkin.memberId].id)">Undo
+            <button *ngIf="!event.closed" class="btn btn-primary w-100" (click)="onUndoCheckin(checkedInMembers[checkin.memberId].id)">Undo
               Checkin</button>
           </div>
         </div>

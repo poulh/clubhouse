@@ -15,7 +15,7 @@
       "type": "date",
       "required": true
     },
-    "locked": {
+    "closed": {
       "type": "boolean",
       "required": true,
       "default": false

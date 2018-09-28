@@ -20,7 +20,7 @@ module.exports = function (app) {
             });
 
             today.setMonth(today.getMonth() - 1);
-            Event.create({ name: "Club Event #2", date: today, accountId: registeredUser.accountId, locked: true }, function (err, eventInstance) {
+            Event.create({ name: "Club Event #2", date: today, accountId: registeredUser.accountId, closed: true }, function (err, eventInstance) {
                 console.log(eventInstance);
             });
 
