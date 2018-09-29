@@ -1,5 +1,7 @@
 module.exports = function (app) {
-
+    if (process.env.NOD_ENV === 'production') {
+        return;
+    }
     var Account = app.models.Account;
 
     Account.signup({ accountName: "Cubby's Club", firstName: "Cubby", lastName: "ClubOwner", email: "cubby@cubby.com", username: "cubby", password: "cubby" }, function (err, token) {
