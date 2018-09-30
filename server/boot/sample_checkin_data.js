@@ -1,5 +1,6 @@
 module.exports = function (app) {
-    if (process.env.NOD_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
+        console.log("production environment. no seed data.")
         return;
     }
     var Account = app.models.Account;
