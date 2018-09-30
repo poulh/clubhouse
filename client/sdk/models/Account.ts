@@ -9,7 +9,7 @@ declare var Object: any;
 export interface AccountInterface {
   "name": string;
   "creationDate": Date;
-  "id"?: number;
+  "id"?: any;
   events?: Event[];
   registeredUsers?: RegisteredUser[];
   members?: Member[];
@@ -18,7 +18,7 @@ export interface AccountInterface {
 export class Account implements AccountInterface {
   "name": string;
   "creationDate": Date;
-  "id": number;
+  "id": any;
   events: Event[];
   registeredUsers: RegisteredUser[];
   members: Member[];
@@ -65,7 +65,7 @@ export class Account implements AccountInterface {
         },
         "id": {
           name: 'id',
-          type: 'number'
+          type: 'any'
         },
       },
       relations: {

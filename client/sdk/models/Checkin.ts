@@ -7,18 +7,18 @@ import {
 declare var Object: any;
 export interface CheckinInterface {
   "date": Date;
-  "id"?: number;
-  "eventId"?: number;
-  "memberId"?: number;
+  "id"?: any;
+  "eventId"?: any;
+  "memberId"?: any;
   event?: Event;
   member?: Member;
 }
 
 export class Checkin implements CheckinInterface {
   "date": Date;
-  "id": number;
-  "eventId": number;
-  "memberId": number;
+  "id": any;
+  "eventId": any;
+  "memberId": any;
   event: Event;
   member: Member;
   constructor(data?: CheckinInterface) {
@@ -60,15 +60,15 @@ export class Checkin implements CheckinInterface {
         },
         "id": {
           name: 'id',
-          type: 'number'
+          type: 'any'
         },
         "eventId": {
           name: 'eventId',
-          type: 'number'
+          type: 'any'
         },
         "memberId": {
           name: 'memberId',
-          type: 'number'
+          type: 'any'
         },
       },
       relations: {

@@ -9,8 +9,8 @@ export interface MemberInterface {
   "lastName": string;
   "email"?: string;
   "cellPhone"?: string;
-  "id"?: number;
-  "accountId"?: number;
+  "id"?: any;
+  "accountId"?: any;
   events?: Event[];
 }
 
@@ -19,8 +19,8 @@ export class Member implements MemberInterface {
   "lastName": string;
   "email": string;
   "cellPhone": string;
-  "id": number;
-  "accountId": number;
+  "id": any;
+  "accountId": any;
   events: Event[];
   constructor(data?: MemberInterface) {
     Object.assign(this, data);
@@ -73,11 +73,11 @@ export class Member implements MemberInterface {
         },
         "id": {
           name: 'id',
-          type: 'number'
+          type: 'any'
         },
         "accountId": {
           name: 'accountId',
-          type: 'number'
+          type: 'any'
         },
       },
       relations: {
