@@ -8,6 +8,7 @@ import { EventsComponent } from './events.component';
 
 const routes: Routes = [
   Shell.childRoutes([
+    { path: '', redirectTo: '/events', pathMatch: 'full' },
     { path: 'events', component: EventsComponent, data: { title: extract('Events') } }
   ])
 ];
