@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { finalize } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/core';
 import { RoleChecker } from '@app/shared';
@@ -9,7 +12,6 @@ import { LoopBackAuth } from '../../../sdk/services/core';
 import { RegisteredUser } from '../../../sdk/models';
 import { RegisteredUserApi } from '../../../sdk/services';
 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,11 +27,10 @@ export class UserProfileComponent implements OnInit {
   error: string;
   oldUser: RegisteredUser;
   userForm: FormGroup;
+  passwordForm: FormGroup;
+  userRoleForm: FormGroup;
 
   @Input() user: RegisteredUser;
-
-  @Input() currentPassword: string = "";
-  @Input() newPassword: string = "";
 
   constructor(
     protected auth: LoopBackAuth,
@@ -39,33 +40,15 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location) {
     this.roleChecker = new RoleChecker(userApi);
-
   }
 
   ngOnInit() {
-    this.getUser();
-  }
-  /*
-    createForm(): void {
-      this.userForm = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', Validators.required],
-        username: ['', Validators.required],
-        //admin: [false],
-      });
-    }
-  */
-  setUserModel(user: RegisteredUser, setLocal: boolean) {
-    this.user = user;
-    this.oldUser = new RegisteredUser(user);
-    if (setLocal) {
-      this.auth.setUser(user); // this updates local cache
-    }
-    this.isLoading = false;
+    this.initUserRoleForm();
+    this.initUserForm();
+    this.initPasswordForm();
   }
 
-  getUser(): void {
+  initUserForm(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     let form = {
@@ -74,20 +57,29 @@ export class UserProfileComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      //admin: [false],
     };
 
     if (id != null) {
       form['id'] = [''];
       form['accountId'] = [''];
-      this.isLoading = true;
 
-      this.userApi.findById(id).subscribe((user: RegisteredUser) => {
-        console.log(user);
-        this.userForm.setValue(user);
-        this.isLoading = false;
+      this.setLoading(true);
+      this.userApi.findById(id)
+        .pipe(finalize(() => this.setLoading(false)))
+        .subscribe((user: RegisteredUser) => {
+          this.userForm.reset(user);
 
-      });
+          this.userApi.getRoles(user.id)
+            .subscribe((roles: [any]) => {
+              roles.forEach(role => {
+                const name = role.name;
+                if (this.userRoleForm.get(name)) {
+                  this.userRoleForm.setValue({ [name]: true })
+                }
+              });
+
+            });
+        });
     } else {
       form['password'] = ['',
         [
@@ -98,28 +90,40 @@ export class UserProfileComponent implements OnInit {
     this.userForm = this.formBuilder.group(form);
   }
 
-  editingSelf(): boolean {
-    const credentials = this.authenticationService.credentials;
-    return this.user ? (credentials.id == this.user.id) : false;
+  initUserRoleForm(): void {
+    const form = {
+      admin: [false]
+    };
+
+    this.userRoleForm = this.formBuilder.group(form);
   }
 
-  noUserChanges(): boolean {
-    const noChanges = JSON.stringify(this.user) === JSON.stringify(this.oldUser);
-    return noChanges;
+  initPasswordForm(): void {
+    const form = {
+      currentPassword: ['', Validators.required],
+      newPassword: ['', Validators.required]
+    };
+
+    this.passwordForm = this.formBuilder.group(form);
+  }
+
+  editingSelf(): boolean {
+    const credentials = this.authenticationService.credentials;
+    return credentials.id === this.userForm.controls.id.value;
+  }
+
+  setLoading(val: boolean): void {
+    this.isLoading = val;
   }
 
   updateUser(): void {
-    this.isLoading = true;
+    this.setLoading(true);
 
-    if (this.user.id != null) {
-      this.userApi.patchAttributes(this.user.id, this.user).subscribe((user: RegisteredUser) => {
-        return this.setUserModel(user, this.editingSelf());
-      });
-    } else {
-      this.userApi.create(this.user).subscribe((user: RegisteredUser) => {
-        return this.setUserModel(user, this.editingSelf());
-      });
-    }
+    this.userApi.patchOrCreate(this.userForm.value)
+      .pipe(finalize(() => this.setLoading(false)))
+      .subscribe((user: RegisteredUser) => {
+        this.userApi.getRoles(user.id).subscribe(roles => console.log(roles));
+      })
   }
 
   canDelete(): boolean {
@@ -133,18 +137,26 @@ export class UserProfileComponent implements OnInit {
   }
 
   deleteUser(): void {
-    this.userApi.deleteById<Event>(this.user.id).subscribe(user => {
-      this.goBack();
-    });
+    this.userApi.deleteById<Event>(this.userForm.controls.id.value).pipe(finalize(() => this.setLoading(false)))
+      .subscribe(user => {
+        this.goBack();
+      });
   }
 
   changePassword(): void {
-    this.userApi.changePassword(this.currentPassword, this.newPassword).subscribe(foo => {
-      console.log(foo);
-    }, error => {
-      console.log(`change password error: ${error}`);
-      this.error = error;
-    })
+    this.userApi.changePassword(
+      this.passwordForm.get('currentPassword').value,
+      this.passwordForm.get('newPassword').value)
+      .pipe(finalize(() => {
+        this.setLoading(false);
+        this.passwordForm.reset();
+      }))
+      .subscribe(() => {
+      }, error => {
+
+        console.log(`change password error: ${error}`);
+        this.error = error;
+      })
   }
 
   goBack(): void {

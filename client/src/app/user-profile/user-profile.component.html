@@ -52,6 +52,15 @@
               <input type="password" class="form-control" formControlName="password" />
             </label>
 
+            <form [formGroup]="userRoleForm" novalidate>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" formControlName="admin" />
+                  <span translate>Make Admin</span>
+                </label>
+              </div>
+            </form>
+
             <label class="d-block">
               <span translate>&nbsp;</span>
               <button class="btn btn-primary w-100" type="submit" [disabled]="userForm.pristine || userForm.invalid || isLoading">
@@ -83,23 +92,28 @@
           <i class="far fa-3x fa-key text-muted"></i>
         </h4>
 
-        <label class="d-block">
-          <span translate>Current Password</span>
-          <input type="password" class="form-control" [(ngModel)]="currentPassword" [disabled]="isLoading" />
-        </label>
+        <form (ngSubmit)="changePassword()" [formGroup]="passwordForm" novalidate>
 
-        <label class="d-block">
-          <span translate>New Password</span>
-          <input type="password" class="form-control" [(ngModel)]="newPassword" [disabled]="isLoading" />
-        </label>
+          <label class="d-block">
+            <span [ngClass]="(passwordForm.controls.currentPassword.valid || passwordForm.controls.currentPassword.untouched ) ? '' : 'text-danger'"
+              translate>Current Password</span>
+            <input type="password" class="form-control" formControlName="currentPassword" />
+          </label>
 
-        <label class="d-block">
-          <span translate>&nbsp;</span>
-          <button class="btn btn-primary w-100" (click)="changePassword()" [disabled]="isLoading || (!currentPassword.length || !newPassword.length || (currentPassword == newPassword))">
-            <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-            <span translate>Change Password</span>
-          </button>
-        </label>
+          <label class="d-block">
+            <span [ngClass]="(passwordForm.controls.newPassword.valid || passwordForm.controls.newPassword.untouched ) ? '' : 'text-danger'"
+              translate>New Password</span>
+            <input type="password" class="form-control" formControlName="newPassword" />
+          </label>
+
+          <label class="d-block">
+            <span translate>&nbsp;</span>
+            <button class="btn btn-primary w-100" type="submit" [disabled]="passwordForm.pristine || passwordForm.invalid || isLoading">
+              <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+              <span translate>Change Password</span>
+            </button>
+          </label>
+        </form>
       </div>
     </div>
   </div>
