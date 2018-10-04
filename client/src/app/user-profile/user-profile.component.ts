@@ -9,6 +9,8 @@ import { LoopBackAuth } from '../../../sdk/services/core';
 import { RegisteredUser } from '../../../sdk/models';
 import { RegisteredUserApi } from '../../../sdk/services';
 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -22,6 +24,8 @@ export class UserProfileComponent implements OnInit {
   isLoading = false;
   error: string;
   oldUser: RegisteredUser;
+  userForm: FormGroup;
+
   @Input() user: RegisteredUser;
 
   @Input() currentPassword: string = "";
@@ -32,14 +36,26 @@ export class UserProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private userApi: RegisteredUserApi,
+    private formBuilder: FormBuilder,
     private location: Location) {
     this.roleChecker = new RoleChecker(userApi);
+
   }
 
   ngOnInit() {
     this.getUser();
   }
-
+  /*
+    createForm(): void {
+      this.userForm = this.formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', Validators.required],
+        username: ['', Validators.required],
+        //admin: [false],
+      });
+    }
+  */
   setUserModel(user: RegisteredUser, setLocal: boolean) {
     this.user = user;
     this.oldUser = new RegisteredUser(user);
@@ -52,16 +68,34 @@ export class UserProfileComponent implements OnInit {
   getUser(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.isLoading = true;
+    let form = {
+
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', Validators.required],
+      //admin: [false],
+    };
 
     if (id != null) {
+      form['id'] = [''];
+      form['accountId'] = [''];
+      this.isLoading = true;
+
       this.userApi.findById(id).subscribe((user: RegisteredUser) => {
-        this.setUserModel(user, this.editingSelf());
-      })
+        console.log(user);
+        this.userForm.setValue(user);
+        this.isLoading = false;
+
+      });
     } else {
-      let user = new RegisteredUser();
-      this.setUserModel(user, this.editingSelf());
+      form['password'] = ['',
+        [
+          Validators.required,
+          // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        ]];
     }
+    this.userForm = this.formBuilder.group(form);
   }
 
   editingSelf(): boolean {
