@@ -5,13 +5,13 @@
         <h4 class="card-title text-center">
           <i class="far fa-3x fa-user-circle text-muted"></i>
         </h4>
-        <form (ngSubmit)="updateUser()" [formGroup]="userForm" novalidate>
+        <form (ngSubmit)="updateOrCreateUser()" [formGroup]="userForm" novalidate>
           <div class="alert alert-danger" [hidden]="!error || isLoading" translate>
             Username or password incorrect.
           </div>
           <div class="form-group">
 
-            <div *ngIf="userForm.controls.id">
+            <div *ngIf="userForm.controls.id.value">
               <label class="d-block">
                 <input type="hidden" class="form-control" formControlName="id" />
               </label>
@@ -26,7 +26,6 @@
                 translate>First Name</span>
               <input type="text" class="form-control" formControlName="firstName" />
             </label>
-
 
             <label class="d-block">
               <span [ngClass]="(userForm.controls.lastName.valid || userForm.controls.lastName.untouched ) ? '' : 'text-danger'"
@@ -46,7 +45,7 @@
               <input type="text" class="form-control" formControlName="username" />
             </label>
 
-            <label *ngIf="!userForm.controls.id" class="d-block">
+            <label *ngIf="!userForm.controls.id.value" class="d-block">
               <span [ngClass]="(userForm.controls.password.valid || userForm.controls.password.untouched ) ? '' : 'text-danger'"
                 translate>Password</span>
               <input type="password" class="form-control" formControlName="password" />

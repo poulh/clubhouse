@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { finalize } from 'rxjs/operators';
+import { finalize, merge } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/core';
 import { RoleChecker } from '@app/shared';
@@ -25,7 +25,7 @@ export class UserProfileComponent implements OnInit {
 
   isLoading = false;
   error: string;
-  oldUser: RegisteredUser;
+
   userForm: FormGroup;
   passwordForm: FormGroup;
   userRoleForm: FormGroup;
@@ -35,6 +35,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     protected auth: LoopBackAuth,
     private route: ActivatedRoute,
+    private router: Router,
     private authenticationService: AuthenticationService,
     private userApi: RegisteredUserApi,
     private formBuilder: FormBuilder,
@@ -51,43 +52,30 @@ export class UserProfileComponent implements OnInit {
   initUserForm(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
-    let form = {
+    // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
 
+    const form = {
+      id: id != null ? [''] : null,
+      accountId: id != null ? [''] : null,
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
+      password: id != null ? null : ['', Validators.required] //if no id then show password and its required.
     };
 
-    if (id != null) {
-      form['id'] = [''];
-      form['accountId'] = [''];
+    this.userForm = this.formBuilder.group(form);
 
+    if (id != null) {
       this.setLoading(true);
       this.userApi.findById(id)
         .pipe(finalize(() => this.setLoading(false)))
         .subscribe((user: RegisteredUser) => {
           this.userForm.reset(user);
 
-          this.userApi.getRoles(user.id)
-            .subscribe((roles: [any]) => {
-              roles.forEach(role => {
-                const name = role.name;
-                if (this.userRoleForm.get(name)) {
-                  this.userRoleForm.setValue({ [name]: true })
-                }
-              });
-
-            });
+          this.setUserRoleForm(user.id);
         });
-    } else {
-      form['password'] = ['',
-        [
-          Validators.required,
-          // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
-        ]];
     }
-    this.userForm = this.formBuilder.group(form);
   }
 
   initUserRoleForm(): void {
@@ -109,25 +97,51 @@ export class UserProfileComponent implements OnInit {
 
   editingSelf(): boolean {
     const credentials = this.authenticationService.credentials;
-    return credentials.id === this.userForm.controls.id.value;
+    if (this.userForm.controls.id) {
+      return credentials.id === this.userForm.controls.id.value;
+    }
+    return false;
   }
 
   setLoading(val: boolean): void {
     this.isLoading = val;
   }
 
-  updateUser(): void {
+  setUserRoleForm(id: any): void {
+    this.setLoading(true);
+    this.userApi.getRoles(id)
+      .pipe(finalize(() => {
+        this.setLoading(false);
+
+      }))
+      .subscribe((roles: [any]) => {
+        roles.forEach(role => {
+          const name = role.name;
+          if (this.userRoleForm.get(name)) {
+            this.userRoleForm.setValue({ [name]: true })
+          }
+        });
+
+        //replaceState replaces the url, but does not reload page. 
+        //it also replaces top of history with this url ( to keep 'go back' working )
+        this.location.replaceState(`/user/${id}`);
+      });
+  }
+
+  updateOrCreateUser(): void {
     this.setLoading(true);
 
     this.userApi.patchOrCreate(this.userForm.value)
-      .pipe(finalize(() => this.setLoading(false)))
+      .pipe(finalize(() => {
+        this.setLoading(false);
+      }))
       .subscribe((user: RegisteredUser) => {
-        this.userApi.getRoles(user.id).subscribe(roles => console.log(roles));
+        this.userForm.reset(user);
+        this.setUserRoleForm(user.id);
       })
   }
 
   canDelete(): boolean {
-
     //you cannot delete yourself
     if (this.editingSelf()) {
       return false;
