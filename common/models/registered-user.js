@@ -101,15 +101,19 @@ module.exports = function (RegisteredUser) {
     });
 
 
-    RegisteredUser.patchOrCreateWithRoles = function (credentials, cb) {
+    RegisteredUser.patchOrCreateWithRoles = function (credentials, req, cb) {
         console.log("-----------------");
+        const userId = req.accessToken.userId;
+        console.log(userId);
+        console.log("&^&&&&&&&&&&&")
         console.log(credentials);
         const roles = credentials.roles;
         console.log(roles);
         delete credentials.roles;
         console.log(roles);
         console.log(credentials);
-        console.log("4444444444444")
+        console.log("^^^^^^^^^^")
+
         RegisteredUser.create(credentials, function (err, registeredUser) {
             if (err) {
                 console.log(err);
@@ -120,15 +124,21 @@ module.exports = function (RegisteredUser) {
             cb(null, credentials);
 
         });
+
     };
 
     RegisteredUser.remoteMethod('patchOrCreateWithRoles', {
         accepts: [
             { arg: 'credentials', type: 'object', http: { source: 'body' } },
-
+            { arg: 'req', type: 'object', 'http': { source: 'req' } },
         ],
         description: 'create or patch user with roles',
         returns: { type: 'object', root: true },
         http: { path: '/patchOrCreateWithRoles', verb: 'post' }
+    });
+
+    RegisteredUser.beforeRemote('patchOrCreateWithRoles', function (context, unused, next) {
+        console.log('Putting in the car key, starting the engine.');
+        next();
     });
 };
