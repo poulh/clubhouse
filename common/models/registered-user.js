@@ -99,4 +99,36 @@ module.exports = function (RegisteredUser) {
         returns: { type: 'array', root: true },
         http: { path: '/roles', verb: 'get' }
     });
+
+
+    RegisteredUser.patchOrCreateWithRoles = function (credentials, cb) {
+        console.log("-----------------");
+        console.log(credentials);
+        const roles = credentials.roles;
+        console.log(roles);
+        delete credentials.roles;
+        console.log(roles);
+        console.log(credentials);
+        console.log("4444444444444")
+        RegisteredUser.create(credentials, function (err, registeredUser) {
+            if (err) {
+                console.log(err);
+                throw (err);
+            }
+
+            console.log(registeredUser);
+            cb(null, credentials);
+
+        });
+    };
+
+    RegisteredUser.remoteMethod('patchOrCreateWithRoles', {
+        accepts: [
+            { arg: 'credentials', type: 'object', http: { source: 'body' } },
+
+        ],
+        description: 'create or patch user with roles',
+        returns: { type: 'object', root: true },
+        http: { path: '/patchOrCreateWithRoles', verb: 'post' }
+    });
 };

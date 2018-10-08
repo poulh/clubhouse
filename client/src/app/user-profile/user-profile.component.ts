@@ -63,6 +63,7 @@ export class UserProfileComponent implements OnInit {
       username: ['', Validators.required],
       password: id != null ? null : ['', Validators.required] //if no id then show password and its required.
     };
+    console.log(form);
 
     this.userForm = this.formBuilder.group(form);
 
@@ -130,15 +131,20 @@ export class UserProfileComponent implements OnInit {
 
   updateOrCreateUser(): void {
     this.setLoading(true);
-
-    this.userApi.patchOrCreate(this.userForm.value)
-      .pipe(finalize(() => {
-        this.setLoading(false);
-      }))
-      .subscribe((user: RegisteredUser) => {
-        this.userForm.reset(user);
-        this.setUserRoleForm(user.id);
-      })
+    console.log(this.userForm.value);
+    const params = Object.assign({}, this.userForm.value, { roles: this.userRoleForm.value });
+    console.log(params);
+    this.userApi.patchOrCreateWithRoles(params).subscribe(v => console.log(v));
+    /*
+        this.userApi.patchOrCreate(this.userForm.value)
+          .pipe(finalize(() => {
+            this.setLoading(false);
+          }))
+          .subscribe((user: RegisteredUser) => {
+            this.userForm.reset(user);
+            this.setUserRoleForm(user.id);
+          })
+          */
   }
 
   canDelete(): boolean {

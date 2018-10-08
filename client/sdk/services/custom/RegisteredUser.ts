@@ -905,6 +905,35 @@ export class RegisteredUserApi extends BaseLoopBackApi {
   }
 
   /**
+   * create or patch user with roles
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `RegisteredUser` object.)
+   * </em>
+   */
+  public patchOrCreateWithRoles(credentials: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/RegisteredUsers/patchOrCreateWithRoles";
+    let _routeParams: any = {};
+    let _postBody: any = {
+      credentials: credentials
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
    * Find a related item by id for events.
    *
    * @param {any} id RegisteredUser id
