@@ -64,7 +64,7 @@
               <span translate>&nbsp;</span>
               <button class="btn btn-primary w-100" type="submit" [disabled]="userForm.pristine || userForm.invalid || isLoading">
                 <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-                <span translate>{{userForm.controls.id ? "Update" : "Create "}} User</span>
+                <span translate>{{userForm.controls.id.value ? "Update" : "Create "}} User</span>
               </button>
             </label>
           </div>

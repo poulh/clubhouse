@@ -25,12 +25,12 @@ module.exports = function (app) {
 
         M.observe("access", function accountAccessFilter(ctx, next) {
             // console.log(ctx)
-            console.log("context options access")
-            console.log(ctx && ctx.options);
-            console.log(ctx && ctx.args);
-            console.log(ctx & ctx.req && ctx.req.accessToken)
-            console.log("---------")
-            console.log(ctx && ctx.Model.modelName);
+            console.log("--------------------context options access %s---------------------", ctx.Model.modelName);
+            if (ctx.Model.accessToken) {
+                console.log(ctx.Model.accessToken.userId);
+            }
+            console.log("---------");
+
             if (ctx && ctx.options && ctx.options.accessToken && ctx.options.accessToken.userId) {
 
                 const userId = ctx.options.accessToken.userId;
@@ -43,17 +43,19 @@ module.exports = function (app) {
                 });
             } else {
                 console.log("not logged in access");
+
                 next();
             }
         });
 
         M.observe("before save", function accountBeforeSaveFilter(ctx, next) {
-            console.log("context options before save")
-            console.log(ctx && ctx.options);
-            console.log(ctx && ctx.args);
-            console.log(ctx & ctx.req && ctx.req.accessToken)
-            console.log("---------")
-            console.log(ctx && ctx.Model.modelName);
+            console.log("context options before save-------------: %s", ctx.Model.modelName)
+            if (ctx.Model.accessToken) {
+
+                console.log(ctx.Model.accessToken.userId);
+            }
+            console.log("---------");
+
             if (ctx && ctx.options && ctx.options.accessToken && ctx.options.accessToken.userId) {
                 console.log('before save: %s', ctx.Model.modelName)
 

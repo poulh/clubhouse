@@ -29,6 +29,7 @@ export class UserProfileComponent implements OnInit {
   userForm: FormGroup;
   passwordForm: FormGroup;
   userRoleForm: FormGroup;
+  userRoleValues: { [key: string]: number; } = {};
 
   @Input() user: RegisteredUser;
 
@@ -110,6 +111,7 @@ export class UserProfileComponent implements OnInit {
 
   setUserRoleForm(id: any): void {
     this.setLoading(true);
+    this.userRoleValues = {};
     this.userApi.getRoles(id)
       .pipe(finalize(() => {
         this.setLoading(false);
@@ -119,22 +121,39 @@ export class UserProfileComponent implements OnInit {
         roles.forEach(role => {
           const name = role.name;
           if (this.userRoleForm.get(name)) {
+            this.userRoleValues[name] = role.id;
             this.userRoleForm.setValue({ [name]: true })
           }
         });
 
+        console.log(this.userRoleValues);
         //replaceState replaces the url, but does not reload page. 
         //it also replaces top of history with this url ( to keep 'go back' working )
-        this.location.replaceState(`/user/${id}`);
+        //this.location.replaceState(`/user/${id}`);
       });
   }
 
   updateOrCreateUser(): void {
     this.setLoading(true);
     console.log(this.userForm.value);
+    const userRoles = this.userRoleForm.value;
+
+    let userRoleSubmit: { [key: number]: number; } = {};
+    for (let userRoleName in userRoles) {
+      const roleId = this.userRoleValues[userRoleName];
+      userRoleSubmit[roleId] = userRoles[userRoleName];
+    }
+
+
     const params = Object.assign({}, this.userForm.value, { roles: this.userRoleForm.value });
+    //const params = Object.assign({}, this.userForm.value, { roles: userRoleSubmit });
     console.log(params);
-    this.userApi.patchOrCreateWithRoles(params).subscribe(v => console.log(v));
+    this.userApi.patchOrCreateWithRoles(params)
+      .pipe(finalize(() => {
+        this.setLoading(false);
+      })).subscribe(v => {
+        console.log(v);
+      });
     /*
         this.userApi.patchOrCreate(this.userForm.value)
           .pipe(finalize(() => {

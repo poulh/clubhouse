@@ -101,28 +101,62 @@ module.exports = function (RegisteredUser) {
     });
 
 
-    RegisteredUser.patchOrCreateWithRoles = function (credentials, req, cb) {
-        console.log("-----------------");
-        const userId = req.accessToken.userId;
-        console.log(userId);
-        console.log("&^&&&&&&&&&&&")
-        console.log(credentials);
+    RegisteredUser.patchOrCreateWithRoles = function (credentials, cb) {
+
         const roles = credentials.roles;
         console.log(roles);
         delete credentials.roles;
-        console.log(roles);
-        console.log(credentials);
-        console.log("^^^^^^^^^^")
 
-        RegisteredUser.create(credentials, function (err, registeredUser) {
+        RegisteredUser.upsert(credentials, function (err, registeredUser) {
             if (err) {
+                console.log("CREATE USER ERROR");
                 console.log(err);
-                throw (err);
+                cb(err, null);
+            }
+            console.log("user upserted-------------------");
+            console.log(registeredUser);
+            console.log("---------------------")
+
+            let Role = RegisteredUser.app.models.Role;
+            for (var role in roles) {
+                console.log(role);
+                Role.findOne({ where: { name: role } }, function (err, role) {
+                    if (err) {
+                        console.log(err);
+                        cb(err, null);
+                    }
+
+                    if (roles[role] == true) {
+                        role.principals.create({
+                            principalType: "USER",
+                            principalId: registeredUser.id
+                        }, function (err, principal) {
+                            if (err) {
+                                console.log("create role principal error");
+                                console.log(err);
+                                cb(err, null);
+                            }
+                            console.log('created role: ', role);
+                        });
+                    } else {
+                        role.principals.destroyAll({
+                            principalType: "USER",
+                            principalId: registeredUser.id
+                        }, function (err, principal) {
+                            if (err) {
+                                console.log("destroyed role principal error");
+                                console.log(err);
+                                cb(err, null);
+                            }
+                            console.log('destroyed role: ', principal);
+                        });
+                    }
+
+                });
+
             }
 
-            console.log(registeredUser);
-            cb(null, credentials);
-
+            cb(null, registeredUser);
         });
 
     };
@@ -130,15 +164,21 @@ module.exports = function (RegisteredUser) {
     RegisteredUser.remoteMethod('patchOrCreateWithRoles', {
         accepts: [
             { arg: 'credentials', type: 'object', http: { source: 'body' } },
-            { arg: 'req', type: 'object', 'http': { source: 'req' } },
         ],
         description: 'create or patch user with roles',
         returns: { type: 'object', root: true },
         http: { path: '/patchOrCreateWithRoles', verb: 'post' }
     });
 
-    RegisteredUser.beforeRemote('patchOrCreateWithRoles', function (context, unused, next) {
-        console.log('Putting in the car key, starting the engine.');
-        next();
+    RegisteredUser.beforeRemote('patchOrCreateWithRoles', function (context, modelInstance, next) {
+        console.log("---------------before remote")
+        const accessToken = context.req.accessToken;
+        const userId = accessToken.userId;
+
+        RegisteredUser.findById(userId, function (err, user) {
+            let body = context.req.body;
+            body = Object.assign(body, { accountId: user.accountId });
+            next();
+        });
     });
 };
