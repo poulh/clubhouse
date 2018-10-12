@@ -25,6 +25,11 @@ module.exports = function (app) {
 
         M.observe("access", function accountAccessFilter(ctx, next) {
             // console.log(ctx)
+            console.log("--------------------context options access %s---------------------", ctx.Model.modelName);
+            if (ctx.Model.accessToken) {
+                console.log(ctx.Model.accessToken.userId);
+            }
+            console.log("---------");
 
             if (ctx && ctx.options && ctx.options.accessToken && ctx.options.accessToken.userId) {
 
@@ -37,12 +42,19 @@ module.exports = function (app) {
                     next();
                 });
             } else {
-                console.log("not logged in");
+                console.log("not logged in access");
+
                 next();
             }
         });
 
         M.observe("before save", function accountBeforeSaveFilter(ctx, next) {
+            console.log("context options before save-------------: %s", ctx.Model.modelName)
+            if (ctx.Model.accessToken) {
+
+                console.log(ctx.Model.accessToken.userId);
+            }
+            console.log("---------");
 
             if (ctx && ctx.options && ctx.options.accessToken && ctx.options.accessToken.userId) {
                 console.log('before save: %s', ctx.Model.modelName)
@@ -66,7 +78,7 @@ module.exports = function (app) {
                 });
             }
             else {
-                console.log("not logged in")
+                console.log("not logged in before save")
                 next();
             }
         });
