@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { RoleChecker } from '@app/shared';
+
 import { Checkin, Member } from '../../../sdk/models';
-import { CheckinApi, MemberApi } from '../../../sdk/services';
+import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
 
 @Component({
   selector: 'members-component',
@@ -11,8 +13,11 @@ import { CheckinApi, MemberApi } from '../../../sdk/services';
 })
 export class MembersComponent implements OnInit {
 
+  roleChecker: RoleChecker;
+
   isLoading = false;
   @Input() title: string = "Members";
+  @Input() displayImport: boolean = true;
 
   members: Member[];
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
@@ -24,8 +29,10 @@ export class MembersComponent implements OnInit {
   checkedInMemberIds: number[] = [];
 
   constructor(private router: Router,
+    private userApi: RegisteredUserApi,
     private memberApi: MemberApi,
     private checkinApi: CheckinApi) {
+    this.roleChecker = new RoleChecker(userApi);
   }
 
   ngOnInit() {
