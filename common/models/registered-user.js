@@ -113,10 +113,8 @@ module.exports = function (RegisteredUser) {
                 console.log(err);
                 cb(err, null);
             }
-            console.log("user upserted-------------------");
-            console.log(registeredUser);
-            console.log("---------------------")
 
+            /*
             let Role = RegisteredUser.app.models.Role;
             for (var role in roles) {
                 console.log(role);
@@ -155,7 +153,7 @@ module.exports = function (RegisteredUser) {
                 });
 
             }
-
+            */
             cb(null, registeredUser);
         });
 
@@ -171,7 +169,6 @@ module.exports = function (RegisteredUser) {
     });
 
     RegisteredUser.beforeRemote('patchOrCreateWithRoles', function (context, modelInstance, next) {
-        console.log("---------------before remote")
         const accessToken = context.req.accessToken;
         const userId = accessToken.userId;
 

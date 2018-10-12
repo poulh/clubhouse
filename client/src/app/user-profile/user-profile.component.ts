@@ -29,7 +29,7 @@ export class UserProfileComponent implements OnInit {
   userForm: FormGroup;
   passwordForm: FormGroup;
   userRoleForm: FormGroup;
-  userRoleValues: { [key: string]: number; } = {};
+  // userRoleValues: { [key: string]: number; } = {};
 
   @Input() user: RegisteredUser;
 
@@ -45,7 +45,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initUserRoleForm();
+    // this.initUserRoleForm();
     this.initUserForm();
     this.initPasswordForm();
   }
@@ -75,7 +75,7 @@ export class UserProfileComponent implements OnInit {
         .subscribe((user: RegisteredUser) => {
           this.userForm.reset(user);
 
-          this.setUserRoleForm(user.id);
+          //      this.setUserRoleForm(user.id);
         });
     }
   }
@@ -118,6 +118,7 @@ export class UserProfileComponent implements OnInit {
 
       }))
       .subscribe((roles: [any]) => {
+        /*
         roles.forEach(role => {
           const name = role.name;
           if (this.userRoleForm.get(name)) {
@@ -127,14 +128,16 @@ export class UserProfileComponent implements OnInit {
         });
 
         console.log(this.userRoleValues);
+        */
         //replaceState replaces the url, but does not reload page. 
         //it also replaces top of history with this url ( to keep 'go back' working )
-        //this.location.replaceState(`/user/${id}`);
       });
   }
 
   updateOrCreateUser(): void {
     this.setLoading(true);
+
+    /*
     console.log(this.userForm.value);
     const userRoles = this.userRoleForm.value;
 
@@ -143,7 +146,7 @@ export class UserProfileComponent implements OnInit {
       const roleId = this.userRoleValues[userRoleName];
       userRoleSubmit[roleId] = userRoles[userRoleName];
     }
-
+*/
 
     const params = Object.assign({}, this.userForm.value, { roles: this.userRoleForm.value });
     //const params = Object.assign({}, this.userForm.value, { roles: userRoleSubmit });
@@ -151,19 +154,15 @@ export class UserProfileComponent implements OnInit {
     this.userApi.patchOrCreateWithRoles(params)
       .pipe(finalize(() => {
         this.setLoading(false);
-      })).subscribe(v => {
-        console.log(v);
+
+      })).subscribe((user: RegisteredUser) => {
+        console.log(user);
+        this.userForm.reset(user);
+
+        //updates url without reloading page
+        this.location.replaceState(`/user/${user.id}`);
+
       });
-    /*
-        this.userApi.patchOrCreate(this.userForm.value)
-          .pipe(finalize(() => {
-            this.setLoading(false);
-          }))
-          .subscribe((user: RegisteredUser) => {
-            this.userForm.reset(user);
-            this.setUserRoleForm(user.id);
-          })
-          */
   }
 
   canDelete(): boolean {
