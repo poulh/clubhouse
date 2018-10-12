@@ -11,6 +11,7 @@ import { CheckinApi, EventApi } from '../../../sdk/services';
 export class CheckedInMembersComponent implements OnInit {
 
   @Input() event: Event;
+  @Input() showCheckin: boolean = true;
 
   checkedInMembers: { [id: number]: Member; } = {};
   checkins: Checkin[];
