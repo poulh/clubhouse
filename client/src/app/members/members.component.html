@@ -37,14 +37,18 @@
   <div *ngFor="let member of members; let i = index" [attr.data-index]="i" class="media text-muted pt-3">
     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
       <div class="row">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 {{eventId ? 'col-md-8 col-lg-9' : 'col-md-9 col-lg-10'}}">
           <strong class="text-gray-dark">
-            {{member.firstName}} {{member.lastName}}
-            <span class="d-block">{{member.email}} {{member.cellPhone}}</span>
+            <span>{{member.firstName}} {{member.lastName}}</span>
+            <span>| email: {{member.email}}</span>
+            <span *ngIf="member.membershipLevel" class="badge badge-primary">{{member.membershipLevel}}</span>
+            <span class="d-block">
+              <span *ngIf="member.mobilePhone">mobile: {{member.mobilePhone}}</span>
+              <span *ngIf="member.homePhone">| home: {{member.homePhone}}</span>
+              <span *ngIf="member.workPhone">| work: {{member.workPhone}}</span>
+              <span *ngIf="member.otherPhone">| other: {{member.otherPhone}}</span>
+            </span>
           </strong>
-        </div>
-
-        <div class="col-sm-0 {{eventId ? 'col-md-4 col-lg-5' : 'col-md-5 col-lg-6'}}">
         </div>
 
         <div class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">

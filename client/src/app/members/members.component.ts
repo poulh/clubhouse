@@ -104,8 +104,11 @@ export class MembersComponent implements OnInit {
         const firstName = member.firstName ? member.firstName.toLowerCase() : "";
         const lastName = member.lastName ? member.lastName.toLowerCase() : "";
         const email = member.email ? member.email.toLowerCase() : "";
-        const cellPhone = member.cellPhone ? member.cellPhone : "";
-        return firstName + lastName + email + cellPhone;
+        const mobilePhone = member.mobilePhone ? member.mobilePhone : "";
+        const homePhone = member.homePhone ? member.homePhone : "";
+        const workPhone = member.workPhone ? member.workPhone : "";
+        const otherPhone = member.otherPhone ? member.otherPhone : "";
+        return firstName + lastName + email + mobilePhone + homePhone + workPhone + otherPhone;
       });
 
       this.filterSearch();

@@ -4,14 +4,12 @@
 
     <div *ngIf="checkedInMembers[checkin.memberId]" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
       <div class="row">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-9 col-lg-10">
           <strong class="text-gray-dark">
-            {{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}
-            <span class="d-block">{{checkin.date | date:'medium'}}</span>
+            <span>{{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}</span>
+            <span *ngIf="checkedInMembers[checkin.memberId].membershipLevel" class="badge badge-primary">{{checkedInMembers[checkin.memberId].membershipLevel}}</span>
+            <span class="d-block">Checkin Time: {{checkin.date | date:'medium'}}</span>
           </strong>
-        </div>
-
-        <div class="col-sm-0 col-md-5 col-lg-6">
         </div>
 
         <div class="col-sm-12 col-md-3 col-lg-2">

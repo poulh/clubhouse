@@ -29,15 +29,15 @@ module.exports = function (app) {
 
             var Member = app.models.Member;
 
-            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", cellPhone: "212-555-1234", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", mobilePhone: "212-555-1234", membershipLevel: "Sustaining", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Jim", lastName: "Guest", email: "jim@jim.com", cellPhone: "212-555-5678", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Jim", lastName: "Guest", email: "jim@jim.com", mobilePhone: "212-555-5678", membershipLevel: "Single", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Larry", lastName: "Lifetime", email: "larry@larry.com", cellPhone: "212-555-9999", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Larry", lastName: "Lifetime", email: "larry@larry.com", mobilePhone: "212-555-9999", membershipLevel: "Lifetime", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
         });

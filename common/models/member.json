@@ -20,7 +20,7 @@
         "unique": true
       }
     },
-    "memberLevel": {
+    "membershipLevel": {
       "type": "string"
     },
     "homePhone": {

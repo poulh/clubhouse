@@ -50,7 +50,7 @@ export class MemberDetailComponent implements OnInit {
       let member = new Member();
       member.firstName = "";
       member.lastName = "";
-      member.cellPhone = "";
+      member.mobilePhone = "";
       member.email = "";
       this.setMemberModel(member);
     }

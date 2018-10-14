@@ -26,8 +26,23 @@
         </label>
 
         <label class="d-block">
-          <span [ngClass]="member.cellPhone?.length ? '' : 'text-danger'" translate>Cell Phone</span>
-          <input type="text" class="form-control" [(ngModel)]="member.cellPhone" />
+          <span translate>Mobile Phone</span>
+          <input type="text" class="form-control" [(ngModel)]="member.mobilePhone" />
+        </label>
+
+        <label class="d-block">
+          <span translate>Home Phone</span>
+          <input type="text" class="form-control" [(ngModel)]="member.homePhone" />
+        </label>
+
+        <label class="d-block">
+          <span translate>Work Phone</span>
+          <input type="text" class="form-control" [(ngModel)]="member.workPhone" />
+        </label>
+
+        <label class="d-block">
+          <span translate>Other Phone</span>
+          <input type="text" class="form-control" [(ngModel)]="member.otherPhone" />
         </label>
 
         <label class="d-block">

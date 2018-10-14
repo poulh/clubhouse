@@ -8,7 +8,7 @@ export interface MemberInterface {
   "firstName"?: string;
   "lastName"?: string;
   "email": string;
-  "memberLevel"?: string;
+  "membershipLevel"?: string;
   "homePhone"?: string;
   "mobilePhone"?: string;
   "workPhone"?: string;
@@ -24,7 +24,7 @@ export class Member implements MemberInterface {
   "firstName": string;
   "lastName": string;
   "email": string;
-  "memberLevel": string;
+  "membershipLevel": string;
   "homePhone": string;
   "mobilePhone": string;
   "workPhone": string;
@@ -79,8 +79,8 @@ export class Member implements MemberInterface {
           name: 'email',
           type: 'string'
         },
-        "memberLevel": {
-          name: 'memberLevel',
+        "membershipLevel": {
+          name: 'membershipLevel',
           type: 'string'
         },
         "homePhone": {
