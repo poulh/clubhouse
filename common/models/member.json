@@ -8,20 +8,31 @@
   },
   "properties": {
     "firstName": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "lastName": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "email": {
       "type": "string",
+      "required": true,
       "index": {
         "unique": true
       }
     },
-    "cellPhone": {
+    "memberLevel": {
+      "type": "string"
+    },
+    "homePhone": {
+      "type": "string"
+    },
+    "mobilePhone": {
+      "type": "string"
+    },
+    "workPhone": {
+      "type": "string"
+    },
+    "otherPhone": {
       "type": "string"
     }
   },

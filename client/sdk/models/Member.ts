@@ -5,12 +5,18 @@ import {
 
 declare var Object: any;
 export interface MemberInterface {
-  "firstName": string;
-  "lastName": string;
-  "email"?: string;
-  "cellPhone"?: string;
+  "firstName"?: string;
+  "lastName"?: string;
+  "email": string;
+  "memberLevel"?: string;
+  "homePhone"?: string;
+  "mobilePhone"?: string;
+  "workPhone"?: string;
+  "otherPhone"?: string;
   "id"?: any;
   "accountId"?: any;
+  "created"?: Date;
+  "modified"?: Date;
   events?: Event[];
 }
 
@@ -18,9 +24,15 @@ export class Member implements MemberInterface {
   "firstName": string;
   "lastName": string;
   "email": string;
-  "cellPhone": string;
+  "memberLevel": string;
+  "homePhone": string;
+  "mobilePhone": string;
+  "workPhone": string;
+  "otherPhone": string;
   "id": any;
   "accountId": any;
+  "created": Date;
+  "modified": Date;
   events: Event[];
   constructor(data?: MemberInterface) {
     Object.assign(this, data);
@@ -67,8 +79,24 @@ export class Member implements MemberInterface {
           name: 'email',
           type: 'string'
         },
-        "cellPhone": {
-          name: 'cellPhone',
+        "memberLevel": {
+          name: 'memberLevel',
+          type: 'string'
+        },
+        "homePhone": {
+          name: 'homePhone',
+          type: 'string'
+        },
+        "mobilePhone": {
+          name: 'mobilePhone',
+          type: 'string'
+        },
+        "workPhone": {
+          name: 'workPhone',
+          type: 'string'
+        },
+        "otherPhone": {
+          name: 'otherPhone',
           type: 'string'
         },
         "id": {
@@ -78,6 +106,16 @@ export class Member implements MemberInterface {
         "accountId": {
           name: 'accountId',
           type: 'any'
+        },
+        "created": {
+          name: 'created',
+          type: 'Date',
+          default: new Date(0)
+        },
+        "modified": {
+          name: 'modified',
+          type: 'Date',
+          default: new Date(0)
         },
       },
       relations: {

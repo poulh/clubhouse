@@ -10,6 +10,8 @@ export interface EventInterface {
   "closed": boolean;
   "id"?: any;
   "accountId"?: any;
+  "created"?: Date;
+  "modified"?: Date;
   members?: Member[];
 }
 
@@ -19,6 +21,8 @@ export class Event implements EventInterface {
   "closed": boolean;
   "id": any;
   "accountId": any;
+  "created": Date;
+  "modified": Date;
   members: Member[];
   constructor(data?: EventInterface) {
     Object.assign(this, data);
@@ -73,6 +77,16 @@ export class Event implements EventInterface {
         "accountId": {
           name: 'accountId',
           type: 'any'
+        },
+        "created": {
+          name: 'created',
+          type: 'Date',
+          default: new Date(0)
+        },
+        "modified": {
+          name: 'modified',
+          type: 'Date',
+          default: new Date(0)
         },
       },
       relations: {
