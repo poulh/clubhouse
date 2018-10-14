@@ -5,6 +5,7 @@ import { RoleChecker } from '@app/shared';
 
 import { Checkin, Member } from '../../../sdk/models';
 import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
+import { continueStatement } from 'babel-types';
 
 @Component({
   selector: 'members-component',
@@ -19,7 +20,9 @@ export class MembersComponent implements OnInit {
   @Input() title: string = "Members";
   @Input() displayImport: boolean = true;
 
+  allMembers: Member[];
   members: Member[];
+  membersCache: String[];
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
   search: string = "";
 
@@ -59,17 +62,22 @@ export class MembersComponent implements OnInit {
 
   clearSearch(): void {
     this.search = "";
+    this.members = this.allMembers;
   }
 
-  displayMember(member: Member): boolean {
+  filterSearch(event: any) {
     if (this.search.length == 0) {
-      return true;
+      this.clearSearch();
     }
 
-    return (member.firstName && member.firstName.toLowerCase().includes(this.search)) ||
-      (member.lastName && member.lastName.toLowerCase().includes(this.search)) ||
-      (member.email && member.email.toLowerCase().includes(this.search)) ||
-      (member.cellPhone && member.cellPhone.toLowerCase().includes(this.search));
+    const lowerCaseSearch = this.search.toLowerCase();
+    let filteredMembers: Member[] = [];
+    this.membersCache.forEach((cache, index) => {
+      if (cache.includes(lowerCaseSearch)) {
+        filteredMembers.push(this.allMembers[index]);
+      }
+    });
+    this.members = filteredMembers;
   }
 
   getMembers(): void {
@@ -84,8 +92,19 @@ export class MembersComponent implements OnInit {
         }
       }
     };
+
     this.memberApi.find<Member>(filter).subscribe(members => {
-      this.members = members;
+      this.allMembers = members;
+      this.membersCache = members.map(member => {
+        const firstName = member.firstName ? member.firstName.toLowerCase() : "";
+        const lastName = member.lastName ? member.lastName.toLowerCase() : "";
+        const email = member.email ? member.email.toLowerCase() : "";
+        const cellPhone = member.cellPhone ? member.cellPhone : "";
+        return firstName + lastName + email + cellPhone;
+      });
+
+      this.filterSearch(null);
+
       this.isLoading = false;
     });
   }
