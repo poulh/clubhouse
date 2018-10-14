@@ -65,18 +65,23 @@ export class MembersComponent implements OnInit {
     this.members = this.allMembers;
   }
 
-  filterSearch(event: any) {
+  filterSearch(event?: any) {
     if (this.search.length == 0) {
       this.clearSearch();
     }
 
-    const lowerCaseSearch = this.search.toLowerCase();
+    const words = this.search.toLowerCase().split(" ");
     let filteredMembers: Member[] = [];
     this.membersCache.forEach((cache, index) => {
-      if (cache.includes(lowerCaseSearch)) {
+      const allWordsMatch = words.every(word => {
+        return cache.includes(word);
+      });
+
+      if (allWordsMatch) {
         filteredMembers.push(this.allMembers[index]);
       }
     });
+
     this.members = filteredMembers;
   }
 
@@ -103,7 +108,7 @@ export class MembersComponent implements OnInit {
         return firstName + lastName + email + cellPhone;
       });
 
-      this.filterSearch(null);
+      this.filterSearch();
 
       this.isLoading = false;
     });
