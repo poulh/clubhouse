@@ -24,35 +24,24 @@ export class MemberImportComponent implements OnInit {
 
   fileChange(event: any): void {
 
-    const fileList: any = event.target.files;
-    if (fileList.length > 0) {
-      const file: any = fileList[0];
-      let reader: FileReader = new FileReader();
+    const [file] = event.target.files;
+    console.log(file);
 
-      let members: {}[] = [];
-      let memberApi = this.memberApi;
-      reader.onload = function (e: any) {
-        const contents = e.target.result;
-        const lines: string[] = contents.split("\n");
-        const header: string[] = lines.shift().split(",");
+    let reader: FileReader = new FileReader();
 
-        lines.forEach((line: string) => {
-          const parts: string[] = line.split(",");
+    let memberApi = this.memberApi;
+    let self = this;
+    reader.onload = function (e: any) {
+      const contents = e.target.result;
+      console.log(e.target);
 
-          let member = {};
-          header.forEach((prop: string, idx: number) => {
-            member[prop] = parts[idx];
-          });
-          members.push(member);
-
-        });
-
-        memberApi.createMany<{}>(members).subscribe(mems => {
-          console.log(mems);
-        })
-      }
-      reader.readAsText(file);
+      memberApi.import({ data: contents }).subscribe(result => {
+        console.log(result);
+        self.goBack();
+      });
     }
+
+    reader.readAsText(file);
   }
 
   goBack(): void {
