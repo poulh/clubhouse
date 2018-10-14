@@ -8,7 +8,7 @@
           <strong class="text-gray-dark">
             <span>{{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}</span>
             <span *ngIf="checkedInMembers[checkin.memberId].membershipLevel" class="badge badge-primary">{{checkedInMembers[checkin.memberId].membershipLevel}}</span>
-            <span class="d-block">Checkin Time: {{checkin.date | date:'medium'}}</span>
+            <span class="d-block">Checkin Time: {{checkin.date | date:'mediumTime'}}</span>
           </strong>
         </div>
 
