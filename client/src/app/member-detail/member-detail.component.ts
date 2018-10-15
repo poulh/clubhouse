@@ -31,7 +31,7 @@ export class MemberDetailComponent implements OnInit {
 
   getMember(): void {
     this.eventId = this.route.snapshot.paramMap.get('eventId');
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isLoading = true;
 
