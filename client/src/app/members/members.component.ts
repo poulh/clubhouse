@@ -35,10 +35,10 @@ export class MembersComponent implements OnInit {
     private userApi: RegisteredUserApi,
     private memberApi: MemberApi,
     private checkinApi: CheckinApi) {
-    this.roleChecker = new RoleChecker(userApi);
   }
 
   ngOnInit() {
+    this.roleChecker = new RoleChecker(this.userApi);
     this.refresh();
   }
 

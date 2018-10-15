@@ -31,7 +31,12 @@ export class EventCheckinComponent implements OnInit {
   ngOnInit() {
     const eventId = this.route.snapshot.paramMap.get('id');
     if (eventId) {
-      this.eventApi.findById<Event>(eventId).subscribe(event => {
+      const query = {
+        where: {
+          id: eventId
+        }
+      };
+      this.eventApi.findOne<Event>(query).subscribe(event => {
         this.currentEvent = event;
       });
     }

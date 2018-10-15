@@ -58,13 +58,28 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "property": "find",
+      "accessType": "*",
+      "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW"
     },
     {
+      "property": "findOne",
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "admin",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "property": "replaceOrCreate",
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
       "permission": "ALLOW"
     }
   ],

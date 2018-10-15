@@ -21,10 +21,11 @@ export class EventsComponent implements OnInit {
   constructor(private router: Router,
     private userApi: RegisteredUserApi,
     private eventApi: EventApi) {
-    this.roleChecker = new RoleChecker(userApi);
+
   }
 
   ngOnInit() {
+    this.roleChecker = new RoleChecker(this.userApi);
     this.getEvents();
   }
 

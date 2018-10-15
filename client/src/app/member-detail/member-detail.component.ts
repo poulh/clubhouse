@@ -3,7 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Checkin, Member } from '../../../sdk/models';
-import { CheckinApi, MemberApi } from '../../../sdk/services';
+import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
+
+import { RoleChecker } from '@app/shared';
 
 @Component({
   selector: 'app-member-detail',
@@ -14,18 +16,23 @@ export class MemberDetailComponent implements OnInit {
 
   @Input() member: Member;
   oldMember: Member;
+
+  roleChecker: RoleChecker;
+
   error: string;
   isLoading = false;
   eventId: any;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
+    private userApi: RegisteredUserApi,
     private memberApi: MemberApi,
     private checkinApi: CheckinApi,
     private location: Location) {
   }
 
   ngOnInit() {
+    this.roleChecker = new RoleChecker(this.userApi);
     this.getMember();
   }
 
@@ -35,11 +42,13 @@ export class MemberDetailComponent implements OnInit {
     if (id) {
       this.isLoading = true;
 
-      let query = {
-        id: id
+      const query = {
+        where: {
+          id: id
+        }
       };
 
-      this.memberApi.findOne<Member>({ where: query })
+      this.memberApi.findOne<Member>(query)
         .subscribe(member => {
           this.setMemberModel(member);
         }, error => {
