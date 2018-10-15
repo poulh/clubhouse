@@ -1,4 +1,4 @@
-# Club Checkin
+# Clubhouse
 
 Welcome to the project documentation!
 
