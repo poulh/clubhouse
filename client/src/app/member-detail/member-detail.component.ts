@@ -71,7 +71,9 @@ export class MemberDetailComponent implements OnInit {
 
           this.checkinApi.create(data).subscribe((checkin: Checkin) => {
             this.goBack();
-          })
+          });
+        } else {
+          this.goBack();
         }
       });
   }
