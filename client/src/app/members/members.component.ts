@@ -140,6 +140,7 @@ export class MembersComponent implements OnInit {
 
     this.checkinApi.create(data).subscribe((checkin: Checkin) => {
       console.log('checked in');
+      this.clearSearch();
       this.refresh();
       this.checkinEvent.emit(checkin);
     });
