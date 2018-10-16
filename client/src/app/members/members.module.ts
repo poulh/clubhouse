@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { MembersRoutingModule } from './members-routing.module';
 import { MembersComponent } from './members.component';
+import { SharedModule } from '@app/shared';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    MembersRoutingModule
+    MembersRoutingModule,
+    SharedModule
   ],
   exports: [
     MembersComponent

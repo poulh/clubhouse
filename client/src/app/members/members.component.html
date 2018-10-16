@@ -44,10 +44,10 @@
             <span>| email: {{member.email}}</span>
             <span *ngIf="member.membershipLevel" class="badge badge-primary">{{member.membershipLevel}}</span>
             <span class="d-block">
-              <span *ngIf="member.mobilePhone">mobile: {{member.mobilePhone}}</span>
-              <span *ngIf="member.homePhone">| home: {{member.homePhone}}</span>
-              <span *ngIf="member.workPhone">| work: {{member.workPhone}}</span>
-              <span *ngIf="member.otherPhone">| other: {{member.otherPhone}}</span>
+              <span *ngIf="member.mobilePhone">mobile: {{member.mobilePhone | phoneNumber }}</span>
+              <span *ngIf="member.homePhone">| home: {{member.homePhone | phoneNumber }}</span>
+              <span *ngIf="member.workPhone">| work: {{member.workPhone | phoneNumber }}</span>
+              <span *ngIf="member.otherPhone">| other: {{member.otherPhone | phoneNumber }}</span>
             </span>
           </strong>
         </div>
