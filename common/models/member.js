@@ -6,6 +6,8 @@ module.exports = function (Member) {
     Member.import = function (upload, req, cb) {
         //uploading stuff
         const userId = req.accessToken.userId;
+
+        let RegisteredUser = Member.app.models.RegisteredUser;
         RegisteredUser.findById(userId, function (err, user) {
             if (err) {
                 console.log(err);
