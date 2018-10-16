@@ -22,7 +22,8 @@
     <div class="col-sm-12 col-md-4 col-lg-6 mt-2">
       <div class="input-group">
         <input type="text" class="form-control" (keyup)="filterSearch($event)" [placeholder]="'Search Members'"
-          [(ngModel)]="search" [disabled]="isLoading" />
+          [(ngModel)]="search" [disabled]="isLoading" autocomplete="off" autocorrect="off" autocapitalize="off"
+          spellcheck="false" />
         <div class="input-group-append">
           <button class="btn btn-dark" type="button" (click)="clearSearch()" [disabled]="search.length == 0"><i class="far fa-times-circle"></i></button>
         </div>
