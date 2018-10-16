@@ -19,9 +19,10 @@ export class MembersComponent implements OnInit {
   isLoading = false;
   @Input() title: string = "Members";
   @Input() displayImport: boolean = true;
+  @Input() displayUnfilteredMembers = true;
 
   allMembers: Member[];
-  members: Member[];
+  members: Member[] = [];
   membersCache: String[];
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
   search: string = "";
@@ -62,12 +63,13 @@ export class MembersComponent implements OnInit {
 
   clearSearch(): void {
     this.search = "";
-    this.members = this.allMembers;
+    this.members = this.displayUnfilteredMembers ? this.allMembers : [];
   }
 
   filterSearch(event?: any) {
     if (this.search.length == 0) {
       this.clearSearch();
+      return;
     }
 
     const words = this.search.toLowerCase().split(" ");

@@ -1,5 +1,6 @@
 <div *ngIf="currentEvent">
-  <members-component [title]="currentEvent.name" [eventId]="currentEvent.id" [displayImport]="false" (checkinEvent)='onCheckin($event)'>
+  <members-component [title]="currentEvent.name" [eventId]="currentEvent.id" [displayUnfilteredMembers]="false"
+    [displayImport]="false" (checkinEvent)='onCheckin($event)'>
 
   </members-component>
 
