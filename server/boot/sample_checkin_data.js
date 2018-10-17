@@ -14,26 +14,34 @@ module.exports = function (app) {
         RegisteredUser.findById(token.userId, function (err, registeredUser) {
 
             var Event = app.models.Event;
+
             var today = new Date();
+
+            var lastWeek = new Date(today);
+            lastWeek.setDate(today.getDate() - 7);
 
             console.log(registeredUser);
 
-            Event.create({ name: "Club Event #1", date: today, accountId: registeredUser.accountId }, function (err, eventInstance) {
+            Event.create({ name: "Next Club Event", date: today, accountId: registeredUser.accountId }, function (err, eventInstance) {
                 console.log(eventInstance);
             });
 
             today.setMonth(today.getMonth() - 1);
-            Event.create({ name: "Club Event #2", date: today, accountId: registeredUser.accountId, closed: true }, function (err, eventInstance) {
+            Event.create({ name: "Old Club Event", date: lastWeek, accountId: registeredUser.accountId, closed: true }, function (err, eventInstance) {
                 console.log(eventInstance);
             });
 
             var Member = app.models.Member;
 
-            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", mobilePhone: "212-555-1234", membershipLevel: "Sustaining", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Jane", lastName: "ClubMember", email: "jane@jane.com", mobilePhone: "212-555-1234", membershipLevel: "Single", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Jim", lastName: "Guest", email: "jim@jim.com", mobilePhone: "212-555-5678", membershipLevel: "Single", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Sam", lastName: "Sustainer", email: "jane@jane.com", mobilePhone: "212-555-1234", membershipLevel: "Sustaining", accountId: registeredUser.accountId }, function (err, memberInstance) {
+                console.log(memberInstance);
+            });
+
+            Member.create({ firstName: "Gary", lastName: "Guest", email: "jim@jim.com", mobilePhone: "212-555-5678", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 

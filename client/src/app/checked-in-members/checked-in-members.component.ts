@@ -14,7 +14,9 @@ export class CheckedInMembersComponent implements OnInit {
   @Input() displayCheckin: boolean = true;
 
   checkedInMembers: { [id: number]: Member; } = {};
-  checkins: Checkin[];
+  checkins: Checkin[] = [];
+
+  checkinStats: { [key: string]: number } = { "paid": 0, "new": 0 };
 
   @Output() undoCheckinEvent = new EventEmitter();
 
@@ -47,10 +49,19 @@ export class CheckedInMembersComponent implements OnInit {
   private getCheckedInMembers(): void {
     this.eventApi.getMembers(this.event.id).subscribe((members: Member[]) => {
       let checkedIn: { [id: number]: Member; } = {};
+      let stats: { [key: string]: number } = { "paid": 0, "new": 0 };
       members.forEach(member => {
+        if (member.membershipLevel && member.membershipLevel !== "") {
+          stats.paid += 1;
+        }
+
+        if (member.created > this.event.date) {
+          stats.new += 1;
+        }
         checkedIn[member.id] = member;
       });
       this.checkedInMembers = checkedIn;
+      this.checkinStats = stats;
     });
   }
 
