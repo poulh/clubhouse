@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { RoleChecker } from '@app/shared';
@@ -20,6 +20,8 @@ export class MembersComponent implements OnInit {
   @Input() title: string = "Members";
   @Input() displayImport: boolean = true;
   @Input() displayUnfilteredMembers = true;
+
+  @ViewChild('searchInput') private searchInput: ElementRef;
 
   allMembers: Member[];
   members: Member[] = [];
@@ -114,6 +116,8 @@ export class MembersComponent implements OnInit {
       });
 
       this.filterSearch();
+
+      setTimeout(() => this.searchInput.nativeElement.focus(), 0);
 
       this.isLoading = false;
     });
