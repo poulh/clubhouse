@@ -62,25 +62,25 @@
       "permission": "ALLOW"
     },
     {
-      "property": "find",
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "find"
     },
     {
-      "property": "findOne",
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "findOne"
     },
     {
-      "property": "replaceOrCreate",
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "replaceOrCreate"
     }
   ],
   "methods": {}

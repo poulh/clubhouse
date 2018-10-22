@@ -10,6 +10,11 @@
       <h6>Paid Members ({{checkinStats.paid}})</h6>
     </div>
 
+    <div *ngIf="roleChecker.is('admin') && (checkins.length > 0)" class="col-sm-2">
+      <div class="btn btn-success btn-block" target="0" (click)="onDownload()">Download <i class="fas fa-arrow-alt-circle-down"></i></div>
+    </div>
+
+
   </div>
   <div *ngFor="let checkin of checkins;" class="media text-muted pt-3">
 
@@ -18,7 +23,8 @@
         <div class="col-sm-12 col-md-9 col-lg-10">
           <strong class="text-gray-dark">
             <span>{{checkedInMembers[checkin.memberId].firstName}} {{checkedInMembers[checkin.memberId].lastName}}</span>
-            <span *ngIf="checkedInMembers[checkin.memberId].membershipLevel" class="badge badge-primary">{{checkedInMembers[checkin.memberId].membershipLevel}}</span>
+            <span *ngIf="
+        checkedInMembers[checkin.memberId].membershipLevel" class="badge badge-primary">{{checkedInMembers[checkin.memberId].membershipLevel}}</span>
             <span *ngIf="checkedInMembers[checkin.memberId].created > event.date" class="badge badge-warning">New!</span>
             <span class="d-block">Checkin Time: {{checkin.date | date:'mediumTime'}}</span>
           </strong>

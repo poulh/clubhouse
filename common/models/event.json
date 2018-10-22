@@ -31,6 +31,11 @@
         "nestRemoting": true
       },
       "through": "Checkin"
+    },
+    "checkins": {
+      "type": "hasMany",
+      "model": "Checkin",
+      "foreignKey": ""
     }
   },
   "acls": [
@@ -47,25 +52,32 @@
       "permission": "ALLOW"
     },
     {
-      "property": "find",
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "download"
     },
     {
-      "property": "findOne",
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "find"
     },
     {
-      "property": "__get__members",
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$authenticated",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "findOne"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "__get__members"
     }
   ],
   "methods": {}

@@ -1,6 +1,7 @@
 /* tslint:disable */
 import {
-  Member
+  Member,
+  Checkin
 } from '../index';
 
 declare var Object: any;
@@ -13,6 +14,7 @@ export interface EventInterface {
   "created"?: Date;
   "modified"?: Date;
   members?: Member[];
+  checkins?: Checkin[];
 }
 
 export class Event implements EventInterface {
@@ -24,6 +26,7 @@ export class Event implements EventInterface {
   "created": Date;
   "modified": Date;
   members: Member[];
+  checkins: Checkin[];
   constructor(data?: EventInterface) {
     Object.assign(this, data);
   }
@@ -98,6 +101,14 @@ export class Event implements EventInterface {
           modelThrough: 'Checkin',
           keyThrough: 'memberId',
           keyFrom: 'id',
+          keyTo: 'eventId'
+        },
+        checkins: {
+          name: 'checkins',
+          type: 'Checkin[]',
+          model: 'Checkin',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
           keyTo: 'eventId'
         },
       }
