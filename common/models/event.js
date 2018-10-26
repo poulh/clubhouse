@@ -76,7 +76,7 @@ module.exports = function (Event) {
 
     Event.remoteMethod('download', {
         accepts: [
-            { arg: 'id', type: 'number' },
+            { arg: 'id', type: 'any' },
         ],
         http: { path: '/download/:id', verb: 'get' },
         returns: [
