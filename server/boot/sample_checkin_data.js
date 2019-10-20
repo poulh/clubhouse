@@ -37,7 +37,7 @@ module.exports = function (app) {
                 console.log(memberInstance);
             });
 
-            Member.create({ firstName: "Sam", lastName: "Sustainer", email: "jane@jane.com", mobilePhone: "212-555-1234", membershipLevel: "Sustaining", accountId: registeredUser.accountId }, function (err, memberInstance) {
+            Member.create({ firstName: "Sam", lastName: "Sustainer", email: "sam@sustainer.com", mobilePhone: "212-555-1234", membershipLevel: "Sustaining", accountId: registeredUser.accountId }, function (err, memberInstance) {
                 console.log(memberInstance);
             });
 

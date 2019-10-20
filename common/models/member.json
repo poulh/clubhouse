@@ -15,10 +15,7 @@
     },
     "email": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "required": true
     },
     "membershipLevel": {
       "type": "string"

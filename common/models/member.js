@@ -2,6 +2,7 @@
 const parse = require('csv-parse')
 
 module.exports = function (Member) {
+    Member.validatesUniquenessOf('email');
 
     Member.import = function (upload, req, cb) {
         //uploading stuff
