@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -15,12 +15,17 @@ import { RoleChecker } from '@app/shared';
 export class MemberDetailComponent implements OnInit {
 
   @Input() member: Member;
+  @ViewChild("firstName") firstNameField: ElementRef;
+  @ViewChild("email") emailField: ElementRef;
+  @ViewChild("mobile") mobileField: ElementRef;
+
   oldMember: Member;
 
   roleChecker: RoleChecker;
 
   error: string;
   isLoading = false;
+  hasEmail = true;
   eventId: any;
 
   constructor(private route: ActivatedRoute,
@@ -65,11 +70,42 @@ export class MemberDetailComponent implements OnInit {
     }
   }
 
+
+  toggleHasEmail(): void {
+    this.hasEmail = !this.hasEmail;
+    if (this.hasEmail) {
+      console.log("clearing email field");
+      this.member.email = "";
+      this.emailField.nativeElement.focus();
+    }
+    else {
+      console.log("no email address. using fake")
+      this.member.email = this.generateNoEmailAddress();
+      this.mobileField.nativeElement.focus();
+    }
+    this.emailField.nativeElement.focus();
+  }
+
+  generateNoEmailAddress(): string {
+    this.scrubMember();
+    let generatedEmail = this.member.firstName + "." + this.member.lastName + "@noemail.com";
+    return generatedEmail.replace(" ", ".").toLowerCase();
+  }
+
+  scrubMember(): void {
+    this.member.firstName = this.member.firstName.trim();
+    this.member.lastName = this.member.lastName.trim();
+    this.member.email = this.member.email.trim().toLowerCase();
+  }
+
   updateMember(): void {
     this.isLoading = true;
 
-    this.memberApi.replaceOrCreate<Member>(this.member)
-      .subscribe(member => {
+    this.scrubMember();
+
+    const updateMemberObserver = {
+      next: (member: Member) => {
+        console.log('Observer got a next value: ' + member);
         this.setMemberModel(member);
         if (this.eventId) {
           const data = {
@@ -84,7 +120,15 @@ export class MemberDetailComponent implements OnInit {
         } else {
           this.goBack();
         }
-      });
+      },
+      error: (err: any) => {
+        console.log('Observer got an error: ' + err);
+      },
+      complete: () => console.log('Observer got a complete notification'),
+    };
+
+    this.memberApi.replaceOrCreate<Member>(this.member)
+      .subscribe(updateMemberObserver);
   }
 
   deleteMember(): void {
@@ -98,6 +142,14 @@ export class MemberDetailComponent implements OnInit {
     this.oldMember = new Member(member);
 
     this.isLoading = false;
+  }
+
+  stringEmpty(str: string): boolean {
+    return str && str.length > 0;
+  }
+
+  hasFullName(): boolean {
+    return this.stringEmpty(this.member.firstName) && this.stringEmpty(this.member.lastName);
   }
 
   noMemberChanges(): boolean {
