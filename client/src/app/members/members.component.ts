@@ -28,7 +28,7 @@ export class MembersComponent implements OnInit {
     order: this.orderQueryString,
     where: {}
   };
-  search: string = "";
+  filter: string = "";
 
   allMembers: Member[];
   members: Member[] = [];
@@ -75,26 +75,10 @@ export class MembersComponent implements OnInit {
 
       search = "";
     }
-    this.search = search;
-    console.log("search: " + search)
-    if (this.search.length == 0) {
-      console.log("search empty")
-      return;
-    }
 
-    const words = search.toLowerCase().split(" ");
-    let filteredMembers: Member[] = [];
-    this.membersCache.forEach((cache, index) => {
-      const allWordsMatch = words.every(word => {
-        return cache.includes(word);
-      });
+    //this will tricker ngChanges in child components
+    this.filter = search;
 
-      if (allWordsMatch) {
-        filteredMembers.push(this.allMembers[index]);
-      }
-    });
-
-    this.members = filteredMembers;
   }
 
   getMembers(): void {

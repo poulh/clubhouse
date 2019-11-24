@@ -27,7 +27,8 @@
     </div>
   </div>
 
-  <filtered-members [queryFilter]="queryFilter" [buttonText]="'Edit Details'" (onButtonClick)="onEditMember($event)">
+  <filtered-members [queryFilter]="queryFilter" [filter]="filter" [buttonText]="'Edit Details'"
+    (onButtonClick)="onEditMember($event)">
   </filtered-members>
 
 </div>

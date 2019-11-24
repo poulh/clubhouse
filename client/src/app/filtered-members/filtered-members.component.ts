@@ -13,30 +13,22 @@ export class FilteredMembersComponent implements OnInit {
   @Output() onLoading = new EventEmitter();
   @Output() onButtonClick = new EventEmitter();
 
-  @Input() eventId: any = null;
-  @Input() queryFilter: object = {}
-  @Input() buttonText: string = "";
+  @Input() eventId: any = null; //todo: remove
 
-  allMembers: Member[];
+  @Input() buttonText: string = "";
+  @Input() queryFilter: object = {}
+  @Input() filter: string = "";
+
   filteredMembers: Member[] = [];
   membersCache: String[];
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
   checkedInMemberIds: number[] = [];
   orderQueryString: string = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
-  filter: string;
 
-  // allMembers: Member[];
+
   members: Member[] = [];
-
-  queryFilter2: object = {
-    order: this.orderQueryString,
-    where: {
-      id: {
-        nin: this.checkedInMemberIds
-      }
-    }
-  };
   resultText: string;
+  displayMembers: Member[];
 
   constructor(
     private userApi: RegisteredUserApi,
@@ -47,14 +39,25 @@ export class FilteredMembersComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.queryFilter) {
-      let queryFilter = changes.queryFilter.currentValue
-      console.log(queryFilter)
-      this.findMembers(queryFilter)
-    }
-    else {
-      console.log("no change")
-    }
+
+    const keys = Object.keys(changes)
+    keys.forEach((key) => {
+
+      const val = changes[key].currentValue
+
+      if (key == "queryFilter") {
+        this.findMembers(val)
+      }
+
+      if (key == "filter") {
+        this.applyFilter(val)
+      }
+    })
+
+  }
+
+  setQueryFilter(queryFilter: object): void {
+    this.findMembers(queryFilter)
   }
 
   emitIsLoading(val: boolean) {
@@ -68,30 +71,34 @@ export class FilteredMembersComponent implements OnInit {
   findMembers(queryFilter: object): void {
     this.emitIsLoading(true);
 
-    console.log("filter is: " + queryFilter);
     this.memberApi.find<Member>(queryFilter).subscribe(members => {
       this.members = members;
-      console.log(this.members)
-      this.updateResultText()
-      this.buildFilterCache(this.members);
+
+      this.generateFilterCache(this.members);
+      this.setDisplayMembers(this.members)
 
       this.emitIsLoading(false);
     });
   }
 
-  updateResultText(): void {
-    if (this.members.length == 0) {
+  setDisplayMembers(members: Member[]): void {
+    this.displayMembers = members
+    this.updateResultText(this.displayMembers)
+  }
+
+  updateResultText(members: Member[]): void {
+    if (members.length == 0) {
       this.resultText = "No Members Found"
 
-    } else if (this.members.length == 1) {
+    } else if (members.length == 1) {
       this.resultText = "1 Member Found"
 
     } else {
-      this.resultText = this.members.length + " Members Found"
+      this.resultText = members.length + " Members Found"
     }
   }
 
-  buildFilterCache(members: Member[]): void {
+  generateFilterCache(members: Member[]): void {
     this.membersCache = members.map(member => {
       const firstName = member.firstName ? member.firstName.toLowerCase() : "";
       const lastName = member.lastName ? member.lastName.toLowerCase() : "";
@@ -102,26 +109,25 @@ export class FilteredMembersComponent implements OnInit {
       const otherPhone = member.otherPhone ? member.otherPhone : "";
       return firstName + lastName + email + mobilePhone + homePhone + workPhone + otherPhone;
     });
-    console.log(this.membersCache)
   }
 
   applyFilter(filter: string) {
     if (!filter) {
       filter = "";
     }
-    this.filter = filter.toLowerCase();
 
-    console.log("search: " + filter)
-    if (this.filter.length == 0) {
-      console.log("search empty")
-      return;
+    if (filter.length == 0) {
+      this.setDisplayMembers(this.members);
+      return
     }
-    this.filterResults();
+
+    filter = filter.toLowerCase();
+
+    this.filterResults(filter);
   }
 
-  filterResults(): void {
-
-    const wordsInFilter = this.filter.toLowerCase().split(" ");
+  filterResults(filter: string): void {
+    const wordsInFilter = filter.toLowerCase().split(" ");
     let filteredMembers: Member[] = [];
     this.membersCache.forEach((cache, index) => {
       //every word in words array must be in the cache to hit
@@ -130,15 +136,16 @@ export class FilteredMembersComponent implements OnInit {
       });
 
       if (match) {
-        filteredMembers.push(this.allMembers[index]);
+        filteredMembers.push(this.members[index]);
       }
     });
 
-    this.filteredMembers = filteredMembers;
+    this.setDisplayMembers(filteredMembers)
+
+    //this.filteredMembers = filteredMembers;
   }
 
   emitButtonClick(memberid: any): void {
-    console.log("click: " + memberid)
     this.onButtonClick.emit(memberid)
   }
 
