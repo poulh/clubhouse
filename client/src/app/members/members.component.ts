@@ -21,13 +21,13 @@ export class MembersComponent implements OnInit {
   @Input() displayImport: boolean = true;
   @Input() displayUnfilteredMembers = true;
 
-  @ViewChild('searchInput') private searchInput: ElementRef;
+  search: string = "";
 
   allMembers: Member[];
   members: Member[] = [];
   membersCache: String[];
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
-  search: string = "";
+
 
   @Output() checkinEvent = new EventEmitter();
 
@@ -63,18 +63,19 @@ export class MembersComponent implements OnInit {
     this.refresh();
   }
 
-  clearSearch(): void {
-    this.search = "";
-    this.members = this.displayUnfilteredMembers ? this.allMembers : [];
-  }
+  filterSearch(search: string) {
+    if (!search) {
 
-  filterSearch(event?: any) {
+      search = "";
+    }
+    this.search = search;
+    console.log("search: " + search)
     if (this.search.length == 0) {
-      this.clearSearch();
+      console.log("search empty")
       return;
     }
 
-    const words = this.search.toLowerCase().split(" ");
+    const words = search.toLowerCase().split(" ");
     let filteredMembers: Member[] = [];
     this.membersCache.forEach((cache, index) => {
       const allWordsMatch = words.every(word => {
@@ -117,7 +118,7 @@ export class MembersComponent implements OnInit {
 
       this.filterSearch();
 
-      setTimeout(() => this.searchInput.nativeElement.focus(), 0);
+
 
       this.isLoading = false;
     });
@@ -139,14 +140,18 @@ export class MembersComponent implements OnInit {
   onCheckin(memberId: any): void {
     console.log('click');
     const data = {
-      date: new Date(), //todo: this should be set on the server
+      date: new Date(),
       memberId: memberId,
       eventId: this.eventId
     };
 
+    console.log("doing a checkin!!!!");
+    console.log(data);
+
+
     this.checkinApi.create(data).subscribe((checkin: Checkin) => {
       console.log('checked in');
-      this.clearSearch();
+
       this.refresh();
       this.checkinEvent.emit(checkin);
     });

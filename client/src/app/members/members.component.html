@@ -19,23 +19,16 @@
       </div>
     </div>
 
-    <div class="col-sm-12 {{displayUnfilteredMembers ? 'col-md-4 col-lg-6' :'col-md-9 col-lg-10'}} mt-2">
-      <div class="input-group">
-        <input type="text" class="form-control" (keyup)="filterSearch($event)" [placeholder]="'Search Members'"
-          [(ngModel)]="search" [disabled]="isLoading" autocomplete="off" autocorrect="off" autocapitalize="off"
-          spellcheck="false" #searchInput />
-        <div class="input-group-append">
-          <button class="btn btn-dark" type="button" (click)="clearSearch()" [disabled]="search.length == 0"><i class="far fa-times-circle"></i></button>
-        </div>
-      </div>
-    </div>
+    <member-search [placeholder]="'Search Members'" [disabled]="isLoading" (onSearch)="filterSearch($event)">
+    </member-search>
 
     <div class="col-sm-12 col-md-3 col-lg-2 mt-2">
       <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
     </div>
   </div>
 
-  <div *ngIf="(displayUnfilteredMembers && (search.length > 0) && (members.length == 0)) || (!displayUnfilteredMembers && (members.length == 0))"
+  <div
+    *ngIf="(displayUnfilteredMembers && (search.length > 0) && (members.length == 0)) || (!displayUnfilteredMembers && (members.length == 0))"
     class="media text-muted pt-3">
     <div class="row text-center">
       <div class="col-sm-12 text-center">
@@ -63,7 +56,8 @@
 
         <div class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">
           <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
-            <button class="btn {{eventId ? 'btn-secondary' : 'btn-primary'}} w-100" (click)="onEditDetails(member.id)">Edit
+            <button class="btn {{eventId ? 'btn-secondary' : 'btn-primary'}} w-100"
+              (click)="onEditDetails(member.id)">Edit
               Details</button>
             <button *ngIf="eventId" class="btn btn-primary w-100" (click)="onCheckin(member.id)">Checkin</button>
           </div>
