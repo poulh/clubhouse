@@ -21,12 +21,19 @@ export class MembersComponent implements OnInit {
   @Input() displayImport: boolean = true;
   @Input() displayUnfilteredMembers = true;
 
+  sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
+  orderQueryString: string = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
+
+  queryFilter: object = {
+    order: this.orderQueryString,
+    where: {}
+  };
   search: string = "";
 
   allMembers: Member[];
   members: Member[] = [];
   membersCache: String[];
-  sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
+  // sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
 
 
   @Output() checkinEvent = new EventEmitter();
@@ -116,7 +123,6 @@ export class MembersComponent implements OnInit {
         return firstName + lastName + email + mobilePhone + homePhone + workPhone + otherPhone;
       });
 
-      this.filterSearch();
 
 
 
@@ -132,11 +138,14 @@ export class MembersComponent implements OnInit {
     }
   }
 
-  onEditDetails(memberId: any): void {
+  onEditMember(memberId: any): void {
     const url = this.eventId ? `/member/${memberId}/event/${this.eventId}` : `/member/${memberId}`;
     this.router.navigateByUrl(url);
   }
 
+  onFilteredMemberClick(memberId: any): void {
+    console.log("caught: " + memberId)
+  }
   onCheckin(memberId: any): void {
     console.log('click');
     const data = {

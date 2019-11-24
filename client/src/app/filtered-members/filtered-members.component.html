@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="row text-center">
+    <div class="col-sm-12 text-center">
+      <p class="text-center">{{resultText}}</p>
+    </div>
+  </div>
+</div>
+
+<div *ngFor="let member of members; let i = index" [attr.data-index]="i" class="media text-muted pt-3">
+  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <div class="row">
+      <div class="col-sm-12 {{eventId ? 'col-md-8 col-lg-9' : 'col-md-9 col-lg-10'}}">
+        <strong class="text-gray-dark">
+          <span>{{member.firstName}} {{member.lastName}}</span>
+          <span>| email: {{member.email}}</span>
+          <span *ngIf="member.membershipLevel" class="badge badge-primary">{{member.membershipLevel}}</span>
+          <span class="d-block">
+            <span *ngIf="member.mobilePhone">mobile: {{member.mobilePhone | phoneNumber }}</span>
+            <span *ngIf="member.homePhone">| home: {{member.homePhone | phoneNumber }}</span>
+            <span *ngIf="member.workPhone">| work: {{member.workPhone | phoneNumber }}</span>
+            <span *ngIf="member.otherPhone">| other: {{member.otherPhone | phoneNumber }}</span>
+          </span>
+        </strong>
+      </div>
+
+      <div *ngIf="buttonText.length > 0" class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">
+        <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
+          <button class="btn {{eventId ? 'btn-secondary' : 'btn-primary'}} w-100"
+            (click)="emitButtonClick(member.id)">{{buttonText}}</button>
+          <button *ngIf="eventId" class="btn btn-primary w-100" (click)="onButtonClick(member.id)">Checkin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

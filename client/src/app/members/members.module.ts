@@ -6,6 +6,7 @@ import { MembersRoutingModule } from './members-routing.module';
 import { MembersComponent } from './members.component';
 import { SharedModule } from '@app/shared';
 import { MemberSearchModule } from '@app/member-search/member-search.module';
+import { FilteredMembersModule } from '@app/filtered-members/filtered-members.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { MemberSearchModule } from '@app/member-search/member-search.module';
     FormsModule,
     MembersRoutingModule,
     SharedModule,
-    MemberSearchModule
+    MemberSearchModule,
+    FilteredMembersModule
   ],
   exports: [
     MembersComponent
