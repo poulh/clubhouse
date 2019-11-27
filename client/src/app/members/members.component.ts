@@ -32,9 +32,6 @@ export class MembersComponent implements OnInit {
 
   allMembers: Member[];
   members: Member[] = [];
-  membersCache: String[];
-  // sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
-
 
   @Output() checkinEvent = new EventEmitter();
 
@@ -49,25 +46,7 @@ export class MembersComponent implements OnInit {
 
   ngOnInit() {
     this.roleChecker = new RoleChecker(this.userApi);
-    this.refresh();
-  }
 
-  sort(field: string): void {
-    /*
-     If clicked field is already first it flips the asc/desc.
-     If clicked field is not first, move it to first and set everything asc
-     */
-    let firstItem = this.sortOrder[0];
-    if (field == firstItem[0]) {
-      firstItem[1] = !firstItem[1];
-    } else {
-      const item = this.sortOrder.find(i => i[0] == field);
-      const index = this.sortOrder.indexOf(item);
-      this.sortOrder.splice(index);
-      this.sortOrder.unshift(item);
-      this.sortOrder.forEach(i => i[1] = true);
-    }
-    this.refresh();
   }
 
   filterSearch(search: string) {
@@ -76,43 +55,30 @@ export class MembersComponent implements OnInit {
       search = "";
     }
 
-    //this will tricker ngChanges in child components
+    //this will trigger ngChanges in child components
     this.filter = search;
 
   }
 
-  getMembers(): void {
-    this.isLoading = true;
-
-    const orderQueryString = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
-    const filter = {
-      order: orderQueryString,
-      where: {
-        id: {
-          nin: this.checkedInMemberIds
-        }
-      }
-    };
-
-    this.memberApi.find<Member>(filter).subscribe(members => {
-      this.allMembers = members;
-      this.membersCache = members.map(member => {
-        const firstName = member.firstName ? member.firstName.toLowerCase() : "";
-        const lastName = member.lastName ? member.lastName.toLowerCase() : "";
-        const email = member.email ? member.email.toLowerCase() : "";
-        const mobilePhone = member.mobilePhone ? member.mobilePhone : "";
-        const homePhone = member.homePhone ? member.homePhone : "";
-        const workPhone = member.workPhone ? member.workPhone : "";
-        const otherPhone = member.otherPhone ? member.otherPhone : "";
-        return firstName + lastName + email + mobilePhone + homePhone + workPhone + otherPhone;
-      });
+  // sort(field: string): void {
+  //   /*
+  //    If clicked field is already first it flips the asc/desc.
+  //    If clicked field is not first, move it to first and set everything asc
+  //    */
+  //   let firstItem = this.sortOrder[0];
+  //   if (field == firstItem[0]) {
+  //     firstItem[1] = !firstItem[1];
+  //   } else {
+  //     const item = this.sortOrder.find(i => i[0] == field);
+  //     const index = this.sortOrder.indexOf(item);
+  //     this.sortOrder.splice(index);
+  //     this.sortOrder.unshift(item);
+  //     this.sortOrder.forEach(i => i[1] = true);
+  //   }
+  //   this.refresh();
+  // }
 
 
-
-
-      this.isLoading = false;
-    });
-  }
 
   onNewMemberClick(): void {
     if (this.eventId) {
@@ -130,40 +96,5 @@ export class MembersComponent implements OnInit {
   onFilteredMemberClick(memberId: any): void {
     console.log("caught: " + memberId)
   }
-  onCheckin(memberId: any): void {
-    console.log('click');
-    const data = {
-      date: new Date(),
-      memberId: memberId,
-      eventId: this.eventId
-    };
 
-    console.log("doing a checkin!!!!");
-    console.log(data);
-
-
-    this.checkinApi.create(data).subscribe((checkin: Checkin) => {
-      console.log('checked in');
-
-      this.refresh();
-      this.checkinEvent.emit(checkin);
-    });
-  }
-
-  refresh(): void {
-    if (this.eventId) {
-      const filter = {
-        where: { eventId: this.eventId },
-      };
-
-      this.checkinApi.find<Checkin>(filter).subscribe((checkins: Checkin[]) => {
-        this.checkedInMemberIds = checkins.map(checkin => {
-          return checkin.memberId;
-        });
-        this.getMembers();
-      });
-    } else {
-      this.getMembers();
-    }
-  }
 }

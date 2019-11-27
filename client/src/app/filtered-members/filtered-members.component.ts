@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@
 import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
 import { Checkin, Member } from '../../../sdk/models';
 import { query } from '@angular/core/src/render3/query';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 @Component({
@@ -19,8 +20,9 @@ export class FilteredMembersComponent implements OnInit {
   @Input() queryFilter: object = {}
   @Input() filter: string = "";
 
+
   filteredMembers: Member[] = [];
-  membersCache: String[];
+  membersCache: String[] = []
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
   checkedInMemberIds: number[] = [];
   orderQueryString: string = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
@@ -39,21 +41,23 @@ export class FilteredMembersComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
+    console.log("------CHANGES -----")
+    console.log(changes)
+    console.log("--------------------")
     const keys = Object.keys(changes)
     keys.forEach((key) => {
-
       const val = changes[key].currentValue
 
-      if (key == "queryFilter") {
-        this.findMembers(val)
-      }
+      if (val) {
+        if (key == "queryFilter") {
+          this.findMembers(val)
+        }
 
-      if (key == "filter") {
-        this.applyFilter(val)
+        if (key == "filter") {
+          this.applyFilter(val)
+        }
       }
     })
-
   }
 
   setQueryFilter(queryFilter: object): void {
@@ -69,11 +73,18 @@ export class FilteredMembersComponent implements OnInit {
   }
 
   findMembers(queryFilter: object): void {
+    if (!queryFilter['where']) {
+      console.log("no query")
+      console.log(queryFilter)
+      return
+    }
     this.emitIsLoading(true);
-
+    console.log("----------FINDING MEMBERS---------------")
+    console.log(queryFilter)
     this.memberApi.find<Member>(queryFilter).subscribe(members => {
       this.members = members;
-
+      console.log(this.members)
+      console.log("-------------------------")
       this.generateFilterCache(this.members);
       this.setDisplayMembers(this.members)
 
@@ -129,6 +140,8 @@ export class FilteredMembersComponent implements OnInit {
   filterResults(filter: string): void {
     const wordsInFilter = filter.toLowerCase().split(" ");
     let filteredMembers: Member[] = [];
+    console.log("--------------filtering")
+    console.log(this.membersCache)
     this.membersCache.forEach((cache, index) => {
       //every word in words array must be in the cache to hit
       const match = wordsInFilter.every(word => {

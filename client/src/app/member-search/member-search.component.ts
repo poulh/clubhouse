@@ -9,13 +9,13 @@ export class MemberSearchComponent implements OnInit {
 
   constructor() { }
 
+  @ViewChild('searchInput') private searchInput: ElementRef;
+
   @Input() disabled: boolean = false;
   @Input() placeholder: string = "Search";
+  @Input() search: string = "";
 
-  @ViewChild('searchInput') private searchInput: ElementRef;
   @Output() onSearch = new EventEmitter();
-
-  search: string = "";
 
   ngOnInit() {
   }

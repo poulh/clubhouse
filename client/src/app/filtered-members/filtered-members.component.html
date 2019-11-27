@@ -1,11 +1,8 @@
-<div class="row">
-  <div class="row text-center">
-    <div class="col-sm-12 text-center">
-      <p class="text-center">{{resultText}}</p>
-    </div>
+<div class="my-3 p-3 bg-white rounded box-shadow">
+  <div class="row">
+    <p class="text-center">{{resultText}}</p>
   </div>
 </div>
-
 <div *ngFor="let member of displayMembers; let i = index" [attr.data-index]="i" class="media text-muted pt-3">
   <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
     <div class="row">
