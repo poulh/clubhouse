@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { RoleChecker } from '@app/shared';
 
-import { Checkin, Member } from '../../../sdk/models';
-import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
+import { Member } from '../../../sdk/models';
+import { RegisteredUserApi } from '../../../sdk/services';
 import { continueStatement } from 'babel-types';
 
 @Component({
@@ -24,10 +24,18 @@ export class MembersComponent implements OnInit {
   sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
   orderQueryString: string = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
 
+  buttons: object[] = [
+    {
+      text: "Edit Member",
+      class: "btn btn-primary w-100"
+    }
+  ]
+
   queryFilter: object = {
     order: this.orderQueryString,
     where: {}
   };
+
   filter: string = "";
 
   allMembers: Member[];
@@ -39,9 +47,7 @@ export class MembersComponent implements OnInit {
   checkedInMemberIds: number[] = [];
 
   constructor(private router: Router,
-    private userApi: RegisteredUserApi,
-    private memberApi: MemberApi,
-    private checkinApi: CheckinApi) {
+    private userApi: RegisteredUserApi) {
   }
 
   ngOnInit() {
@@ -85,6 +91,12 @@ export class MembersComponent implements OnInit {
       this.router.navigateByUrl(`/member/event/${this.eventId}`);
     } else {
       this.router.navigateByUrl("/member");
+    }
+  }
+
+  handleButtonClick(event: object) {
+    if (event['index'] == 0) {
+      this.onEditMember(event['memberid'])
     }
   }
 

@@ -15,16 +15,14 @@
   </div>
 
   <div class="row border-bottom border-gray pb-2 mb-0">
-
-    <div class="col-sm-12  mt-2">
+    <div class="col-sm-12 mt-2">
       <member-search [placeholder]="'Search Members'" [disabled]="isLoading" (onSearch)="filterSearch($event)">
       </member-search>
     </div>
-
   </div>
 
-  <filtered-members [queryFilter]="queryFilter" [filter]="filter" [buttonText]="'Edit Details'"
-    (onButtonClick)="onEditMember($event)">
+  <filtered-members [queryFilter]="queryFilter" [filter]="filter" [buttons]="buttons"
+    (onButtonClick)="handleButtonClick($event)">
   </filtered-members>
 
 </div>

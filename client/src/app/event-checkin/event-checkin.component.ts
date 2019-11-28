@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Checkin, Event } from '../../../sdk/models';
 import { EventApi } from '../../../sdk/services';
@@ -27,13 +27,32 @@ export class EventCheckinComponent implements OnInit {
     order: this.orderQueryString
   }
 
+  checkedInButtons: object[] = [
+    {
+      text: "Undo Checkin",
+      class: "btn btn-primary w-100"
+    }
+  ]
+
   notCheckedInQueryFilter: object = {
     order: this.orderQueryString
   }
 
+  notCheckedInButtons: object[] = [
+    {
+      text: "Edit Member",
+      class: "btn btn-secondary"
+    },
+    {
+      text: "Checkin",
+      class: "btn btn-primary w-100"
+    }
+  ]
+
   filter: string = ""
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private eventApi: EventApi, private checkinApi: CheckinApi) {
   }
@@ -68,6 +87,29 @@ export class EventCheckinComponent implements OnInit {
     this.filter = search;
   }
 
+  handleCheckedInMemberButtonClick(event: object) {
+    console.log("checked in")
+    console.log(event)
+    if (event['index'] == 0) {
+      this.onUndoCheckin(event['memberid'])
+    }
+  }
+
+  handleNotCheckedInMemberButtonClick(event: object) {
+    console.log("not checked in")
+    console.log(event)
+    switch (event['index']) {
+      case 0: {
+        this.onEditMember(event['memberid'])
+        break
+      }
+      case 1: {
+        this.onCheckin(event['memberid'])
+        break
+      }
+    }
+  }
+
   onCheckin(memberId: any): void {
     const data = {
       date: new Date(),
@@ -93,6 +135,13 @@ export class EventCheckinComponent implements OnInit {
     });
   }
 
+
+  onEditMember(memberId: any): void {
+    const url = `/member/${memberId}/event/${this.event.id}`
+    this.router.navigateByUrl(url);
+  }
+
+
   findCheckins(eventId: any): void {
     const checkinFilter = {
       where: { eventId: this.event.id },
@@ -109,7 +158,6 @@ export class EventCheckinComponent implements OnInit {
       this.notCheckedInQueryFilter['where'] = { id: { nin: checkedInMemberIds } }
       this.notCheckedInQueryFilter = Object.assign({}, this.notCheckedInQueryFilter);
       this.memberSearch.clearSearch()
-
     });
 
   }

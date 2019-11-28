@@ -14,12 +14,12 @@ export class FilteredMembersComponent implements OnInit {
   @Output() onLoading = new EventEmitter();
   @Output() onButtonClick = new EventEmitter();
 
-  @Input() eventId: any = null; //todo: remove
+  @Input() eventId: any = null;
 
   @Input() buttonText: string = "";
   @Input() queryFilter: object = {}
   @Input() filter: string = "";
-
+  @Input() buttons: object[];
 
   filteredMembers: Member[] = [];
   membersCache: String[] = []
@@ -152,12 +152,14 @@ export class FilteredMembersComponent implements OnInit {
     });
 
     this.setDisplayMembers(filteredMembers)
-
-    //this.filteredMembers = filteredMembers;
   }
 
-  emitButtonClick(memberid: any): void {
-    this.onButtonClick.emit(memberid)
+  emitOnButtonClick(memberid: any, index: number): void {
+    console.log("emit")
+    console.log(memberid)
+    console.log(index)
+    this.onButtonClick.emit({ memberid: memberid, index: index })
+
   }
 
 }

@@ -20,11 +20,10 @@
         </strong>
       </div>
 
-      <div *ngIf="buttonText.length > 0" class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">
+      <div class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">
         <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
-          <button class="btn {{eventId ? 'btn-secondary' : 'btn-primary'}} w-100"
-            (click)="emitButtonClick(member.id)">{{buttonText}}</button>
-          <button *ngIf="eventId" class="btn btn-primary w-100" (click)="onButtonClick(member.id)">Checkin</button>
+          <button *ngFor="let button of buttons; let i = index" (click)="emitOnButtonClick(member.id,i)"
+            class="{{button.class}}">{{button.text}}</button>
         </div>
       </div>
     </div>

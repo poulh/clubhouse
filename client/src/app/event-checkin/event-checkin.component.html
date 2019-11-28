@@ -10,7 +10,6 @@
         <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New
           Member</button>
       </div>
-
     </div>
 
     <div class="row border-bottom border-gray pb-2 mb-0">
@@ -19,12 +18,11 @@
           (onSearch)="filterSearch($event)">
         </member-search>
       </div>
-
     </div>
 
     <div *ngIf="filter.length > 0">
-      <filtered-members [queryFilter]="notCheckedInQueryFilter" [filter]="filter" [buttonText]="'Checkin'"
-        (onButtonClick)="onCheckin($event)">
+      <filtered-members [queryFilter]="notCheckedInQueryFilter" [filter]="filter" [buttons]="notCheckedInButtons"
+        (onButtonClick)="handleNotCheckedInMemberButtonClick($event)">
       </filtered-members>
     </div>
 
@@ -35,8 +33,8 @@
     </div>
 
     <div *ngIf="checkedInQueryFilter['where']">
-      <filtered-members [queryFilter]="checkedInQueryFilter" [buttonText]="'Undo Checkin'"
-        (onButtonClick)="onUndoCheckin($event)">
+      <filtered-members [queryFilter]="checkedInQueryFilter" [buttons]="checkedInButtons"
+        (onButtonClick)="handleCheckedInMemberButtonClick($event)">
       </filtered-members>
     </div>
   </div>

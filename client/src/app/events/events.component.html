@@ -35,7 +35,8 @@
           <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
             <a *ngIf="roleChecker.is('admin')" class="btn btn-secondary w-100" routerLink="/event/{{event.id}}">Edit
               Details</a>
-            <button class="btn btn-primary w-100" (click)="onCheckinClick(event)">{{event.closed ? 'View' : 'Checkin'}}</button>
+            <button class="btn btn-primary w-100"
+              (click)="onCheckinClick(event)">{{event.closed ? 'View' : 'Checkin'}}</button>
           </div>
         </div>
       </div>
