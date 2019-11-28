@@ -1,11 +1,9 @@
-<div class="col-sm-12 mt-2">
-  <div class="input-group">
-    <input type="text" class="form-control" (keyup)="this.onSearch.emit(this.search)" [placeholder]="placeholder"
-      [(ngModel)]="search" [disabled]="disabled" autocomplete="off" autocorrect="off" autocapitalize="off"
-      spellcheck="false" #searchInput />
-    <div class="input-group-append">
-      <button class="btn btn-dark" type="button" (click)="clearSearch()"
-        [disabled]="this.disabled || (search.length == 0)"><i class="far fa-times-circle"></i></button>
-    </div>
+<div class="input-group">
+  <input type="text" class="form-control" (keyup)="this.onSearch.emit(this.search)" [placeholder]="placeholder"
+    [(ngModel)]="search" [disabled]="disabled" autocomplete="off" autocorrect="off" autocapitalize="off"
+    spellcheck="false" #searchInput />
+  <div class="input-group-append">
+    <button class="btn btn-dark" type="button" (click)="clearSearch()"
+      [disabled]="this.disabled || (search.length == 0)"><i class="far fa-times-circle"></i></button>
   </div>
 </div>

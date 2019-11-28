@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MemberSearchComponent } from './member-search.component';
 import { FormsModule } from '@angular/forms';
+
+import { MemberSearchComponent } from '@app/member-search/member-search.component';
 
 @NgModule({
   imports: [

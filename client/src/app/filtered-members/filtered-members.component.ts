@@ -41,9 +41,7 @@ export class FilteredMembersComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("------CHANGES -----")
-    console.log(changes)
-    console.log("--------------------")
+
     const keys = Object.keys(changes)
     keys.forEach((key) => {
       const val = changes[key].currentValue

@@ -5,27 +5,19 @@
       <div class="col-sm-12 col-md-9 col-lg-10">
         <h4 class="pb-2 mb-0">{{event.name}}</h4>
       </div>
-    </div>
-    <!-- </div>
-  <div class="my-3 p-3 bg-white rounded box-shadow"> -->
-
-    <div class="row border-bottom border-gray pb-2 mb-0">
-
-      <div class="col-sm-12 col-md-5 col-lg-4 mt-2">
-        <div class="btn-group w-100" role="group" aria-label="Sorting">
-          <button type="button" class="btn btn-dark disabled w-100">Sort By: </button>
-          <button type="button" class="btn btn-outline-dark w-100" (click)="sort('firstName')">First Name</button>
-          <button type="button" class="btn btn-outline-dark w-100" (click)="sort('lastName')">Last Name</button>
-        </div>
-      </div>
-
-      <member-search #memberSearch [placeholder]="'Search Members'" [disabled]="isLoading"
-        (onSearch)="filterSearch($event)">
-      </member-search>
 
       <div class="col-sm-12 col-md-3 col-lg-2 mt-2">
         <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New
           Member</button>
+      </div>
+
+    </div>
+
+    <div class="row border-bottom border-gray pb-2 mb-0">
+      <div class="col-sm-12  mt-2">
+        <member-search #memberSearch [placeholder]="'Search Members'" [disabled]="isLoading"
+          (onSearch)="filterSearch($event)">
+        </member-search>
       </div>
 
     </div>

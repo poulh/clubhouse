@@ -1,30 +1,26 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
 
   <div class="row">
-    <div class="col-sm-12 col-md-9 col-lg-10">
+    <div class="col-sm-12 col-md-6 col-lg-8">
       <h4 class="pb-2 mb-0">{{title}}</h4>
     </div>
+
     <div *ngIf="displayImport && roleChecker.is('admin')" class="col-sm-12 col-md-3 col-lg-2 mt-2">
       <a class="btn btn-success btn-block" routerLink="/import">Import Members</a>
+    </div>
+
+    <div class="col-sm-12 col-md-3 col-lg-2 mt-2">
+      <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
     </div>
   </div>
 
   <div class="row border-bottom border-gray pb-2 mb-0">
 
-    <div *ngIf="displayUnfilteredMembers" class="col-sm-12 col-md-5 col-lg-4 mt-2">
-      <div class="btn-group w-100" role="group" aria-label="Sorting">
-        <button type="button" class="btn btn-dark disabled w-100">Sort By: </button>
-        <button type="button" class="btn btn-outline-dark w-100" (click)="sort('firstName')">First Name</button>
-        <button type="button" class="btn btn-outline-dark w-100" (click)="sort('lastName')">Last Name</button>
-      </div>
+    <div class="col-sm-12  mt-2">
+      <member-search [placeholder]="'Search Members'" [disabled]="isLoading" (onSearch)="filterSearch($event)">
+      </member-search>
     </div>
 
-    <member-search [placeholder]="'Search Members'" [disabled]="isLoading" (onSearch)="filterSearch($event)">
-    </member-search>
-
-    <div class="col-sm-12 col-md-3 col-lg-2 mt-2">
-      <button class="btn btn-success btn-block" (click)="onNewMemberClick()" [disabled]="isLoading">New Member</button>
-    </div>
   </div>
 
   <filtered-members [queryFilter]="queryFilter" [filter]="filter" [buttonText]="'Edit Details'"
