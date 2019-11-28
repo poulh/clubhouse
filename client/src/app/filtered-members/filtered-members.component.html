@@ -1,15 +1,14 @@
-<div class="my-3 p-3 bg-white rounded box-shadow">
+<div class="my-3 p-0 bg-white rounded box-shadow">
+  <!-- <div class="container"> -->
   <div class="row">
-    <p class="text-center">{{resultText}}</p>
-  </div>
-</div>
-<div *ngFor="let member of displayMembers; let i = index" [attr.data-index]="i" class="media text-muted pt-3">
-  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-    <div class="row">
-      <div class="col-sm-12 {{eventId ? 'col-md-8 col-lg-9' : 'col-md-9 col-lg-10'}}">
-        <strong class="text-gray-dark">
-          <span>{{member.firstName}} {{member.lastName}}</span>
-          <span>| email: {{member.email}}</span>
+    <div class="col-12 ">
+      <h6>{{resultText}}</h6>
+      <ul class="list-group border-left=0">
+
+        <li *ngFor="let member of displayMembers; let i = index" [attr.data-index]="i"
+          class="list-group-item d-flex justify-content-between align-items-center border-left=0 text-muted">
+          <!-- <li class="list-group-item d-flex justify-content-between align-items-center"> -->
+          <span>{{member.firstName}} {{member.lastName}} | email: {{member.email}}</span>
           <span *ngIf="member.membershipLevel" class="badge badge-primary">{{member.membershipLevel}}</span>
           <span class="d-block">
             <span *ngIf="member.mobilePhone">mobile: {{member.mobilePhone | phoneNumber }}</span>
@@ -17,15 +16,14 @@
             <span *ngIf="member.workPhone">| work: {{member.workPhone | phoneNumber }}</span>
             <span *ngIf="member.otherPhone">| other: {{member.otherPhone | phoneNumber }}</span>
           </span>
-        </strong>
-      </div>
-
-      <div class="col-sm-12 {{eventId ? 'col-md-4 col-lg-3' : 'col-md-3 col-lg-2'}}">
-        <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
-          <button *ngFor="let button of buttons; let i = index" (click)="emitOnButtonClick(member.id,i)"
-            class="{{button.class}}">{{button.text}}</button>
-        </div>
-      </div>
+          <div class="col-2 p-0">
+            <div class="btn-group float-right w-100" role="group" aria-label="Sorting">
+              <button *ngFor="let button of buttons; let i = index" (click)="emitOnButtonClick(member.id,i)"
+                class="{{button.class}}">{{button.text}}</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

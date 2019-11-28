@@ -1,0 +1,12 @@
+.list-group-item {
+    // no left/right borders
+    // no padding left/right
+    // square corners (show as straight lines given no left/right borders
+    padding-left: 0;
+    padding-right: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    
+    }
