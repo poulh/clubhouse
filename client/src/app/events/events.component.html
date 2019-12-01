@@ -7,18 +7,15 @@
   </div>
 
   <div class="row border-bottom border-gray pb-2 mb-0">
-
     <div class="col-sm-0 col-md-9 col-lg-10 mt-2">
     </div>
 
     <div *ngIf="roleChecker.is('admin')" class="col-sm-12 col-md-3 col-lg-2 mt-2">
       <button class="btn btn-success btn-block" (click)="onNewEventClick()" [disabled]="isLoading">New Event</button>
     </div>
-
   </div>
 
   <div *ngFor="let event of events" class="media text-muted pt-3">
-
     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
       <div class="row">
         <div class="col-sm-12 col-md-4">
