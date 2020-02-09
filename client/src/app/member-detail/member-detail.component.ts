@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -6,13 +6,14 @@ import { Checkin, Member } from '../../../sdk/models';
 import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
 
 import { RoleChecker } from '@app/shared';
+import { generate } from 'rxjs';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss']
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit, AfterViewInit {
 
   @Input() member: Member;
   @ViewChild("firstName") firstNameField: ElementRef;
@@ -25,7 +26,8 @@ export class MemberDetailComponent implements OnInit {
 
   error: string;
   isLoading = false;
-  hasEmail = true;
+
+  noEmailAddress = false;
   eventId: any;
 
   constructor(private route: ActivatedRoute,
@@ -39,6 +41,10 @@ export class MemberDetailComponent implements OnInit {
   ngOnInit() {
     this.roleChecker = new RoleChecker(this.userApi);
     this.getMember();
+  }
+
+  ngAfterViewInit() {
+    this.setFocus(this.firstNameField)
   }
 
   getMember(): void {
@@ -70,32 +76,40 @@ export class MemberDetailComponent implements OnInit {
     }
   }
 
-
-  toggleHasEmail(): void {
-    this.hasEmail = !this.hasEmail;
-    if (this.hasEmail) {
-      console.log("clearing email field");
-      this.member.email = "";
-      this.emailField.nativeElement.focus();
-    }
-    else {
-      console.log("no email address. using fake")
-      this.member.email = this.generateNoEmailAddress();
-      this.mobileField.nativeElement.focus();
-    }
-    this.emailField.nativeElement.focus();
-  }
-
   generateNoEmailAddress(): string {
-    this.scrubMember();
-    let generatedEmail = this.member.firstName + "." + this.member.lastName + "@noemail.com";
-    return generatedEmail.replace(" ", ".").toLowerCase();
+    //this.scrubMember();
+    let firstName =  this.member.firstName.replace(/[^a-z]/gi, '')
+    let lastName =  this.member.lastName.replace(/[^a-z]/gi, '')
+
+    let generatedEmail = firstName + "." + lastName + "@noemail.com";
+    generatedEmail = generatedEmail.toLowerCase();
+    console.log("generated: " + generatedEmail)
+    return generatedEmail
   }
 
+  setFocus(elem:ElementRef) : void {
+    setTimeout(() => elem.nativeElement.focus(), 0);
+  }
+
+  toggleNoEmail(): void {
+    this.noEmailAddress = !this.noEmailAddress
+    if(this.noEmailAddress) {
+      this.member.email = this.generateNoEmailAddress()
+    } else {
+      this.member.email = '';
+      //this.emailField.nativeElement.focus()
+      this.setFocus(this.emailField)
+    }
+  }
   scrubMember(): void {
     this.member.firstName = this.member.firstName.trim();
     this.member.lastName = this.member.lastName.trim();
-    this.member.email = this.member.email.trim().toLowerCase();
+    if( this.noEmailAddress ) {
+      this.member.email = this.generateNoEmailAddress()  
+    }
+    else {
+      this.member.email = this.member.email.trim().toLowerCase();
+    }
   }
 
   updateMember(): void {
@@ -145,16 +159,25 @@ export class MemberDetailComponent implements OnInit {
   }
 
   stringEmpty(str: string): boolean {
-    return str && str.length > 0;
+    return str.length == 0
   }
 
-  hasFullName(): boolean {
-    return this.stringEmpty(this.member.firstName) && this.stringEmpty(this.member.lastName);
+  invalidEmailAddress() : boolean {
+    let emailAdressRequired = !this.noEmailAddress
+    return emailAdressRequired == true &&  this.stringEmpty(this.member.email)
+  }
+  noFullName(): boolean {
+    let rval =  (this.stringEmpty(this.member.firstName) || this.stringEmpty(this.member.lastName));
+    return rval
   }
 
   noMemberChanges(): boolean {
     const noChanges = JSON.stringify(this.member) === JSON.stringify(this.oldMember);
     return noChanges;
+  }
+
+  noCreateOrUpdate(): boolean {
+    return this.noMemberChanges() || this.noFullName() || this.invalidEmailAddress()
   }
 
   goBack(): void {

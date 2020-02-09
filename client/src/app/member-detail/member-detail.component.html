@@ -24,15 +24,16 @@
 
         <div>
           <label class="d-block">
-            <span [ngClass]="member.email?.length ? '' : 'text-danger'" translate>Email</span>
+            <span [ngClass]="invalidEmailAddress() ? 'text-danger' : ''" translate>Email</span>
             <input #email type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="member.email" class="form-control"
-              [disabled]="!hasFullName() || !hasEmail" />
+              [disabled]="noFullName() || noEmailAddress" />
           </label>
+
 
           <label class="d-block">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" (change)="toggleHasEmail()" [disabled]="!hasFullName()">
+              <input class="form-check-input" type="checkbox" [checked]="noEmailAddress" (change)="toggleNoEmail()" [disabled]="noFullName()">
 
               <label class="form-check-label" for="defaultCheck1">
                 No Email Address
@@ -62,8 +63,8 @@
         </label>
 
         <label class="d-block">
-          <button class="btn w-100" [ngClass]="noMemberChanges() ? 'btn-secondary' : 'btn-primary'"
-            (click)="updateMember()" [disabled]="isLoading || noMemberChanges()">
+          <button class="btn w-100" [ngClass]="noCreateOrUpdate() ? 'btn-secondary' : 'btn-primary'"
+            (click)="updateMember()" [disabled]="isLoading || noCreateOrUpdate()">
             <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
             <span translate>{{member.id ? "Update" : "Create"}} Member{{eventId ? " and Checkin" : ""}}</span>
           </button>
