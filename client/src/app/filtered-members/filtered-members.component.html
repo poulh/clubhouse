@@ -2,7 +2,7 @@
   <!-- <div class="container"> -->
   <div class="row">
     <div class="col-12 ">
-      <h6>{{resultText}}</h6>
+      <h6 *ngIf="displayResultCountIfZero || currentFilter.length > 0">{{resultText}}</h6>
       <ul class="list-group border-left=0">
 
         <li *ngFor="let member of displayMembers; let i = index" [attr.data-index]="i"

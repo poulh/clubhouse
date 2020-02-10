@@ -22,7 +22,7 @@
 
     <div *ngIf="filter.length > 0">
       <filtered-members [queryFilter]="notCheckedInQueryFilter" [filter]="filter" [buttons]="notCheckedInButtons"
-        (onButtonClick)="handleNotCheckedInMemberButtonClick($event)">
+        [name]="'Not Checked In Search'" (onButtonClick)="handleNotCheckedInMemberButtonClick($event)">
       </filtered-members>
     </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div *ngIf="checkedInQueryFilter['where']">
-      <filtered-members [queryFilter]="checkedInQueryFilter" [buttons]="checkedInButtons"
+      <filtered-members [queryFilter]="checkedInQueryFilter" [buttons]="checkedInButtons" [name]="'Checked In Members'"
         (onButtonClick)="handleCheckedInMemberButtonClick($event)">
       </filtered-members>
     </div>

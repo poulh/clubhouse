@@ -1,8 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { CheckinApi, MemberApi, RegisteredUserApi } from '../../../sdk/services';
-import { Checkin, Member } from '../../../sdk/models';
-import { query } from '@angular/core/src/render3/query';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { MemberApi } from '../../../sdk/services';
+import { Member } from '../../../sdk/models';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -16,6 +15,7 @@ export class FilteredMembersComponent implements OnInit {
 
   @Input() eventId: any = null;
 
+  @Input() name: string = "Unnamed";
   @Input() buttonText: string = "";
   @Input() queryFilter: object = {}
   @Input() filter: string = "";
@@ -23,91 +23,72 @@ export class FilteredMembersComponent implements OnInit {
 
   filteredMembers: Member[] = [];
   membersCache: String[] = []
-  sortOrder: [string, boolean][] = [["lastName", true], ["firstName", true]];
-  checkedInMemberIds: number[] = [];
-  orderQueryString: string = this.sortOrder.map(i => (i[0] + " " + (i[1] ? "ASC" : "DESC"))).join(", ");
-
 
   members: Member[] = [];
   resultText: string;
   displayMembers: Member[];
+  currentFilter: string = ""
+  displayResultCountIfZero: boolean = true;
 
-  constructor(
-    private userApi: RegisteredUserApi,
-    private memberApi: MemberApi,
-    private checkinApi: CheckinApi) { }
+  constructor(private memberApi: MemberApi) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.hasOwnProperty("queryFilter")) {
+      const queryFilterChange = changes["queryFilter"]
+      const queryFilter = queryFilterChange.currentValue
+      let source = this.memberApi.find<Member>(queryFilter).pipe(
+        finalize(() => {
+          // we always update the count and emit isLoading(false)
+          this.updateMembersFoundCount()
+          this.emitIsLoading(false);
+        })
+      )
 
-    const keys = Object.keys(changes)
-    keys.forEach((key) => {
-      const val = changes[key].currentValue
-
-      if (val) {
-        if (key == "queryFilter") {
-          this.findMembers(val)
-        }
-
-        if (key == "filter") {
-          this.applyFilter(val)
-        }
+      if (changes.hasOwnProperty("filter")) {
+        const filterChange = changes["filter"]
+        const filterValue = filterChange.currentValue
+        this.displayResultCountIfZero = false;
+        source = source.pipe(
+          finalize(() => {
+            // if we have a filter we create a cache
+            this.generateMembersCache(this.members);
+            this.applyFilter(filterValue)
+          })
+        )
       }
-    })
-  }
 
-  setQueryFilter(queryFilter: object): void {
-    this.findMembers(queryFilter)
+      this.emitIsLoading(true);
+      source.subscribe(members => {
+        this.members = members;
+        this.displayMembers = members
+      });
+    } else if (changes.hasOwnProperty("filter")) {
+      const filterChange = changes["filter"]
+      const filterValue = filterChange.currentValue
+      this.applyFilter(filterValue)
+      this.updateMembersFoundCount()
+    }
   }
 
   emitIsLoading(val: boolean) {
     this.onLoading.emit(val);
   }
 
-  addWhereClause(q: object) {
-    this.queryFilter['where'] = { ...this.queryFilter['where'], q };
-  }
-
-  findMembers(queryFilter: object): void {
-    if (!queryFilter['where']) {
-      console.log("no query")
-      console.log(queryFilter)
-      return
-    }
-    this.emitIsLoading(true);
-    console.log("----------FINDING MEMBERS---------------")
-    console.log(queryFilter)
-    this.memberApi.find<Member>(queryFilter).subscribe(members => {
-      this.members = members;
-      console.log(this.members)
-      console.log("-------------------------")
-      this.generateFilterCache(this.members);
-      this.setDisplayMembers(this.members)
-
-      this.emitIsLoading(false);
-    });
-  }
-
-  setDisplayMembers(members: Member[]): void {
-    this.displayMembers = members
-    this.updateResultText(this.displayMembers)
-  }
-
-  updateResultText(members: Member[]): void {
-    if (members.length == 0) {
+  updateMembersFoundCount(): void {
+    const numToDisplay = this.displayMembers.length;
+    if (numToDisplay == 0) {
       this.resultText = "No Members Found"
-
-    } else if (members.length == 1) {
+    } else if (numToDisplay == 1) {
       this.resultText = "1 Member Found"
 
     } else {
-      this.resultText = members.length + " Members Found"
+      this.resultText = numToDisplay + " Members Found"
     }
   }
 
-  generateFilterCache(members: Member[]): void {
+  generateMembersCache(members: Member[]): void {
     this.membersCache = members.map(member => {
       const firstName = member.firstName ? member.firstName.toLowerCase() : "";
       const lastName = member.lastName ? member.lastName.toLowerCase() : "";
@@ -120,26 +101,23 @@ export class FilteredMembersComponent implements OnInit {
     });
   }
 
-  applyFilter(filter: string) {
+  applyFilter(filter: string): void {
     if (!filter) {
-      filter = "";
+      filter = ""
     }
 
+    this.currentFilter = filter
+
     if (filter.length == 0) {
-      this.setDisplayMembers(this.members);
+      this.displayMembers = []
       return
     }
 
     filter = filter.toLowerCase();
 
-    this.filterResults(filter);
-  }
-
-  filterResults(filter: string): void {
     const wordsInFilter = filter.toLowerCase().split(" ");
     let filteredMembers: Member[] = [];
-    console.log("--------------filtering")
-    console.log(this.membersCache)
+
     this.membersCache.forEach((cache, index) => {
       //every word in words array must be in the cache to hit
       const match = wordsInFilter.every(word => {
@@ -150,16 +128,11 @@ export class FilteredMembersComponent implements OnInit {
         filteredMembers.push(this.members[index]);
       }
     });
-
-    this.setDisplayMembers(filteredMembers)
+    this.displayMembers = filteredMembers
   }
 
   emitOnButtonClick(memberid: any, index: number): void {
-    console.log("emit")
-    console.log(memberid)
-    console.log(index)
     this.onButtonClick.emit({ memberid: memberid, index: index })
-
   }
 
 }
